@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Models\BanSong;
+use App\Admin\Models\warningmode;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class BanSongController extends Controller
+class WarningModeController extends Controller
 {
     use HasResourceActions;
 
@@ -79,22 +79,16 @@ class BanSongController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new BanSong);
+        $grid = new Grid(new warningmode);
 
-        $grid->musicdbpk('总库id');
-        $grid->songname('歌名');
-        $grid->singer('歌星名');
-        $grid->uploaddatestr('提交时间');
-
-        $grid->actions(function ($actions) {
-            $actions->disableView();
-        });
-
-        $grid->tools(function ($tools) {
-            $tools->batch(function ($batch) {
-                $batch->disableDelete();
-            });
-        });
+        $grid->id('Id');
+        $grid->warningName('名称');
+        $grid->warningTime('等级一预警时间内');
+        $grid->warningCountRoom('房间等级一预警数量');
+//        $grid->warningCountPlace('WarningCountPlace');
+        $grid->warningTime1('等级二预警时间内');
+        $grid->warningCountRoom1('房间等级二预警数量');
+//        $grid->warningCountPlace1('WarningCountPlace1');
 
         return $grid;
     }
@@ -107,12 +101,16 @@ class BanSongController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(BanSong::findOrFail($id));
+        $show = new Show(warningmode::findOrFail($id));
 
-        $show->name('Name');
-        $show->singer('Singer');
-        $show->musicdbpk('Musicdbpk');
-        $show->uploadDateStr('UploadDateStr');
+        $show->id('Id');
+        $show->warningName('WarningName');
+        $show->warningTime('WarningTime');
+        $show->warningCountRoom('WarningCountRoom');
+        $show->warningCountPlace('WarningCountPlace');
+        $show->warningTime1('WarningTime1');
+        $show->warningCountRoom1('WarningCountRoom1');
+        $show->warningCountPlace1('WarningCountPlace1');
 
         return $show;
     }
@@ -124,16 +122,16 @@ class BanSongController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new BanSong);
+        $form = new Form(new warningmode);
 
-        $form->text('musicdbpk', '总库id');
-        $form->text('songname', '歌名');
-        $form->text('singer', '歌星名');
-        $form->datetime('uploaddatestr', '提交时间');
+        $form->text('warningName', '名称');
+        $form->number('warningTime', '等级一预警时间内');
+        $form->number('warningCountRoom', '房间等级一预警数量');
+//        $form->number('warningCountPlace', 'WarningCountPlace');
+        $form->number('warningTime1', '等级二预警时间内');
+        $form->number('warningCountRoom1', '房间等级二预警数量');
+//        $form->number('warningCountPlace1', 'WarningCountPlace1');
 
-        $form->tools(function (Form\Tools $tools) {
-            $tools->disableView();
-        });
         return $form;
     }
 }

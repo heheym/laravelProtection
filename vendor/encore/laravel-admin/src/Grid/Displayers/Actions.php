@@ -181,9 +181,10 @@ EOT;
     protected function renderEdit()
     {
         return <<<EOT
-<a href="{$this->getResource()}/{$this->getRouteKey()}/edit">
+<a href="{$this->getResource()}/{$this->getRouteKey()}/edit" style="padding-right:15px">
     <i class="fa fa-edit"></i>
 </a>
+
 EOT;
     }
 
@@ -197,7 +198,7 @@ EOT;
         $this->setupDeleteScript();
 
         return <<<EOT
-<a href="javascript:void(0);" data-id="{$this->getKey()}" class="{$this->grid->getGridRowName()}-delete">
+<a href="javascript:void(0);" data-id="{$this->getKey()}" class="{$this->grid->getGridRowName()}-delete" >
     <i class="fa fa-trash"></i>
 </a>
 EOT;

@@ -16,7 +16,7 @@ class SongController extends Controller
     public function addSongs(Request $request)
     {
 
-        $post = json_decode(urldecode(file_get_contents("php://input")), true);
+        $post = json_decode(file_get_contents("php://input"), true);
 
         if ($post) {
             foreach ($post as $k => $v) {
@@ -41,7 +41,7 @@ class SongController extends Controller
     public function modifySongs(Request $request)
     {
 
-        $post = json_decode(urldecode(file_get_contents("php://input")),true);
+        $post = json_decode(file_get_contents("php://input"), true);
         if(!empty($post['editField'])){
             try {
                 $data['musicdbpk'] = $post['musicdbpk'];
@@ -60,7 +60,7 @@ class SongController extends Controller
     //4.添加禁播歌曲
     public function addSongbanned()
     {
-        $post = json_decode(urldecode(file_get_contents("php://input")),true);
+        $post = json_decode(file_get_contents("php://input"), true);
 
         if($post){
             foreach ($post as $k => $v) {
@@ -86,7 +86,7 @@ class SongController extends Controller
     public function songsUpload()
     {
         $user = Auth::guard('api')->user();
-        $post = json_decode(urldecode(file_get_contents("php://input")),true);
+        $post = json_decode(file_get_contents("php://input"), true);
         if($post){
             foreach($post as $k=>$v){
         $exists = DB::table("song_banned")->where(["songname"=>$v["songname"],"singer"=>$v["singer"]])->exists();
@@ -125,7 +125,7 @@ class SongController extends Controller
         $user = Auth::guard('api')->user();
         $date = date("Y-m-d H:i:s");
 
-        $post = json_decode(urldecode(file_get_contents("php://input")),true);
+        $post = json_decode(file_get_contents("php://input"), true);
 
         $wangMode = DB::table('users')->where('id',$user->id)->value('wangMode');
         $warnMode = DB::table('warningMode')->where('id',$wangMode)->first();
@@ -236,7 +236,7 @@ class SongController extends Controller
     //7.删除歌曲
     public function delSongs()
     {
-        $post = json_decode(urldecode(file_get_contents("php://input")),true);
+        $post = json_decode(file_get_contents("php://input"), true);
         if(!empty($post['musicdbpk'])&&!empty($post['deltype'])){
             if($post["deltype"]==1){  //高危歌曲
                 $exists = DB::table('song_rights')->where('musicdbpk',$post['musicdbpk'])->exists();
@@ -259,6 +259,125 @@ class SongController extends Controller
                 }
                 return response()->json(['code'=>500,'msg'=>'请求失败','data'=>null]);
             }
+        }else{
+            return response()->json(['code'=>500,'msg'=>'传入信息出错','data'=>null]);
+        }
+    }
+
+    //8.歌曲入库serviceAddSongs
+    public function serviceAddSongs(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+
+        if ($post) {
+            foreach ($post as $k => $v) {
+                try {
+                    $exists = DB::table('song')->where('musicdbpk', $v['musicdbpk'])->exists();
+                    $v['UpdateDate'] = date('Y-m-d H:i:s');
+                    if ($exists) {
+                        DB::table('song')->where('musicdbpk', $v['musicdbpk'])->update($v);
+                    } else {
+                        $result = DB::table('song')->insert($v);
+                    }
+                }catch (\Exception $e){
+                    return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
+                }
+            }
+            return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
+        }else{
+            return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => null]);
+        }
+    }
+
+    //9.修改歌曲serviceModifySongs
+    public function serviceModifySongs(Request $request)
+    {
+
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!empty($post['editField'])){
+            try {
+                $data['musicdbpk'] = $post['musicdbpk'];
+                $data[$post['editField']] = $post['editValue'];
+
+                $exists = DB::table('song')->where('musicdbpk', $data['musicdbpk'])->exists();
+                if(!$exists){
+                    return response()->json(['code'=>500,'msg'=>'歌曲不存在','data'=>null]);
+                }
+
+                $result = DB::table('song')->where('musicdbpk', $data['musicdbpk'])->update($data);
+            }catch (\Exception $e){
+                return response()->json(['code'=>500,'msg'=>$e->getMessage(),'data'=>null]);
+            }
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }else{
+            return response()->json(['code'=>500,'msg'=>'传入信息出错','data'=>null]);
+        }
+    }
+
+    //10.添加歌星serviceAddSinger
+    public function serviceAddSinger(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+
+        if ($post) {
+            foreach ($post as $k => $v) {
+                try {
+                    $exists = DB::table('singer')->where('id', $v['id'])->exists();
+                    $v['UpdateDate'] = date('Y-m-d H:i:s');
+                    if ($exists) {
+                        DB::table('singer')->where('id', $v['id'])->update($v);
+                    } else {
+                        $result = DB::table('singer')->insert($v);
+                    }
+                }catch (\Exception $e){
+                    return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
+                }
+            }
+            return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
+        }else{
+            return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => null]);
+        }
+    }
+
+    //11.修改歌星serviceModifySinger
+    public function serviceModifySinger(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!empty($post['editField'])){
+            try {
+                $data['id'] = $post['id'];
+                $data[$post['editField']] = $post['editValue'];
+                $exists = DB::table('singer')->where('id', $data['id'])->exists();
+                if(!$exists){
+                    return response()->json(['code'=>500,'msg'=>'歌手不存在','data'=>null]);
+                }
+                DB::table('singer')->where('id', $data['id'])->update($data);
+            }catch (\Exception $e){
+                return response()->json(['code'=>500,'msg'=>$e->getMessage(),'data'=>null]);
+            }
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }else{
+            return response()->json(['code'=>500,'msg'=>'传入信息出错','data'=>null]);
+        }
+    }
+
+    //12.歌曲上下架接口serviceChangeSongsStatus
+    public function serviceChangeSongsStatus(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!empty($post['musicdbpk'])){
+            try {
+                $data['musicdbpk'] = $post['musicdbpk'];
+                $data['onlineStatus'] = $post['onlineStatus'];
+                $exists = DB::table('song')->where('musicdbpk', $data['musicdbpk'])->exists();
+                if(!$exists){
+                    return response()->json(['code'=>500,'msg'=>'歌曲不存在','data'=>null]);
+                }
+                DB::table('song')->where('musicdbpk', $data['musicdbpk'])->update($data);
+            }catch (\Exception $e){
+                return response()->json(['code'=>500,'msg'=>$e->getMessage(),'data'=>null]);
+            }
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
         }else{
             return response()->json(['code'=>500,'msg'=>'传入信息出错','data'=>null]);
         }

@@ -99,6 +99,12 @@ class DangerSongController extends Controller
             $actions->disableView();
         });
 
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
         return $grid;
     }
 

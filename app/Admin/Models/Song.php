@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Song extends Model
 {
-     protected $table = 'users_songs';
-//    protected $primaryKey  = 'musicdbpk';
-    public $timestamps  = false;
+    protected $table = 'song';
+//    public $timestamps = false;
+    protected $primaryKey  = 'musicdbpk';
+
+    const CREATED_AT = null;
+    const UPDATED_AT = 'UpdateDate';
+
 }

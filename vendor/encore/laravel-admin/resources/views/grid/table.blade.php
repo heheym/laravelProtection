@@ -30,7 +30,11 @@
             <thead>
                 <tr>
                     @foreach($grid->visibleColumns() as $column)
-                    <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap">{{$column->getLabel()}}{!! $column->sorter() !!}</th>
+                            @if($column->getLabel()=='操作')
+                                <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;text-align:center;padding-right:30px">{{$column->getLabel()}}{!! $column->sorter() !!}</th>
+                            @elseif($age=15)
+                                <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;text-align:center;">{{$column->getLabel()}}{!! $column->sorter() !!}</th>
+                            @endif
                     @endforeach
                 </tr>
             </thead>
@@ -39,7 +43,7 @@
                 @foreach($grid->rows() as $row)
                 <tr {!! $row->getRowAttributes() !!}>
                     @foreach($grid->visibleColumnNames() as $name)
-                    <td {!! $row->getColumnAttributes($name) !!}>
+                    <td style="text-align:center" {!! $row->getColumnAttributes($name) !!}>
                         {!! $row->column($name) !!}
                     </td>
                     @endforeach
