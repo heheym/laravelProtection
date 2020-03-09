@@ -48,6 +48,15 @@ Route::post('/songs/placeWarning', 'Api\PlaceController@placeWarning');  //场�
 
 Route::post('/fees/setMealKtv', 'Api\FeeController@setMealKtv');  //场所获取套餐接口
 
+Route::post('/songs/parameter', 'Api\PlaceController@parameter');  //获取系统参数接口
+
+Route::post('/songs/downsonghttp', 'Api\PlaceController@downsonghttp');  //获取歌曲下载地址接口
+
+Route::post('/songs/downsongok', 'Api\PlaceController@downsongok');  //歌曲下载成功上传接口
+
+
+
+
 
 
 

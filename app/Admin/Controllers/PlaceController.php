@@ -88,23 +88,22 @@ class PlaceController extends Controller
             $filter->disableIdFilter();
 
             // 在这里添加字段过滤器
-//            $filter->like('place', '场所');
-            $filter->like('Songname', '歌名');
-            $filter->equal('OnlineStatus','上架状态')->select([0=>'下架',1=>'上架']);
-            $filter->equal('VersionType','视频版本')->select([1=>'MTV',2=>'演唱会',3=>'影视剧情',
-                4=>'人物',5=>'风景',6=>'动画',7=>'其他']);
+            $filter->like('key', 'key');
+            $filter->like('placename', '场所名称');
+//            $filter->equal('OnlineStatus','上架状态')->select([0=>'下架',1=>'上架']);
+//            $filter->equal('VersionType','视频版本')->select([1=>'MTV',2=>'演唱会',3=>'影视剧情', 4=>'人物',5=>'风景',6=>'动画',7=>'其他']);
             $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
             $filter->equal('wangMode','预警模式')->select($wangMode);
             $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
             $filter->equal('setMeal','套餐')->select($setMeal);
         });
 
-        $grid->id('Id');
+//        $grid->id('Id');
         $grid->userno('场所编号');
         $grid->key('key');
         $grid->placehd('场所服务器ID');
         $grid->placename('场所名称');
-        $grid->mailbox('邮箱');
+//        $grid->mailbox('邮箱');
         $grid->phone('手机号');
         $grid->contacts('联系人');
         $grid->tel('联系电话');
@@ -197,7 +196,7 @@ class PlaceController extends Controller
 
         $form->text('userno', '场所编号')->placeholder('自动生成')->readOnly();
         $form->text('key', 'key')->placeholder('自动生成')->readOnly();
-        $form->text('placehd', '场所服务器ID')->required();
+        $form->text('placehd', '场所服务器ID');
 
         $form->text('placename', '场所名称')->rules(function ($form) {
             // 如果不是编辑状态，则添加字段唯一验证
@@ -225,6 +224,7 @@ class PlaceController extends Controller
         $form->text('country', '国');
         $form->text('province', '省');
         $form->text('city', '市');
+        $form->select('downloadMode', '歌曲下载方式')->options([1=>'不下载',2=>'点播下载',3=>'智能下载']);
 
 
         $form->saving(function (Form $form) {
@@ -243,7 +243,6 @@ class PlaceController extends Controller
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
-            $tools->append();
         });
 
         $form->saving(function (Form $form) {

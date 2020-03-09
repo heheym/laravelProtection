@@ -680,17 +680,17 @@
     },
     {
         "name": "encore/laravel-admin",
-        "version": "v1.6.15",
-        "version_normalized": "1.6.15.0",
+        "version": "v1.7.6",
+        "version_normalized": "1.7.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/z-song/laravel-admin.git",
-            "reference": "a4495a7278f3d5c679edaf92fd17b01a99b35717"
+            "reference": "06b6daf94697089620d6eb8c93b20bc4165e9756"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/a4495a7278f3d5c679edaf92fd17b01a99b35717",
-            "reference": "a4495a7278f3d5c679edaf92fd17b01a99b35717",
+            "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/06b6daf94697089620d6eb8c93b20bc4165e9756",
+            "reference": "06b6daf94697089620d6eb8c93b20bc4165e9756",
             "shasum": ""
         },
         "require": {
@@ -711,7 +711,7 @@
             "intervention/image": "Required to handling and manipulation upload images (~2.3).",
             "spatie/eloquent-sortable": "Required to built orderable gird."
         },
-        "time": "2019-05-06T10:57:07+00:00",
+        "time": "2019-08-27T11:00:45+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -1782,7 +1782,8 @@
         "keywords": [
             "cron",
             "schedule"
-        ]
+        ],
+        "abandoned": "dragonmantank/cron-expression"
     },
     {
         "name": "myclabs/deep-copy",
@@ -3054,17 +3055,17 @@
     },
     {
         "name": "qiniu/php-sdk",
-        "version": "v7.2.7",
-        "version_normalized": "7.2.7.0",
+        "version": "v7.2.10",
+        "version_normalized": "7.2.10.0",
         "source": {
             "type": "git",
             "url": "https://github.com/qiniu/php-sdk.git",
-            "reference": "88d11a5857ebc6871204e9be6ceec54bf5f381e6"
+            "reference": "d89987163f560ebf9dfa5bb25de9bd9b1a3b2bd8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/88d11a5857ebc6871204e9be6ceec54bf5f381e6",
-            "reference": "88d11a5857ebc6871204e9be6ceec54bf5f381e6",
+            "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/d89987163f560ebf9dfa5bb25de9bd9b1a3b2bd8",
+            "reference": "d89987163f560ebf9dfa5bb25de9bd9b1a3b2bd8",
             "shasum": ""
         },
         "require": {
@@ -3074,7 +3075,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~2.3"
         },
-        "time": "2018-11-06T13:34:32+00:00",
+        "time": "2019-10-28T10:23:23+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

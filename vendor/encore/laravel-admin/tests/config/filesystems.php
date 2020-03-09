@@ -76,8 +76,8 @@ return [
                 'https'   => 'dn-yourdomain.qbox.me',         //你的HTTPS域名
                 'custom'  => 'static.abc.com',                //你的自定义域名
             ],
-            'access_key' => 'SXVcilAju8iSGyxjdficeepfDTj0kuEIynjM_ZYT',  //AccessKey
-            'secret_key' => 'hGVsf8o8EswWsaxxXWvRFtJc_IJ9nRS2-MdeiFUM',  //SecretKey
+            'access_key' => 'tIyz5h5IDT1-PQS22iRrI4dCBEktWj76O-ls856K',  //AccessKey
+            'secret_key' => 'TCU2GuSlbzxKgnixYO_-pdo4odbXttm1RNNvEwSD',  //SecretKey
             'bucket'     => 'laravel',  //Bucket名字
             'notify_url' => '',  //持久化处理回调地址
         ],

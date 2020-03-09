@@ -324,7 +324,7 @@ class Show implements Renderable
             $this->resource = implode('/', $segments);
         }
 
-        return $this->resource;
+        return url($this->resource);
     }
 
     /**
@@ -385,10 +385,6 @@ class Show implements Renderable
         }
 
         if ($field = $this->handleRelationField($method, $arguments)) {
-            return $field;
-        }
-
-        if ($field = $this->handleModelField($method, $label)) {
             return $field;
         }
 
@@ -474,6 +470,12 @@ class Show implements Renderable
         return false;
     }
 
+    /**
+     * @param string $relation
+     * @param string $label
+     *
+     * @return Field
+     */
     protected function showRelationAsField($relation = '', $label = '')
     {
         return $this->addField($relation, $label);

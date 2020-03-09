@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Cache; //缓存
 use App\Api\Sms;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use zgldh\QiniuStorage\QiniuStorage;
+use Qiniu\Auth;
 
 
 class PlaceController extends Controller
@@ -25,9 +27,15 @@ class PlaceController extends Controller
         }
 
         $post = json_decode(file_get_contents("php://input"), true);
+
+        file_put_contents("1.txt",file_get_contents("php://input"));
+//        var_dump(file_get_contents("php://input"));
+
         if(empty($post['placehd'])){
             return response()->json(['code' => 500, 'msg' => '场所服务器ID不能为空', 'data' => null]);
         }
+
+
 
         try{
             DB::table('place')->where('key', $srvkey)->update($post);
@@ -111,7 +119,7 @@ class PlaceController extends Controller
 //        }
 
         try{
-           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd')->first();
+           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd','downloadMode')->first();
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
         }
@@ -128,7 +136,7 @@ class PlaceController extends Controller
         }
 
         return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
-            'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'data'=>$data]);
+            'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'downloadMode'=>$result->downloadMode,'data'=>$data]);
 
     }
 
@@ -330,6 +338,110 @@ class PlaceController extends Controller
             }
         }
         return response()->json(['code'=>200,'placestate'=>$placestate,'data'=>$post]);
+    }
+
+    //机顶盒点播歌曲上传接口
+    public function parameter(Request $request)
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+
+        try{
+
+            $result = DB::table('parameterset')->select('SoftwareName','SoftwareVerno','NewSongHttp','SpeedLimit','LoginName',
+                'UpdateMode','SoftseverVer','SoftseverHttp','SoftseverMemo','SoftboxVer','SoftboxHttp','SoftboxMemo','SoftsongDbVer','SoftsongDbHttp','SingerPicHttp')->first();
+
+
+        }catch (\Exception $e){
+            return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => $e->getMessage()]);
+        }
+
+        return response()->json(['code'=>200,'SoftwareName'=>$result->SoftwareName,'SoftwareVerno'=>$result->SoftwareVerno,'NewSongHttp'=>$result->NewSongHttp,'SpeedLimit'=>$result->SpeedLimit,'LoginName'=>$result->LoginName,
+            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp]);
+
+    }
+
+    //获取歌曲下载地址接口
+    public function downsonghttp(Request $request)
+    {
+
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+
+        $accessKey = DB::table('parameterset')->value('AccessKey');
+        $secretKey = DB::table('parameterset')->value('SecretKey');
+        $bucket = DB::table('parameterset')->value('DomainNameSpace');
+        // 构建Auth对象
+        $auth = new Auth($accessKey, $secretKey);
+        $config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
+
+        // 生成上传Token
+//        $token = $auth->uploadToken($bucket);
+
+//        $url = "api.qiniu.com/v6/domain/list?tbl=".$bucket;
+//        return curl($url);
+
+        foreach($post as $k=>$v){
+            if(empty($v['musicdbpk'])){
+                return response()->json(['code' => 500, 'msg' => 'musicdbpk不能为空', 'data' => null]);
+            }
+            $fileName = DB::table('song')->where('musicdbpk',$v['musicdbpk'])->value('Filename');
+
+            $exist= $bucketManager->stat($bucket, $fileName);
+            if(!isset($exist[0]['fsize'])){
+                return response()->json(['code' => 500,'msg'=>'文件不存在' ,'data' => null]);
+            }
+            // 私有空间中的外链 http://<domain>/<file_key>
+            $baseUrl = "http://sh.ktvwin.com/".$fileName;
+            // 对链接进行签名
+            $signedUrl = $auth->privateDownloadUrl($baseUrl);
+
+            $data[$k]['musicdbpk'] = $v['musicdbpk'];
+            $data[$k]['downhttp'] = $signedUrl;
+        }
+
+        return response()->json(['code' => 200, 'data' => $data]);
+
+    }
+
+    //歌曲下载成功上传接口
+    public function downsongok(Request $request)
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+
+        foreach($post as $k=>$v){
+            $v['srvkey'] = $srvkey;
+            $v['created_data'] = date('Y-m-d H:i:s');
+            DB::table('songdownload')->insert($v);
+        }
+
+        return response()->json(['code' => 200, 'msg' => '请求成功','data'=>null]);
+
     }
 
 }

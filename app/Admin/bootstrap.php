@@ -22,6 +22,10 @@ Encore\Admin\Form::forget(['map', 'editor']);
 
 
 use Encore\Admin\Grid;
+use Encore\Admin\Form;
+use App\Admin\Extensions\MultipleColumn;
+
+Encore\Admin\Form::extend('multipleColumn', MultipleColumn::class);
 
 Grid::init(function (Grid $grid) {
 
@@ -45,5 +49,19 @@ Grid::init(function (Grid $grid) {
         $actions->disableView();
 //        $actions->disableEdit();
 //        $actions->disableDelete();
+    });
+    $grid->tools(function ($tools) {
+        $tools->batch(function ($batch) {
+            $batch->disableDelete();
+
+        });
+    });
+});
+
+Form::init(function (Form $form) {
+    $form->tools(function (Form\Tools $tools) {
+        $tools->disableView();
+
+        $tools->append('<a class="btn btn-sm btn-default form-history-bac" style="float: right;margin-right: 20px;" href="javascript:history.go(-1);" ><i class="fa fa-arrow-left"></i>&nbsp;返回</a>');
     });
 });

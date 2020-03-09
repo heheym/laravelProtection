@@ -40,8 +40,8 @@ class SongController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+//            ->header('Detail')
+//            ->description('description')
             ->body($this->detail($id));
     }
 
@@ -55,8 +55,8 @@ class SongController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+//            ->header('Edit')
+//            ->description('description')
             ->body($this->form()->edit($id));
     }
 
@@ -69,8 +69,8 @@ class SongController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+//            ->header('Create')
+//            ->description('description')
             ->body($this->form());
     }
 
@@ -339,7 +339,11 @@ class SongController extends Controller
         $form->select('IsHipHop', '是否嘻哈歌曲')->options([0=>'否',1=>'是']);
         $form->text('Obligee', '权利人');
         $form->select('OnlineStatus', '上架状态')->options([0=>'下架',1=>'上架']);
+        $form->select('IsClassic', '是否经典歌曲')->options([0=>'否',1=>'是']);
+        $form->select('IsMustPoint', '是否KTV必点歌曲')->options([0=>'否',1=>'是']);
+        $form->text('HalfYearClick', '半年内的点击率');
         $form->datetime('UpdateDate', '最后更新时间')->default(date('Y-m-d H:i:s'));
+
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();

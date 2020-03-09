@@ -19,4 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/promote', 'PromoteController@index');
+Route::get('/promote/song', 'PromoteController@song');
+
 

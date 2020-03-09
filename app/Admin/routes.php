@@ -30,8 +30,16 @@ Route::group([
 
     $router->post('song/songonline', 'SongController@songonline');//后台批量上下架
 
-    $router->resource('warningmode', WarningModeController::class);
+    $router->resource('warningmode', WarningModeController::class);//预警模式
 
+    $router->resource('setmeal', SetMealController::class);//套餐
+
+    $router->resource('receivable', ReceivableController::class);//应收管理
+
+    $router->resource('receipt', ReceiptController::class);//收费管理
+
+    $router->resource('promote', PromoteController::class);//新歌推广
 
 });
+
 

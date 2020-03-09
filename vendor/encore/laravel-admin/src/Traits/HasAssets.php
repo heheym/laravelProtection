@@ -12,12 +12,27 @@ trait HasAssets
     /**
      * @var array
      */
+    public static $deferredScript = [];
+
+    /**
+     * @var array
+     */
+    public static $style = [];
+
+    /**
+     * @var array
+     */
     public static $css = [];
 
     /**
      * @var array
      */
     public static $js = [];
+
+    /**
+     * @var array
+     */
+    public static $html = [];
 
     /**
      * @var array
@@ -80,14 +95,22 @@ trait HasAssets
     public static $jQuery = 'vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js';
 
     /**
+     * @var array
+     */
+    public static $minifyIgnores = [];
+
+    /**
      * Add css or get all css.
      *
      * @param null $css
+     * @param bool $minify
      *
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function css($css = null)
+    public static function css($css = null, $minify = true)
     {
+        static::ignoreMinify($css, $minify);
+
         if (!is_null($css)) {
             return self::$css = array_merge(self::$css, (array) $css);
         }
@@ -103,11 +126,14 @@ trait HasAssets
 
     /**
      * @param null $css
+     * @param bool $minify
      *
      * @return array|null
      */
-    public static function baseCss($css = null)
+    public static function baseCss($css = null, $minify = true)
     {
+        static::ignoreMinify($css, $minify);
+
         if (!is_null($css)) {
             return static::$baseCss = $css;
         }
@@ -123,11 +149,14 @@ trait HasAssets
      * Add js or get all js.
      *
      * @param null $js
+     * @param bool $minify
      *
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function js($js = null)
+    public static function js($js = null, $minify = true)
     {
+        static::ignoreMinify($js, $minify);
+
         if (!is_null($js)) {
             return self::$js = array_merge(self::$js, (array) $js);
         }
@@ -159,11 +188,14 @@ trait HasAssets
 
     /**
      * @param null $js
+     * @param bool $minify
      *
      * @return array|null
      */
-    public static function baseJs($js = null)
+    public static function baseJs($js = null, $minify = true)
     {
+        static::ignoreMinify($js, $minify);
+
         if (!is_null($js)) {
             return static::$baseJs = $js;
         }
@@ -172,17 +204,63 @@ trait HasAssets
     }
 
     /**
+     * @param string $assets
+     * @param bool   $ignore
+     */
+    public static function ignoreMinify($assets, $ignore = true)
+    {
+        if (!$ignore) {
+            static::$minifyIgnores[] = $assets;
+        }
+    }
+
+    /**
      * @param string $script
+     * @param bool   $deferred
      *
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function script($script = '')
+    public static function script($script = '', $deferred = false)
     {
         if (!empty($script)) {
+            if ($deferred) {
+                return self::$deferredScript = array_merge(self::$deferredScript, (array) $script);
+            }
+
             return self::$script = array_merge(self::$script, (array) $script);
         }
 
-        return view('admin::partials.script', ['script' => array_unique(self::$script)]);
+        $script = array_unique(array_merge(static::$script, static::$deferredScript));
+
+        return view('admin::partials.script', compact('script'));
+    }
+
+    /**
+     * @param string $style
+     *
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public static function style($style = '')
+    {
+        if (!empty($style)) {
+            return self::$style = array_merge(self::$style, (array) $style);
+        }
+
+        return view('admin::partials.style', ['style' => array_unique(self::$style)]);
+    }
+
+    /**
+     * @param string $html
+     *
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public static function html($html = '')
+    {
+        if (!empty($html)) {
+            return self::$html = array_merge(self::$html, (array) $html);
+        }
+
+        return view('admin::partials.html', ['html' => array_unique(self::$html)]);
     }
 
     /**

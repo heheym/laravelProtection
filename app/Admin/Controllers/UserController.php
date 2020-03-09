@@ -81,7 +81,14 @@ class UserController extends Controller
     {
         $grid = new Grid(new User);
 
-        $grid->id('Id');
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+            $filter->like('userno','用户名');
+        });
+
+
+//        $grid->id('Id');
         $grid->userno('用户名');
         $grid->email('邮箱');
         $grid->phone('手机号');

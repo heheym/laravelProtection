@@ -68,7 +68,8 @@ final class Auth
         $baseUrl .= $deadline;
 
         $token = $this->sign($baseUrl);
-        return "$baseUrl&token=$token";
+
+        return "$baseUrl"."&token=".$token;
     }
 
     public function uploadToken($bucket, $key = null, $expires = 3600, $policy = null, $strictPolicy = true)

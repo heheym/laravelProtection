@@ -36,9 +36,9 @@ class Table extends HasMany
      */
     protected function buildRelatedForms()
     {
-        if (is_null($this->form)) {
-            return [];
-        }
+//        if (is_null($this->form)) {
+//            return [];
+//        }
 
         $forms = [];
 
@@ -52,6 +52,9 @@ class Table extends HasMany
             }
         } else {
             foreach ($this->value as $key => $data) {
+                if (isset($data['pivot'])) {
+                    $data = array_merge($data, $data['pivot']);
+                }
                 $forms[$key] = $this->buildNestedForm($this->column, $this->builder, $key)->fill($data);
             }
         }

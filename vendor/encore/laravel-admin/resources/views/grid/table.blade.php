@@ -13,9 +13,9 @@
             {!! $grid->renderCreateButton() !!}
         </div>
         @if ( $grid->showTools() )
-        <span>
+        <div class="pull-left">
             {!! $grid->renderHeaderTools() !!}
-        </span>
+        </div>
         @endif
     </div>
     @endif
@@ -30,20 +30,31 @@
             <thead>
                 <tr>
                     @foreach($grid->visibleColumns() as $column)
-                            @if($column->getLabel()=='操作')
-                                <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;text-align:center;padding-right:30px">{{$column->getLabel()}}{!! $column->sorter() !!}</th>
-                            @elseif($age=15)
-                                <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;text-align:center;">{{$column->getLabel()}}{!! $column->sorter() !!}</th>
-                            @endif
+
+                        @if($column->getLabel()=='操作')
+                            <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;text-align:center;padding-right:30px">{{$column->getLabel()}}{!! $column->renderHeader() !!}</th>
+                        @else
+                            <th style="text-overflow:ellipsis;word-break:keep-all; white-space:nowrap;text-align:center;">{{$column->getLabel()}}{!! $column->renderHeader() !!}</th>
+                        @endif
+
                     @endforeach
                 </tr>
             </thead>
 
+            @if ($grid->hasQuickCreate())
+                {!! $grid->renderQuickCreate() !!}
+            @endif
+
             <tbody>
+
+                @if($grid->rows()->isEmpty())
+                    @include('admin::grid.empty-grid')
+                @endif
+
                 @foreach($grid->rows() as $row)
                 <tr {!! $row->getRowAttributes() !!}>
                     @foreach($grid->visibleColumnNames() as $name)
-                    <td style="text-align:center" {!! $row->getColumnAttributes($name) !!}>
+                    <td style="text-align: center" {!! $row->getColumnAttributes($name) !!}>
                         {!! $row->column($name) !!}
                     </td>
                     @endforeach

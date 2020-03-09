@@ -24,8 +24,8 @@ class AddSongController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+//            ->header('Index')
+//            ->description('description')
             ->body($this->grid());
     }
 
@@ -40,8 +40,8 @@ class AddSongController extends Controller
     {
  
         return $content
-            ->header('Detail')
-            ->description('description')
+//            ->header('Detail')
+//            ->description('description')
             ->body($this->detail($id));
     }
 
@@ -55,8 +55,8 @@ class AddSongController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+//            ->header('Edit')
+//            ->description('description')
             ->body($this->form()->edit($id));
     }
 
@@ -69,8 +69,8 @@ class AddSongController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+//            ->header('Create')
+//            ->description('description')
             ->body($this->form());
     }
 
