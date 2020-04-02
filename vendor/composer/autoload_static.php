@@ -22,9 +22,9 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '4e8671d7be9056dcd04ddd9e8e15f9cc' => __DIR__ . '/..' . '/encore/laravel-admin/src/helpers.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
-        '4e8671d7be9056dcd04ddd9e8e15f9cc' => __DIR__ . '/..' . '/encore/laravel-admin/src/helpers.php',
         'f960e77410032f236cef8c56617b313e' => __DIR__ . '/..' . '/overtrue/laravel-lang/src/helpers.php',
         '577e8babc5e897de9cab73c9a71fdb59' => __DIR__ . '/../..' . '/app/Helper/helper.php',
     );
@@ -127,11 +127,13 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         ),
         'F' => 
         array (
+            'Field\\Interaction\\' => 18,
             'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
         ),
         'E' => 
         array (
+            'Encore\\ChinaDistpicker\\' => 23,
             'Encore\\Admin\\' => 13,
             'Egulias\\EmailValidator\\' => 23,
         ),
@@ -346,6 +348,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'Field\\Interaction\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zuweie/field-interaction/src',
+        ),
         'Fideloper\\Proxy\\' => 
         array (
             0 => __DIR__ . '/..' . '/fideloper/proxy/src',
@@ -353,6 +359,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
+        ),
+        'Encore\\ChinaDistpicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-admin-ext/china-distpicker/src',
         ),
         'Encore\\Admin\\' => 
         array (
@@ -480,9 +490,12 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'Aliyun\\Test\\Core\\Profile\\EndpointProviderTest' => __DIR__ . '/../..' . '/app/Libs/Sms/tests/Core/Regions/EndpointProviderTest.php',
         'AnInterface' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/phpunit-mock-objects/tests/_fixture/AnInterface.php',
         'AnotherInterface' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/phpunit-mock-objects/tests/_fixture/AnotherInterface.php',
+        'App\\Admin\\Actions\\SetTopBox\\BatchChange' => __DIR__ . '/../..' . '/app/Admin/Actions/SetTopBox/BatchChange.php',
+        'App\\Admin\\Actions\\Song\\BatchSongOnline' => __DIR__ . '/../..' . '/app/Admin/Actions/Song/BatchSongOnline.php',
         'App\\Admin\\Controllers\\AddSongController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AddSongController.php',
         'App\\Admin\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AuthController.php',
         'App\\Admin\\Controllers\\BanSongController' => __DIR__ . '/../..' . '/app/Admin/Controllers/BanSongController.php',
+        'App\\Admin\\Controllers\\BoxRegisterController' => __DIR__ . '/../..' . '/app/Admin/Controllers/BoxRegisterController.php',
         'App\\Admin\\Controllers\\ConfigController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ConfigController.php',
         'App\\Admin\\Controllers\\DangerSongController' => __DIR__ . '/../..' . '/app/Admin/Controllers/DangerSongController.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
@@ -495,14 +508,19 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Controllers\\SetTopBoxController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SetTopBoxController.php',
         'App\\Admin\\Controllers\\SingerController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SingerController.php',
         'App\\Admin\\Controllers\\SongController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SongController.php',
+        'App\\Admin\\Controllers\\SongDownloadController' => __DIR__ . '/../..' . '/app/Admin/Controllers/SongDownloadController.php',
         'App\\Admin\\Controllers\\UploadController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UploadController.php',
         'App\\Admin\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserController.php',
         'App\\Admin\\Controllers\\UserSongController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserSongController.php',
         'App\\Admin\\Controllers\\WarningModeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/WarningModeController.php',
-        'App\\Admin\\Extensions\\MultipleColumn' => __DIR__ . '/../..' . '/app/Admin/Extensions/MultipleColumn.php',
+        'App\\Admin\\Extensions\\Receivable\\CreateOtherFee' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/CreateOtherFee.php',
+        'App\\Admin\\Extensions\\Receivable\\CreateSetMeal' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/CreateSetMeal.php',
+        'App\\Admin\\Extensions\\Receivable\\ReceivableEdit' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/ReceivableEdit.php',
+        'App\\Admin\\Extensions\\Receivable\\ReceivableForm' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/ReceivableForm.php',
         'App\\Admin\\Extensions\\Tools\\SongOnline' => __DIR__ . '/../..' . '/app/Admin/Extensions/Tools/SongOnline.php',
         'App\\Admin\\Models\\AddSong' => __DIR__ . '/../..' . '/app/Admin/Models/AddSong.php',
         'App\\Admin\\Models\\BanSong' => __DIR__ . '/../..' . '/app/Admin/Models/BanSong.php',
+        'App\\Admin\\Models\\BoxRegister' => __DIR__ . '/../..' . '/app/Admin/Models/BoxRegister.php',
         'App\\Admin\\Models\\Config' => __DIR__ . '/../..' . '/app/Admin/Models/Config.php',
         'App\\Admin\\Models\\DangerSong' => __DIR__ . '/../..' . '/app/Admin/Models/DangerSong.php',
         'App\\Admin\\Models\\Place' => __DIR__ . '/../..' . '/app/Admin/Models/Place.php',
@@ -514,6 +532,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Models\\SetTopBox' => __DIR__ . '/../..' . '/app/Admin/Models/SetTopBox.php',
         'App\\Admin\\Models\\Singer' => __DIR__ . '/../..' . '/app/Admin/Models/Singer.php',
         'App\\Admin\\Models\\Song' => __DIR__ . '/../..' . '/app/Admin/Models/Song.php',
+        'App\\Admin\\Models\\SongDownload' => __DIR__ . '/../..' . '/app/Admin/Models/SongDownload.php',
         'App\\Admin\\Models\\Upload' => __DIR__ . '/../..' . '/app/Admin/Models/Upload.php',
         'App\\Admin\\Models\\User' => __DIR__ . '/../..' . '/app/Admin/Models/User.php',
         'App\\Admin\\Models\\UserSong' => __DIR__ . '/../..' . '/app/Admin/Models/UserSong.php',
@@ -1349,6 +1368,11 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'Encore\\Admin\\Widgets\\Tab' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Tab.php',
         'Encore\\Admin\\Widgets\\Table' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Table.php',
         'Encore\\Admin\\Widgets\\Widget' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Widget.php',
+        'Encore\\ChinaDistpicker\\ChinaDistpicker' => __DIR__ . '/..' . '/laravel-admin-ext/china-distpicker/src/ChinaDistpicker.php',
+        'Encore\\ChinaDistpicker\\ChinaDistpickerServiceProvider' => __DIR__ . '/..' . '/laravel-admin-ext/china-distpicker/src/ChinaDistpickerServiceProvider.php',
+        'Encore\\ChinaDistpicker\\Distpicker' => __DIR__ . '/..' . '/laravel-admin-ext/china-distpicker/src/Distpicker.php',
+        'Encore\\ChinaDistpicker\\DistpickerFilter' => __DIR__ . '/..' . '/laravel-admin-ext/china-distpicker/src/DistpickerFilter.php',
+        'Encore\\ChinaDistpicker\\FilterPresenter' => __DIR__ . '/..' . '/laravel-admin-ext/china-distpicker/src/FilterPresenter.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
         'ExceptionInAssertPostConditionsTest' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/phpunit/tests/_files/ExceptionInAssertPostConditionsTest.php',
         'ExceptionInAssertPreConditionsTest' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/phpunit/tests/_files/ExceptionInAssertPreConditionsTest.php',
@@ -1810,6 +1834,23 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'FatalTest' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/phpunit/tests/_files/FatalTest.php',
         'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
+        'Field\\Interaction\\ArrayFields' => __DIR__ . '/..' . '/zuweie/field-interaction/src/ArrayFields.php',
+        'Field\\Interaction\\Base\\BaseFieldSet' => __DIR__ . '/..' . '/zuweie/field-interaction/src/Base/BaseFieldSet.php',
+        'Field\\Interaction\\Base\\BaseScript' => __DIR__ . '/..' . '/zuweie/field-interaction/src/Base/BaseScript.php',
+        'Field\\Interaction\\Base\\BaseScriptBuilder' => __DIR__ . '/..' . '/zuweie/field-interaction/src/Base/BaseScriptBuilder.php',
+        'Field\\Interaction\\FieldSubscriberTrait' => __DIR__ . '/..' . '/zuweie/field-interaction/src/FieldSubscriberTrait.php',
+        'Field\\Interaction\\FieldTriggerTrait' => __DIR__ . '/..' . '/zuweie/field-interaction/src/FieldTriggerTrait.php',
+        'Field\\Interaction\\FieldformatTrait' => __DIR__ . '/..' . '/zuweie/field-interaction/src/FieldformatTrait.php',
+        'Field\\Interaction\\FormFields' => __DIR__ . '/..' . '/zuweie/field-interaction/src/FormFields.php',
+        'Field\\Interaction\\Http\\Controllers\\InteractionController' => __DIR__ . '/..' . '/zuweie/field-interaction/src/Http/Controllers/InteractionController.php',
+        'Field\\Interaction\\Interaction' => __DIR__ . '/..' . '/zuweie/field-interaction/src/Interaction.php',
+        'Field\\Interaction\\InteractionServiceProvider' => __DIR__ . '/..' . '/zuweie/field-interaction/src/InteractionServiceProvider.php',
+        'Field\\Interaction\\PublishCommand' => __DIR__ . '/..' . '/zuweie/field-interaction/src/PublishCommand.php',
+        'Field\\Interaction\\ScriptInjecter' => __DIR__ . '/..' . '/zuweie/field-interaction/src/ScriptInjecter.php',
+        'Field\\Interaction\\SubscribeScript' => __DIR__ . '/..' . '/zuweie/field-interaction/src/SubscribeScript.php',
+        'Field\\Interaction\\SubscribeScriptBuilder' => __DIR__ . '/..' . '/zuweie/field-interaction/src/SubscribeScriptBuilder.php',
+        'Field\\Interaction\\TriggerScript' => __DIR__ . '/..' . '/zuweie/field-interaction/src/TriggerScript.php',
+        'Field\\Interaction\\TriggerScriptBuilder' => __DIR__ . '/..' . '/zuweie/field-interaction/src/TriggerScriptBuilder.php',
         'File_Iterator' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/php-file-iterator/src/Factory.php',

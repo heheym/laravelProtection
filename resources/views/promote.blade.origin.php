@@ -34,7 +34,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td>综艺歌曲数量：<span id="varietynum"></span>首</td>
+                    <td>综艺歌曲数量：<span id=""></span>首</td>
                     <td>网络歌曲数量：<span id="netnum"></span>首</td>
                 </tr>
                 <tr>

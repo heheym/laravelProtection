@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+use Mockery\Exception;
 use zgldh\QiniuStorage\QiniuStorage;
 
 class SongController extends Controller
@@ -382,4 +383,93 @@ class SongController extends Controller
             return response()->json(['code'=>500,'msg'=>'传入信息出错','data'=>null]);
         }
     }
+
+    //13.删除歌星接口serviceDelSinger
+    public function serviceDelSinger(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!empty($post['id'])){
+            $exists = DB::table('singer')->where('id',$post['id'])->exists();
+            if(!$exists){
+                return response()->json(['code'=>500,'msg'=>'歌星不存在','data'=>null]);
+            }
+            try {
+                DB::table('singer')->where('id', $post['id'])->delete();
+            }catch (\Exception $e){
+                return response()->json(['code'=>500,'msg'=>$e->getMessage(),'data'=>null]);
+            }
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }else{
+            return response()->json(['code'=>500,'msg'=>'歌星id不能为空','data'=>null]);
+        }
+    }
+
+    //14.更新版本接口serviceUpdateVer
+    public function serviceUpdateVer(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!empty($post['updateType'])){
+            $array = [];
+            if($post['updateType'] ==1){
+                if(isset($post['updateVerNo'])){
+                    $array['SoftseverVer'] = $post['updateVerNo'];
+                }
+                if(isset($post['updateVerHttp'])){
+                    $array['SoftseverHttp'] = $post['updateVerHttp'];
+                }
+                if(isset($post['updateVerMemo'])){
+                    $array['SoftseverMemo'] = $post['updateVerMemo'];
+                }
+                DB::table('parameterset')->update($array);
+            }elseif($post['updateType'] ==2){
+                if(isset($post['updateVerNo'])){
+                    $array['SoftboxVer'] = $post['updateVerNo'];
+                }
+                if(isset($post['updateVerHttp'])){
+                    $array['SoftboxHttp'] = $post['updateVerHttp'];
+                }
+                if(isset($post['updateVerMemo'])){
+                    $array['SoftboxMemo'] = $post['updateVerMemo'];
+                }
+                DB::table('parameterset')->update($array);
+            }elseif($post['updateType'] ==3){
+                if(isset($post['updateVerNo'])){
+                    $array['SoftsongDbVer'] = $post['updateVerNo'];
+                }
+                if(isset($post['updateVerHttp'])){
+                    $array['SoftsongDbHttp'] = $post['updateVerHttp'];
+                }
+                DB::table('parameterset')->update($array);
+            }else{
+                return response()->json(['code'=>500,'msg'=>'updateType不存在','data'=>null]);
+            }
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }else{
+            return response()->json(['code'=>500,'msg'=>'updateType不存在','data'=>null]);
+        }
+    }
+
+    //15.机顶盒预登记接口
+    public function addRegbox(Request $request)
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(empty($post['KtvBoxid'])){
+            return response()->json(['code'=>500,'msg'=>'KtvBoxid不能为空','data'=>null]);
+        }
+        $exists = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
+        if($exists){
+            return response()->json(['code'=>500,'msg'=>'机器码已经存在','data'=>null]);
+        }
+        try{
+            $data = ['KtvBoxid'=>$post['KtvBoxid'],'CreateDate'=>date('Y-m-d H:i:s')];
+            if(!empty($post['machineCode'])){
+                $data['machineCode'] = $post['machineCode'];
+            }
+            DB::table('boxregister')->insert($data);
+        }catch (\Exception $e){
+            return response()->json(['code'=>500,'msg'=>$e->getMessage(),'data'=>null]);
+        }
+        return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+    }
+
 }

@@ -28,14 +28,16 @@ class PlaceController extends Controller
 
         $post = json_decode(file_get_contents("php://input"), true);
 
-        file_put_contents("1.txt",file_get_contents("php://input"));
+//        file_put_contents("1.txt",file_get_contents("php://input"));
 //        var_dump(file_get_contents("php://input"));
 
         if(empty($post['placehd'])){
             return response()->json(['code' => 500, 'msg' => '场所服务器ID不能为空', 'data' => null]);
         }
-
-
+        $placehdExsist = DB::table('place')->where(['placehd'=>$post['placehd']])->where('key','<>',$srvkey)->exists();
+        if($placehdExsist){
+            return response()->json(['code' => 500, 'msg' => '场所服务器ID已存在', 'data' => null]);
+        }
 
         try{
             DB::table('place')->where('key', $srvkey)->update($post);
@@ -50,7 +52,6 @@ class PlaceController extends Controller
     //机顶盒注册
     public function regbox(Request $request)
     {
-
         $srvkey = \Request::header('srvkey');
         if(empty($srvkey)){
             return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
@@ -59,46 +60,52 @@ class PlaceController extends Controller
         if(!$exists){
             return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
         }
-
         $post = json_decode(file_get_contents("php://input"), true);
-        if(!$post){
-            return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => null]);
+        if(empty($post['KtvBoxid'])){
+            return response()->json(['code' => 500, 'msg' => 'KtvBoxid不能为空', 'data' => null]);
         }
+    $exists = DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$post['KtvBoxid']])->exists(); //已存在srvkey和ktvBoxid
+        if($exists){
+            DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$post['KtvBoxid']])->update($post);
+        }else{
+            $boxRegisterExist = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
+            if(!$boxRegisterExist){
+                return response()->json(['code' => 500, 'msg' => '机器码未登记', 'data' => null]);
+            }
+            $exist = DB::table('settopbox')->where('key','<>',$srvkey)->where(['KtvBoxid'=>$post['KtvBoxid']])->exists();
+            if($exist){
+                return response()->json(['code' => 500, 'msg' => '机器码已存在', 'data' => null]);
+            }
+            if(!empty($post['machineCode'])){
+            $exist = DB::table('settopbox')->where('key','<>',$srvkey)->where(['machineCode'=>$post['machineCode']])->exists();
+                if($exist){
+                    return response()->json(['code' => 500, 'msg' => '机顶盒MAC已存在', 'data' => null]);
+                }
+            }
 
-        $count1 = count($post);
-        $count2 = DB::table('settopbox')->where(['key'=> $srvkey])
+            //判断是否超出有效数量
+            $count1 = DB::table('settopbox')->where(['key'=> $srvkey])
                 ->where(function ($query) {
                     $query->where('KtvBoxState',0)
                         ->orWhere('KtvBoxState', 1);
                 })->count();
-
-
-        $count3 = $count1+$count2;
-        $roomtotal = DB::table('place')->where(['key'=> $srvkey])->value('roomtotal');
-
-        if($count3>$roomtotal){
-            return response()->json(['code' => 500, 'msg' => '机顶盒超过有效数量', 'data' => null]);
-        }
-
-        foreach($post as $k=>$v){
-            if(empty($v['KtvBoxid'])){
-                return response()->json(['code' => 500, 'msg' => '机器码不能为空', 'data' => null]);
+            $count2 = $count1+1;
+            $roomtotal = DB::table('place')->where(['key'=> $srvkey])->value('roomtotal');
+            if($count2>$roomtotal){
+                return response()->json(['code' => 500, 'msg' => '机顶盒超过有效数量', 'data' => null]);
             }
-            $post[$k]['key'] = $srvkey;
-            $exists = DB::table('settopbox')->where(['KtvBoxid'=>$v['KtvBoxid']])->exists();
-            if($exists){
-                return response()->json(['code' => 500, 'msg' => '机器码已经存在', 'data' => null]);
+            $machineCode = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->value('machineCode');
+            $post['created_date'] = date('Y-m-d H:i:s');
+            $post['key'] = $srvkey;
+            $post['machineCode'] = $machineCode;
+
+            try{
+                DB::table('settopbox')->insert($post);
+            }catch (\Exception $e){
+                return response()->json(['code' => 500, 'msg' => $e->getMessage(), 'data' => null]);
             }
         }
-
-        try{
-            DB::table('settopbox')->where('key', $srvkey)->insert($post);
-        }catch (\Exception $e){
-            return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
-        }
-
         return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
-
     }
 
     //服务端数据查询接口
@@ -119,7 +126,7 @@ class PlaceController extends Controller
 //        }
 
         try{
-           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd','downloadMode')->first();
+           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd','downloadMode','boxPass')->first();
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
         }
@@ -136,7 +143,7 @@ class PlaceController extends Controller
         }
 
         return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
-            'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'downloadMode'=>$result->downloadMode,'data'=>$data]);
+            'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'data'=>$data]);
 
     }
 
@@ -148,24 +155,22 @@ class PlaceController extends Controller
         if(empty($KtvBoxid)){
             return response()->json(['code' => 500, 'msg' => 'KtvBoxid不能为空', 'data' => null]);
         }
-        $exists = DB::table('settopbox')->where(['KtvBoxid'=>$KtvBoxid])->exists();
-        if(!$exists){
-            return response()->json(['code' => 500, 'msg' => 'KtvBoxid不存在', 'data' => null]);
-        }
-//        $post = json_decode(urldecode(file_get_contents("php://input")), true);
-//        if(!$post){
-//            return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => null]);
-//        }
-
         try{
-           $result = DB::table('settopbox')->where('KtvBoxid', $KtvBoxid)
-               ->select('KtvBoxid','machineCode','KtvBoxState','roomno')->first();
+//           $result = DB::table('settopbox')->where('KtvBoxid', $KtvBoxid)
+//               ->select('KtvBoxid','machineCode','KtvBoxState','roomno')->first();
+            $settopboxExist = DB::table('settopbox')->where('KtvBoxid', $KtvBoxid)->exists();
+            if($settopboxExist){
+                return response()->json(['code' => 200, 'boxregState'=>1]);
+            }
+            $boxregisterExist = DB::table('boxregister')->where('KtvBoxid', $KtvBoxid)->exists();
+            if($boxregisterExist){
+                return response()->json(['code' => 200, 'boxregState'=>0]);
+            }
+            return response()->json(['code' => 500, 'msg'=>'机顶盒未登记','data'=>null]);
+
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
         }
-
-        return response()->json(['code' => 200, 'KtvBoxid' => $result->KtvBoxid, 'machineCode' => $result->machineCode,
-            'KtvBoxState'=>$result->KtvBoxState,'roomno'=>$result->roomno]);
 
     }
 
@@ -340,7 +345,7 @@ class PlaceController extends Controller
         return response()->json(['code'=>200,'placestate'=>$placestate,'data'=>$post]);
     }
 
-    //机顶盒点播歌曲上传接口
+    //获取系统参数接口
     public function parameter(Request $request)
     {
         $srvkey = \Request::header('srvkey');
@@ -352,26 +357,26 @@ class PlaceController extends Controller
             return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
         }
 
-
         try{
 
             $result = DB::table('parameterset')->select('SoftwareName','SoftwareVerno','NewSongHttp','SpeedLimit','LoginName',
-                'UpdateMode','SoftseverVer','SoftseverHttp','SoftseverMemo','SoftboxVer','SoftboxHttp','SoftboxMemo','SoftsongDbVer','SoftsongDbHttp','SingerPicHttp')->first();
+                'UpdateMode','SoftseverVer','SoftseverHttp','SoftseverMemo','SoftboxVer','SoftboxHttp','SoftboxMemo','SoftsongDbVer','SoftsongDbHttp','SingerPicHttp','SongNmelHttp','SongPicHttp','AppPicHttp')->first();
 
 
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => $e->getMessage()]);
         }
 
-        return response()->json(['code'=>200,'SoftwareName'=>$result->SoftwareName,'SoftwareVerno'=>$result->SoftwareVerno,'NewSongHttp'=>$result->NewSongHttp,'SpeedLimit'=>$result->SpeedLimit,'LoginName'=>$result->LoginName,
-            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp]);
+
+        return json_encode(['code'=>200,'SoftwareName'=>$result->SoftwareName,'SoftwareVerno'=>$result->SoftwareVerno,'NewSongHttp'=>$result->NewSongHttp,'SpeedLimit'=>$result->SpeedLimit,'LoginName'=>$result->LoginName,
+            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp],320);
+
 
     }
 
     //获取歌曲下载地址接口
     public function downsonghttp(Request $request)
     {
-
         $srvkey = \Request::header('srvkey');
         if(empty($srvkey)){
             return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
@@ -380,22 +385,24 @@ class PlaceController extends Controller
         if(!$exists){
             return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
         }
+        $place = DB::table('place')->where(['key'=>$srvkey])->select('status','expiredata')->first();
+        if($place->status==0){
+            return response()->json(['code' => 500, 'msg' => '场所未启用', 'data' => null]);
+        }
+        if(strtotime($place->expiredata)<time()){
+            return response()->json(['code' => 500, 'msg' => '场所过期', 'data' => null]);
+        }
 
         $post = json_decode(file_get_contents("php://input"), true);
 
         $accessKey = DB::table('parameterset')->value('AccessKey');
         $secretKey = DB::table('parameterset')->value('SecretKey');
         $bucket = DB::table('parameterset')->value('DomainNameSpace');
+        $domain = DB::table('parameterset')->value('Domain');
         // 构建Auth对象
         $auth = new Auth($accessKey, $secretKey);
         $config = new \Qiniu\Config();
         $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
-
-        // 生成上传Token
-//        $token = $auth->uploadToken($bucket);
-
-//        $url = "api.qiniu.com/v6/domain/list?tbl=".$bucket;
-//        return curl($url);
 
         foreach($post as $k=>$v){
             if(empty($v['musicdbpk'])){
@@ -408,7 +415,7 @@ class PlaceController extends Controller
                 return response()->json(['code' => 500,'msg'=>'文件不存在' ,'data' => null]);
             }
             // 私有空间中的外链 http://<domain>/<file_key>
-            $baseUrl = "http://sh.ktvwin.com/".$fileName;
+            $baseUrl = $domain."/".$fileName;
             // 对链接进行签名
             $signedUrl = $auth->privateDownloadUrl($baseUrl);
 
@@ -416,7 +423,8 @@ class PlaceController extends Controller
             $data[$k]['downhttp'] = $signedUrl;
         }
 
-        return response()->json(['code' => 200, 'data' => $data]);
+//        return response()->json(['code' => 200, 'data' => $data]);
+        return json_encode(['code' => 200, 'data' => $data],JSON_UNESCAPED_SLASHES);
 
     }
 
@@ -436,12 +444,37 @@ class PlaceController extends Controller
 
         foreach($post as $k=>$v){
             $v['srvkey'] = $srvkey;
-            $v['created_data'] = date('Y-m-d H:i:s');
+            $v['created_date'] = date('Y-m-d H:i:s');
             DB::table('songdownload')->insert($v);
         }
 
         return response()->json(['code' => 200, 'msg' => '请求成功','data'=>null]);
 
     }
+
+    //机顶盒是否登记接口
+    public function isboxreg(Request $request)
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+
+        if(empty($post['KtvBoxid'])){
+            return response()->json(['code'=>500,'msg'=>'KtvBoxid不能为空','data'=>null]);
+        }
+        $exists = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
+        if(!$exists){
+            return response()->json(['code'=>500,'msg'=>'机器码不存在','data'=>null]);
+        }
+        return response()->json(['code' => 200, 'msg' => '已经登记','data'=>null]);
+    }
+
 
 }

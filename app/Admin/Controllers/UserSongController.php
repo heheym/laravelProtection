@@ -143,19 +143,34 @@ class UserSongController extends Controller
     {
         $grid = new Grid(new UserSong);
 
+        $grid->disableFilter(false);
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
-            // 在这里添加字段过滤器
-//            $filter->like('place', '场所');
-            $filter->like('srvkey', 'srvkey');
+            $filter->like('srvkey','srvkey');
+            $filter->where(function ($query) {
+                $query->whereHas('place', function ($query) {
+                    $query->where('placename', 'like', "%{$this->input}%");
+                });
+            }, '场所名');
+            $filter->where(function ($query) {
+                $query->whereHas('place', function ($query) {
+                    $query->where('contacts', 'like', "%{$this->input}%");
+                });
+            }, '联系人');
         });
 
         $grid->srvkey('srvkey');
         $grid->KtvBoxid('机器码');
         $grid->musicdbpk('musicdbpk');
+        $grid->placename('场所名称')->display(function(){
+            return DB::table('place')->where('key',$this->srvkey)->value('placename');
+        });
+        $grid->contacts('联系人')->display(function(){
+            return DB::table('place')->where('key',$this->srvkey)->value('contacts');
+        });
         $grid->UploadDate('上传时间');
         $grid->State('状态')->display(function($State){
             return [0=>"正常",1=>'维权'][$State];

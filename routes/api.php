@@ -32,6 +32,12 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('/songs/service/modifySinger', 'Api\SongController@serviceModifySinger');  //修改歌星
     Route::post('/songs/service/changeSongsStatus', 'Api\SongController@serviceChangeSongsStatus');  //歌曲上下架
 
+    Route::post('/songs/service/delSinger', 'Api\SongController@serviceDelSinger');  //删除歌星接口
+
+    Route::post('/songs/service/updateVer', 'Api\SongController@serviceUpdateVer');  //更新版本接口
+
+    Route::post('/songs/addregbox', 'Api\SongController@addRegbox');  //机顶盒预登记接口
+
 });
 
 //url，需要加一个api，如：192.168.10.227:81/api/login
@@ -43,7 +49,7 @@ Route::post('/songs/regbox', 'Api\PlaceController@regbox');  //机顶盒注册
 Route::post('/songs/qrysrvmsg', 'Api\PlaceController@qrysrvmsg');  //服务端数据查询接口
 Route::post('/songs/qryboxmsg', 'Api\PlaceController@qryboxmsg');  //机顶盒数据查询接口
 
-Route::post('/songs/songWarning', 'Api\PlaceController@songWarning');  //机顶盒数据查询接口
+Route::post('/songs/songWarning', 'Api\PlaceController@songWarning');  //机顶盒点播歌曲上传接口
 Route::post('/songs/placeWarning', 'Api\PlaceController@placeWarning');  //场所预警接口
 
 Route::post('/fees/setMealKtv', 'Api\FeeController@setMealKtv');  //场所获取套餐接口
@@ -53,6 +59,8 @@ Route::post('/songs/parameter', 'Api\PlaceController@parameter');  //获取系�
 Route::post('/songs/downsonghttp', 'Api\PlaceController@downsonghttp');  //获取歌曲下载地址接口
 
 Route::post('/songs/downsongok', 'Api\PlaceController@downsongok');  //歌曲下载成功上传接口
+
+Route::post('/songs/isboxreg', 'Api\PlaceController@isboxreg');  //机顶盒是否登记接口
 
 
 

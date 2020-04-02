@@ -4,6 +4,9 @@ use Illuminate\Routing\Router;
 
 Admin::registerAuthRoutes();
 
+
+Route::get('itemId', 'App\Admin\Controllers\ReceivableController@itemId');  //表单联动
+
 Route::group([
     'prefix'        => config('admin.route.prefix'),
     'namespace'     => config('admin.route.namespace'),
@@ -39,6 +42,10 @@ Route::group([
     $router->resource('receipt', ReceiptController::class);//收费管理
 
     $router->resource('promote', PromoteController::class);//新歌推广
+
+    $router->resource('songdownload', SongDownloadController::class);//歌曲下载查询
+
+    $router->resource('boxregister', BoxRegisterController::class);//机顶盒预登记
 
 });
 

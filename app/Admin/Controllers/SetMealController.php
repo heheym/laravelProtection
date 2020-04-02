@@ -94,7 +94,7 @@ class SetMealController extends Controller
 
 //        $grid->setMeal_id('SetMeal id');
         $grid->setMeal_name('套餐名称');
-        $grid->setMeal_days('套餐时长');
+        $grid->setMeal_days('套餐天数');
         $grid->setMeal_mode('套餐计费方式')->display(function ($setMeal_mode) {
             if(!is_null($setMeal_mode)){
                 $arra = [1=>'按有效机顶盒数',2=>'固定费用'];
@@ -162,11 +162,11 @@ class SetMealController extends Controller
 
 //        $form->number('setMeal_id', '套餐名称');
         $form->text('setMeal_name', '套餐名称');
-        $form->number('setMeal_days', '套餐时长');
+        $form->number('setMeal_days', '套餐天数');
         $form->select('setMeal_mode', '套餐计费方式')->options( [1=>'按有效机顶盒数',2=>'固定费用']);
         $form->select('setMeal_enabled', '是否停用')->options([0=>'正常',1=>'停用']);
         $form->decimal('setMeal_price', '套餐单价');
-        $form->decimal('setMeal_discount', '套餐折扣');
+        $form->decimal('setMeal_discount', '套餐折扣')->default(1);
         $form->number('setMeal_giveDays', '套餐增送天数');
         $form->datetime('createDate', '创建时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('validDate', '有效截止日期')->default(date('Y-m-d H:i:s'));

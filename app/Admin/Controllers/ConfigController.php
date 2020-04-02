@@ -9,6 +9,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
+use Encore\Admin\Facades\Admin as Admin1;
 
 class ConfigController extends Controller
 {
@@ -142,15 +144,23 @@ class ConfigController extends Controller
      */
     protected function form()
     {
+
+
         $form = new Form(new Config);
+
+//        Admin1::disablePjax();
+//        Admin::js('js/hide.js');
+
+        Admin::script('show();');
 
         $form->text('SoftwareName', '软件名称')->required();
         $form->text('SoftwareVerno', '软件版本号')->required();
         $form->text('NewSongHttp', '新歌信息页面');
         $form->text('SpeedLimit', '限速(单位K）');
         $form->text('DomainNameSpace', '云空间名称');
-        $form->text('SecretKey', '云SecretKey');
-        $form->text('AccessKey', '云AccessKey');
+        $form->text('Domain', '云空间域名');
+        $form->password('SecretKey', '云SecretKey');
+        $form->password('AccessKey', '云AccessKey');
         $form->text('LoginName', '登录信息');
         $form->select('UpdateMode', '软件更新方式')->options([1=>'不更新',2=>'可更新',3=>'必须更新']);
         $form->text('SoftseverVer', '场所服务端升级版本号');
@@ -162,10 +172,14 @@ class ConfigController extends Controller
         $form->text('SoftsongDbVer', '歌曲文件song.db升级版本号（自动升级)');
         $form->text('SoftsongDbHttp', '歌曲文件song.db升级版地址（自动上传)');
         $form->text('SingerPicHttp', '歌星图片下载地址目录（自动上传）');
+        $form->text('SongNmelHttp', '歌曲评分文件下载地址');
+        $form->text('SongPicHttp', '歌曲图片下载地址');
+        $form->text('AppPicHttp', '前端App分类图片下载地址');
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
         });
+
         return $form;
     }
 }

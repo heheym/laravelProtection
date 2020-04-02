@@ -82,11 +82,21 @@ class SingerController extends Controller
     {
         $grid = new Grid(new Singer);
 
+        $grid->disableFilter(false);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
-            // 在这里添加字段过滤器
-            $filter->like('Singername', '歌星');
+
+            $filter->column(1/2,function ($filter){
+                $filter->like('Singername', '歌星');
+                $filter->equal('Sex', '歌星性别')->select([1=>'男',2=>'女',3=>'合唱']);
+                $filter->equal('Isband', '是否组合')->select([0=>'否',1=>'是']);
+            });
+            $filter->column(1/2,function ($filter){
+                $filter->like('Company', '唱片公司');
+                $filter->equal('AreaType', '歌星地区')->select([1=>'大陆',2=>'香港',3=>'台湾',4=>'欧美',5=>'日本',6=>'韩国',7=>'其它']);
+            });
+
         });
 
         $grid->id('Id');

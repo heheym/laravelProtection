@@ -11,6 +11,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
+use App\Admin\Actions\SetTopBox\BatchChange;
 
 class SetTopBoxController extends Controller
 {
@@ -69,8 +70,6 @@ class SetTopBoxController extends Controller
     public function create(Content $content)
     {
         return $content
-//            ->header('Create')
-//            ->description('description')
             ->body($this->form());
     }
 
@@ -82,21 +81,35 @@ class SetTopBoxController extends Controller
     protected function grid()
     {
         $grid = new Grid(new SetTopBox);
+
+        $grid->disableFilter(false);
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
-            // 在这里添加字段过滤器
-//            $filter->like('place', '场所');
-            $filter->like('key', 'key');
-            $filter->where(function ($query) {
-
-                $query->whereHas('place', function ($query) {
-                    $query->where('placename', 'like', "%{$this->input}%");
-                });
-
-            }, '场所');
+            $filter->column(1/2,function($filter){
+                $filter->like('key', 'key');
+                $filter->where(function ($query) {
+                    $query->whereHas('place', function ($query) {
+                        $query->where('placename', 'like', "%{$this->input}%");
+                    });
+                }, '场所');
+                $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
+            });
+            $filter->column(1/2,function($filter){
+                $filter->where(function ($query) {
+                    $query->whereHas('place', function ($query) {
+                        $query->where('province', 'like', "%{$this->input}%")
+                            ->orWhere('city', 'like', "%{$this->input}%");
+                    });
+                }, '省市');
+                $filter->where(function ($query) {
+                    $query->whereHas('place', function ($query) {
+                        $query->where('contacts', 'like', "%{$this->input}%");
+                    });
+                }, '联系人');
+            });
 
 
         });
@@ -119,17 +132,27 @@ class SetTopBoxController extends Controller
         $grid->place('场所')->display(function () {
             return DB::table('place')->where('key',$this->key )->value('placename');
         });
+        $grid->contact('联系人')->display(function () {
+            return DB::table('place')->where('key',$this->key )->value('contacts');
+        });
+        $grid->address('省市')->display(function () {
+            $province = DB::table('place')->where('key',$this->key )->value('province');
+            $city = DB::table('place')->where('key',$this->key )->value('city');
+            return $province.$city;
+        });
+
 
         $grid->mark('备注');
 
+//        $grid->batchActions(function ($batch) {
+//            $batch->add(new BatchChange(1));
+//        });
+
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new BatchChange());
+        });
         $grid->actions(function ($actions) {
             $actions->disableView();
-        });
-
-        $grid->tools(function ($tools) {
-            $tools->batch(function ($batch) {
-                $batch->disableDelete();
-            });
         });
 
         return $grid;

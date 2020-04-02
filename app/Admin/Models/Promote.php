@@ -16,6 +16,7 @@ class Promote extends Model
 
     public function getSongAttribute($extra)
     {
+//        var_dump(array_values(json_decode($extra, true) ?: []));
         return array_values(json_decode($extra, true) ?: []);
     }
 

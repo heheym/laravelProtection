@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>快唱</b> admin',
+    'logo' => '<b>快唱</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>快唱</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'Admin',
+    'title' => '快唱',
 
     /*
     |--------------------------------------------------------------------------
@@ -273,6 +273,7 @@ return [
     | "sidebar-mini".
     |
     */
+//    'layout' => ['layout-top-nav'],
     'layout' => ['sidebar-mini'],
 //    'layout' => ['sidebar-mini', 'sidebar-collapse'],
 
@@ -295,7 +296,7 @@ return [
     | each page
     |
     */
-    'show_version' => true,
+    'show_version' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -305,7 +306,7 @@ return [
     | Whether to display the environment at the footer of each page
     |
     */
-    'show_environment' => true,
+    'show_environment' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -352,6 +353,11 @@ return [
     |
     */
     'extensions' => [
+        'china-distpicker' => [
 
+            // 如果要关掉这个扩展，设置为false
+            'enable' => true,
+        ]
     ],
+
 ];

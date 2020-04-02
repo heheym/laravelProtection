@@ -24,37 +24,24 @@ Encore\Admin\Form::forget(['map', 'editor']);
 use Encore\Admin\Grid;
 use Encore\Admin\Form;
 use App\Admin\Extensions\MultipleColumn;
+use Encore\Admin\Facades\Admin;
 
-Encore\Admin\Form::extend('multipleColumn', MultipleColumn::class);
+
+
+Admin::js('js/hide.js');
+
+
 
 Grid::init(function (Grid $grid) {
-
-//    $grid->disableActions();
-//
-//    $grid->disablePagination();
-//
-//    $grid->disableCreateButton();
-//
-//    $grid->disableFilter();
-//
-//    $grid->disableRowSelector();
-//
-//    $grid->disableColumnSelector();
-//
-//    $grid->disableTools();
-//
-//    $grid->disableExport();
-
+    $grid->disableFilter();
     $grid->actions(function (Grid\Displayers\Actions $actions) {
         $actions->disableView();
-//        $actions->disableEdit();
-//        $actions->disableDelete();
     });
     $grid->tools(function ($tools) {
         $tools->batch(function ($batch) {
             $batch->disableDelete();
-
         });
+
     });
 });
 
@@ -65,3 +52,5 @@ Form::init(function (Form $form) {
         $tools->append('<a class="btn btn-sm btn-default form-history-bac" style="float: right;margin-right: 20px;" href="javascript:history.go(-1);" ><i class="fa fa-arrow-left"></i>&nbsp;返回</a>');
     });
 });
+
+Encore\Admin\Form::extend('scriptinjecter', Field\Interaction\ScriptInjecter::class);

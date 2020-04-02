@@ -4,6 +4,7 @@ namespace Encore\Admin\Actions;
 
 use Illuminate\Http\Request;
 
+
 abstract class BatchAction extends GridAction
 {
     /**

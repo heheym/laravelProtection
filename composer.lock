@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2c20f043054cb422b0593a2d0886fef",
+    "content-hash": "e61f86eb0f6a306a27bfd353987562b5",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -1053,6 +1053,59 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/china-distpicker",
+            "version": "v1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/china-distpicker.git",
+                "reference": "0a64a688da4e0fe8d3d0c5b1af6bd0a59f62a221"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/china-distpicker/zipball/0a64a688da4e0fe8d3d0c5b1af6bd0a59f62a221",
+                "reference": "0a64a688da4e0fe8d3d0c5b1af6bd0a59f62a221",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\ChinaDistpicker\\ChinaDistpickerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\ChinaDistpicker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Distpicker extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-ext/china-distpicker",
+            "keywords": [
+                "distpicker",
+                "extension",
+                "laravel-admin"
+            ],
+            "time": "2019-05-30T07:15:32+00:00"
         },
         {
             "name": "laravel/framework",
@@ -3576,6 +3629,55 @@
                 "storage"
             ],
             "time": "2019-05-10T04:53:57+00:00"
+        },
+        {
+            "name": "zuweie/field-interaction",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zuweie/FieldInteraction.git",
+                "reference": "d3b8d0eeb7065aabc41c226e9d0084feeb1e846e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zuweie/FieldInteraction/zipball/d3b8d0eeb7065aabc41c226e9d0084feeb1e846e",
+                "reference": "d3b8d0eeb7065aabc41c226e9d0084feeb1e846e",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Field\\Interaction\\InteractionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Field\\Interaction\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zuweie",
+                    "email": "51930505@qq.com"
+                }
+            ],
+            "description": "make the laravel-admin field has a interaction",
+            "keywords": [
+                "fields interactive",
+                "form field",
+                "interaction",
+                "laravel admin"
+            ],
+            "time": "2019-12-24T07:13:03+00:00"
         }
     ],
     "packages-dev": [

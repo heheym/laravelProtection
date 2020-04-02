@@ -137,6 +137,8 @@ $(document).on('change', "{$this->getElementClassSelector()}", function () {
         }).trigger('change');
     });
 });
+
+
 EOT;
 
         Admin::script($script);

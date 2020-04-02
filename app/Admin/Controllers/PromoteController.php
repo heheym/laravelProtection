@@ -144,7 +144,6 @@ class PromoteController extends Controller
             $table->text('album','专辑');
         });
 
-
         $form->saving(function (Form $form) {
             // 如果不是编辑状态，则添加字段唯一验证
             if (!$id = $form->model()->id) {

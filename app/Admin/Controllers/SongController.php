@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Song\BatchSongOnline;
 use App\Admin\Models\Song;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -11,6 +12,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use App\Admin\Extensions\Tools\SongOnline;
 use Illuminate\Http\Request;
+
 
 class SongController extends Controller
 {
@@ -82,22 +84,29 @@ class SongController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Song);
+        $grid->disableFilter(false);
 
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
-            // 在这里添加字段过滤器
-//            $filter->like('place', '场所');
-            $filter->like('Songname', '歌名');
-            $filter->equal('OnlineStatus','上架状态')->select([0=>'下架',1=>'上架']);
-            $filter->equal('VersionType','视频版本')->select([1=>'MTV',2=>'演唱会',3=>'影视剧情',
-                4=>'人物',5=>'风景',6=>'动画',7=>'其他']);
-            
+            $filter->column(1/2,function($filter){
+                $filter->like('Singer', '歌星名称');
+                $filter->like('Songname', '歌名');
+                $filter->equal('LangType', '语种')->select([0=>'国语',1=>'粤语',2=>'英语',3=>'台语', 4=>'日语',5=>'韩语',6=>'其他']);
+                $filter->like('Album', '专辑');
+            });
+
+            $filter->column(1/2,function($filter){
+                $filter->equal('VersionType','视频版本')->select([1=>'MTV',2=>'演唱会',3=>'影视剧情',
+                    4=>'人物',5=>'风景',6=>'动画',7=>'其他']);
+                $filter->like('RecordCompany', '唱片公司');
+                $filter->like('Obligee', '权利人');
+                $filter->equal('OnlineStatus','上架状态')->select([0=>'下架',1=>'上架']);
+            });
         });
 
-//        $grid->musicdbpk('musicdbpk');
         $grid->Singer('歌星名称');
         $grid->Songname('歌曲名称');
 //        $grid->SongAlias('歌曲别名');
@@ -206,14 +215,9 @@ class SongController extends Controller
 
         });
 
-        $grid->tools(function ($tools) {
-            $tools->batch(function ($batch) {
-                $batch->disableDelete();
-                $batch->add('批量上架', new SongOnline(1));
-                $batch->add('批量下架', new SongOnline(0));
-            });
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new BatchSongOnline());
         });
-
 
         return $grid;
     }
