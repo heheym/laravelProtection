@@ -3,6 +3,7 @@
 namespace App\Admin\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Receipt extends Model
 {
@@ -18,14 +19,16 @@ class Receipt extends Model
 
     public function getHedgingAttribute()
     {
+        $receiptlistId = $this->receiptlist->id;  //子表id
+        $hedging = DB::table('receipthedging')
+            ->join('receivable', 'receivable.id', '=', 'receipthedging.receivable_id')
+            ->select('receipthedging.hedging_money', 'receivable.*')
+            ->where('receipthedging.receiptlist_id','=',$receiptlistId)
+            ->get()
+            ->map(function ($value) {return (array)$value;})->toArray();
 
-
-        $arr = [['receivable_id'=>123],['receivable_id'=>123]];
-        $arr = array_values($arr);
-
-        var_dump($arr);
-        return $arr;
-
+        return $hedging;
     }
+
 
 }

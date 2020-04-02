@@ -235,7 +235,11 @@ class ReceiptController extends Controller
      */
     protected function form()
     {
+
         $form = new Form(new Receipt);
+        $form->disableSubmit();
+        $form->disableReset();
+
         $id = request()->route()->parameters();
         $placename = '';
         if($id){
@@ -255,10 +259,12 @@ class ReceiptController extends Controller
         $form->select('receiptlist.payment_type','收款方式')->options([0=>'现金',1=>'微信',2=>'支付宝',3=>'转帐']);
         $form->text('receiptlist.payment_billno','帐单号');
 
-
-        $form->table('hedging','歌曲', function ($table) {
-            $table->text('receivable_id','收款金额');
-        });
+        $form->table('hedging','', function ($table) {
+            $table->text('item_no','单号');
+            $table->text('item_date','应收日期');
+//            $table->text('createDate','产生时间');
+            $table->text('hedging_money','对冲金额');
+        }) ->disableCreate()->disableDelete();;
 
 
         return $form;

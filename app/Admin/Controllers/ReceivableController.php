@@ -79,13 +79,13 @@ class ReceivableController extends Controller
     public function edit($id, Content $content)
     {
         $receivable = DB::table('receivable')->where('id',$id)->first();
-        if($receivable->completion_money>0){
-            $error = new MessageBag([
-                'title'   => '提示',
-                'message' => '已收款,无法更改',
-            ]);
-            return back()->with(compact('error'));
-        }
+//        if($receivable->completion_money>0){
+//            $error = new MessageBag([
+//                'title'   => '提示',
+//                'message' => '已收款,无法更改',
+//            ]);
+//            return back()->with(compact('error'));
+//        }
         if($receivable->item_source === 0){   //费项来源是套餐
             return $content->body($this->createSetMeal($id)->edit($id));
         }elseif($receivable->item_source===1){ //费项来源是其它费项
