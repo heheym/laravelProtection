@@ -239,6 +239,10 @@ class ReceiptController extends Controller
         $form = new Form(new Receipt);
         $form->disableSubmit();
         $form->disableReset();
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableView();
+            $tools->disableDelete();
+        });
 
         $id = request()->route()->parameters();
         $placename = '';
@@ -261,9 +265,8 @@ class ReceiptController extends Controller
 
         $form->table('hedging','', function ($table) {
             $table->text('item_no','单号');
-            $table->text('item_date','应收日期');
-//            $table->text('createDate','产生时间');
             $table->text('hedging_money','对冲金额');
+            $table->text('item_date','应收日期');
         }) ->disableCreate()->disableDelete();;
 
 

@@ -321,6 +321,11 @@ class ReceivableController extends Controller
      */
     protected function createSetMeal($id=0)
     {
+        $form = new Form(new Receivable);
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableView();
+            $tools->disableDelete();
+        });
 
         $item_no = $this->receivableNo();
         $receivable_svrkey = !empty($_GET['receivable_svrkey'])?$_GET['receivable_svrkey']:'';
@@ -337,13 +342,18 @@ class ReceivableController extends Controller
             $place = json_encode($place);
         }
         if($id){
-            $key = DB::table('receivable')->where('id',$id)->value('svrkey');
-            $placename = DB::table('place')->where('key',$key)->value('placename');
+            $receivable = DB::table('receivable')->where('id',$id)->first();
+            $key = $receivable->svrkey;
+//            $key = DB::table('receivable')->where('id',$id)->value('svrkey');
             $place = DB::table('place')->where('key',$key)->first();  //场所信息
+//            $placename = DB::table('place')->where('key',$key)->value('placename');
+            $placename = $place->placename;
             $place = json_encode($place);
+            if($receivable->completion_money>0){
+                $form->disableSubmit();
+                $form->disableReset();
+            }
         }
-
-        $form = new Form(new Receivable);
 
             $form->hidden('svrkey', '场所key')->default($svrkey)->readonly()->required();
             $form->hidden('placehd', '场所服务器id')->default($placehd)->readonly()->required();
@@ -425,6 +435,12 @@ EOT;
      */
     protected function createOtherFee($id=0)
     {
+        $form = new Form(new Receivable);
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableView();
+            $tools->disableDelete();
+        });
+        
         $item_no = $this->receivableNo();
         $receivable_svrkey = !empty($_GET['receivable_svrkey'])?$_GET['receivable_svrkey']:'';
         $svrkey = '';
@@ -437,11 +453,17 @@ EOT;
         }
 
         if($id){
-            $key = DB::table('receivable')->where('id',$id)->value('svrkey');
+            $receivable = DB::table('receivable')->where('id',$id)->first();
+            $key = $receivable->svrkey;
+//            $key = DB::table('receivable')->where('id',$id)->value('svrkey');
             $placename = DB::table('place')->where('key',$key)->value('placename');
+            if($receivable->completion_money>0){
+                $form->disableSubmit();
+                $form->disableReset();
+            }
         }
 
-        $form = new Form(new Receivable);
+
 
         $form->hidden('svrkey', '场所key')->default($svrkey)->readonly()->required();
         $form->hidden('placehd', '场所服务器id')->default($placehd)->readonly()->required();

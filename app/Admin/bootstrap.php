@@ -51,6 +51,25 @@ Form::init(function (Form $form) {
 
         $tools->append('<a class="btn btn-sm btn-default form-history-bac" style="float: right;margin-right: 20px;" href="javascript:history.go(-1);" ><i class="fa fa-arrow-left"></i>&nbsp;返回</a>');
     });
+
+    $form->footer(function ($footer) {
+
+        // 去掉`重置`按钮
+//        $footer->disableReset();
+
+        // 去掉`提交`按钮
+//        $footer->disableSubmit();
+
+        // 去掉`查看`checkbox
+        $footer->disableViewCheck();
+
+        // 去掉`继续编辑`checkbox
+        $footer->disableEditingCheck();
+
+        // 去掉`继续创建`checkbox
+        $footer->disableCreatingCheck();
+
+    });
 });
 
 Encore\Admin\Form::extend('scriptinjecter', Field\Interaction\ScriptInjecter::class);
