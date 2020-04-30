@@ -24,7 +24,8 @@ class ReceivableForm extends BatchAction
         $local_money = $request->get('local_money');       //本币金额，或者是本次收款
         $payment_type = $request->get('payment_type');  //收款方式
         $Remarks = $request->get('Remarks');        //备注
-        $receipt_no = $request->get('receipt_no');  //收款单号
+//        $receipt_no = $request->get('receipt_no');  //收款单号
+        $receipt_no = $this->receiptNo();  //收款单号
 
         $receipt = [];
         $receipt['receipt_no'] = $receipt_no;

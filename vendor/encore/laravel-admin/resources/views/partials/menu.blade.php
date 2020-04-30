@@ -25,10 +25,20 @@
                 @endif
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
-            <ul class="treeview-menu">
+            <ul class="treeview-menu" style="display:block">
                 @foreach($item['children'] as $item)
-                    @include('admin::partials.menu', $item)
+
+                    @if(in_array(1,$permissionIds))
+                        @include('admin::partials.menu', $item)
+                    @else
+                        @if(in_array($item['id'],$menuId) || in_array($item['id'],$parentIdMenuId))
+{{--                            {{var_dump($item['id'])}};--}}
+                            @include('admin::partials.menu', $item)
+                        @endif
+                    @endif
                 @endforeach
+
+
             </ul>
         </li>
     @endif

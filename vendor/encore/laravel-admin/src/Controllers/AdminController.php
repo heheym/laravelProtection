@@ -80,8 +80,8 @@ class AdminController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->title($this->title())
-            ->description($this->description['edit'] ?? trans('admin.edit'))
+//            ->title($this->title())
+//            ->description($this->description['edit'] ?? trans('admin.edit'))
             ->body($this->form()->edit($id));
     }
 
@@ -95,8 +95,8 @@ class AdminController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->title($this->title())
-            ->description($this->description['create'] ?? trans('admin.create'))
+//            ->title($this->title())
+//            ->description($this->description['create'] ?? trans('admin.create'))
             ->body($this->form());
     }
 }

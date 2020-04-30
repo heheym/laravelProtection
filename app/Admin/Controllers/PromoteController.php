@@ -89,7 +89,7 @@ class PromoteController extends Controller
         $grid->netnum('网络歌曲数量');
         $grid->replacenum('替换歌曲数量');
         $grid->hotnum('热门新歌数量');
-        $grid->created_date('更新日期');
+//        $grid->created_date('更新日期');
 
         $grid->column('created_date','更新日期')->display(function ($created_date) {
             return date('Y-m-d',strtotime($created_date));

@@ -50,6 +50,13 @@ class ReceivableController extends Controller
     }
     public function destroy($id)
     {
+        $value = DB::table('receivable')->where('id',$id)->value('completion_money');
+        if($value>0){
+            return response()->json([
+                'status'  => false,
+                'message' => '已收款',
+            ]);
+        }
 
         return $this->createSetMeal($id=$id)->destroy($id);
     }
@@ -125,6 +132,8 @@ class ReceivableController extends Controller
             $actions->disableEdit();
             $actions->disableDelete();
         });
+        $grid->paginate(5);
+
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -155,8 +164,16 @@ class ReceivableController extends Controller
         $grid->roomtotal('机顶盒数量');
         $grid->expiredata('场所有效时间');
         $grid->country('国家');
-        $grid->province('省');
-        $grid->city('市');
+        $grid->province('省')->display(function ($province) {
+            if(!is_null($province)){
+                return DB::table('china_area')->where('code',$province)->value('name');
+            }
+        });
+        $grid->city('市')->display(function ($city) {
+            if(!is_null($city)){
+                return DB::table('china_area')->where('code',$city)->value('name');
+            }
+        });
 
         $grid->status('状态')->display(function ($status) {
             if(!is_null($status)){
@@ -169,11 +186,11 @@ class ReceivableController extends Controller
                 return DB::table('warningmode')->where('id',$wangMode)->value('warningName');
             }
         });
-        $grid->setMeal('套餐')->display(function ($setMeal) {
-            if(!is_null($setMeal)){
-                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
-            }
-        });
+//        $grid->setMeal('套餐')->display(function ($setMeal) {
+//            if(!is_null($setMeal)){
+//                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
+//            }
+//        });
 
         return $grid;
     }
@@ -187,7 +204,7 @@ class ReceivableController extends Controller
     {
         $grid = new Grid(new Receivable);
         $grid->setName('receivable');
-        $grid->setView('receivable');
+        $grid->setView('receivable.receivable');
         $grid->disableCreateButton();
         $grid->disableColumnSelector();
         $grid->disableExport();
@@ -196,6 +213,7 @@ class ReceivableController extends Controller
                 $batch->disableDelete();
             });
         });
+//        $grid->paginate(10);
 
         $query = '?'.http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createSetMeal']);
         $query1 = '?'.http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createOtherFee']);
@@ -222,6 +240,8 @@ class ReceivableController extends Controller
         if(!app('request')->get('receivable_svrkey')){  //默认不显示应收纪录
             $grid->model()->where('svrkey', '');
         }
+
+        $grid->model()->orderby('item_no','desc');
 //        $grid->id('Id');
 //        $grid->svrkey('场所key');
 //        $grid->placehd('场所服务器id');
@@ -362,10 +382,10 @@ class ReceivableController extends Controller
         $form->select('item_source', '费项来源')->options([0=>'套餐',1=>'其它费项'])->readonly()->required();
             $form->select('item_Id', '费项名称')->options(DB::table('setMeal')->pluck('setMeal_name','setMeal_id'))->required();
             $form->number('item_num', '套餐份数')->default(1)->required();
-            $form->decimal('item_price', '单价(元)')->readonly()->required();
-            $form->decimal('item_discount', '折扣')->readonly()->required();
+            $form->number('item_price', '单价(元)')->required();
+            $form->number('item_discount', '折扣')->required();
             $form->decimal('item_totalprice', '总价(元)')->readonly()->required();
-            $form->date('item_date', '应收日期')->required();
+            $form->date('item_date', '应收日期')->required()->default(date('Y-m-d'));
             $form->hidden('createDate', '产生时间')->default(date('Y-m-d H:i:s'))->required();
             $form->text('operation', '操作人')->default(Admin1::user()->name)->readonly()->required();
             $form->select('sourceType', '来源方式')->options([0=>'后台增加产生',1=>'场所支付产生'])->default(0)->readOnly();
@@ -375,6 +395,7 @@ class ReceivableController extends Controller
 
         $triggerScript = $this->createTriggerScript($form);
         $subscribeScript = $this->createSubscriberScript($form, function($builder) use ($setMeal,$place){
+            //费项名称
             $builder->subscribe('item_Id', 'select', function($event) use($setMeal,$place){
                 //setMeal_mode,1：按有效机顶盒数量，2按固定费用
                 return <<< EOT
@@ -388,7 +409,7 @@ class ReceivableController extends Controller
                     $('#roomtotal').remove();
                     if(setMeal_mode ==1){ 
                         $('.item_num').val(1);
-                    par.append("<span id='roomtotal' style='line-height:40px;padding-left:30px'>"+place.roomtotal+"个有效机顶盒");
+                    par.append("<span id='roomtotal' style='line-height:-10px;padding-left:30px;vertical-align:top'>"+place.roomtotal+"个有效机顶盒</span>");
                         $('.item_discount').val(setMeal[setMeal_id].setMeal_discount);
                         var totalprice = place.roomtotal*$('.item_price').val()*$('.item_num').val()*$('.item_discount').val();
                         $('.item_totalprice').val(totalprice.toFixed(2));
@@ -402,6 +423,7 @@ class ReceivableController extends Controller
                 }
 EOT;
             });
+            //套餐份数
             $builder->subscribe('item_num', 'number_change', function ($event) use ($setMeal,$place) {
                 return <<< EOT
                     function (data) {
@@ -419,10 +441,56 @@ EOT;
                     }
 EOT;
             });
+            //单价
+            $builder->subscribe('item_price', 'number_change', function ($event) use ($setMeal,$place) {
+                return <<< EOT
+                    function (data) {
+                        var setMeal = {$setMeal};
+                        var place = {$place};
+                        var setMeal_id = $('.item_Id').val();
+                        var setMeal_mode = setMeal[setMeal_id].setMeal_mode;
+                        if(setMeal_mode ==1){
+                           var totalprice = place.roomtotal*$('.item_price').val()*$('.item_num').val()*$('.item_discount').val();
+                            $('.item_totalprice').val(totalprice.toFixed(2));
+                        }else{
+                            var totalprice = $('.item_price').val()*$('.item_num').val()*$('.item_discount').val();
+                            $('.item_totalprice').val(totalprice.toFixed(2));
+                        }
+                    }
+EOT;
+            });
+            //折扣
+            $builder->subscribe('item_discount', 'number_change', function ($event) use ($setMeal,$place) {
+                return <<< EOT
+                    function (data) {
+                        var setMeal = {$setMeal};
+                        var place = {$place};
+                        var setMeal_id = $('.item_Id').val();
+                        var setMeal_mode = setMeal[setMeal_id].setMeal_mode;
+                        if(setMeal_mode ==1){
+                           var totalprice = place.roomtotal*$('.item_price').val()*$('.item_num').val()*$('.item_discount').val();
+                            $('.item_totalprice').val(totalprice.toFixed(2));
+                        }else{
+                            var totalprice = $('.item_price').val()*$('.item_num').val()*$('.item_discount').val();
+                            $('.item_totalprice').val(totalprice.toFixed(2));
+                        }
+                    }
+EOT;
+            });
+
+
         });
         // 最后把 $triggerScript 和 $subscribeScript 注入到Form中去。
         // scriptinjecter 第一个参数可以为任何字符，但不能为空！！！！
         $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
+
+        $form->saving(function (Form $form) {
+
+            if (!$id = $form->model()->id) {
+                $form->item_no = $this->receivableNo();
+            }
+
+        });
         return $form;
 
     }
@@ -440,7 +508,7 @@ EOT;
             $tools->disableView();
             $tools->disableDelete();
         });
-        
+
         $item_no = $this->receivableNo();
         $receivable_svrkey = !empty($_GET['receivable_svrkey'])?$_GET['receivable_svrkey']:'';
         $svrkey = '';
@@ -463,8 +531,6 @@ EOT;
             }
         }
 
-
-
         $form->hidden('svrkey', '场所key')->default($svrkey)->readonly()->required();
         $form->hidden('placehd', '场所服务器id')->default($placehd)->readonly()->required();
         $form->text('placename', '场所名称')->default($placename)->required()->readonly();
@@ -472,13 +538,21 @@ EOT;
         $form->select('item_source', '费项来源')->options([0=>'套餐',1=>'其它收费'])->default(1)->readonly()->required();
         $form->select('item_Id', '费项名称')->options(DB::table('itemfeename')->pluck('itemName','itemId'))->required();
         $form->decimal('item_totalprice', '总价(元)')->required();
-        $form->date('item_date', '应收日期')->required();
+        $form->date('item_date', '应收日期')->required()->default(date('Y-m-d'));
         $form->hidden('createDate', '产生时间')->default(date('Y-m-d H:i:s'))->required();
         $form->text('operation', '操作人')->default(Admin1::user()->name)->readonly()->required();
         $form->select('sourceType', '来源方式')->options([0=>'后台增加产生',1=>'场所支付产生'])->default(0)->readOnly();
         $form->text('Remarks', '备注');
 
         $form->ignore(['placename']);
+
+        $form->saving(function (Form $form) {
+
+            if (!$id = $form->model()->id) {
+                $form->item_no = $this->receivableNo();
+            }
+
+        });
 
         return $form;
     }

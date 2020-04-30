@@ -1,3 +1,17 @@
+<?php
+$roleIds = DB::table('admin_role_users')->where('user_id',Admin::user()->id)->pluck('role_id')->toArray();
+
+
+$permissionIds = DB::table('admin_role_permissions')->whereIn('role_id',$roleIds)->pluck('permission_id')->toArray();
+
+$menuId = DB::table('admin_permissions')->whereIn('id',$permissionIds)->pluck('menu_id')->toArray(); //  最后一级的menu_id
+
+$parentId = DB::table('admin_permissions')->whereIn('id',$permissionIds)->pluck('parent_id')->toArray();
+
+$parentIdMenuId = DB::table('admin_permissions')->whereIn('id',$parentId)->pluck('menu_id')->toArray(); // parent_id的menu_id
+
+
+?>
 <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
@@ -40,7 +54,13 @@
         <ul class="sidebar-menu">
             <li class="header">{{ trans('admin.menu') }}</li>
 
-            @each('admin::partials.menu', Admin::menu(), 'item')
+{{--            @each('admin::partials.menu', Admin::menu(), 'item')--}}
+
+            @foreach(Admin::menu() as $item)
+
+                    @include('admin::partials.menu', [$item,$permissionIds,$menuId,$parentIdMenuId])
+
+            @endforeach
 
         </ul>
         <!-- /.sidebar-menu -->

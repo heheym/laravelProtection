@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'zgldh\\QiniuStorage\\' => array($vendorDir . '/zgldh/qiniu-laravel-storage/src'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
+    'Zhpefe\\SelectTree\\' => array($vendorDir . '/zhpefe/select-tree/src'),
     'Yansongda\\Supports\\' => array($vendorDir . '/yansongda/supports/src'),
     'Yansongda\\Pay\\' => array($vendorDir . '/yansongda/pay/src'),
     'Yansongda\\LaravelPay\\' => array($vendorDir . '/yansongda/laravel-pay/src'),

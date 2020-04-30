@@ -1,0 +1,5 @@
+select PosterTab.Poster_name,PosterTab.Enddate as enddate,PosterTab.Postertime,PosterTab.File_type,
+        PosterTab.Poster_filename+laravelprotection.test,PosterTab.Poster_content
+        from PosterTab left join PosterSet on PosterTab.Poster_id=PosterSet.Poster_id 
+        where (PosterSet.Ly_type=4 and PosterSet.Srvkey='0J0FONCIJ0WO') or (PosterSet.Ly_type=3 and PosterSet.Areaid=1319) 
+        or PosterSet.Ly_type=5 group by PosterTab.Poster_id

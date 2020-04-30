@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/laravelProtection.iml" filepath="$PROJECT_DIR$/.idea/laravelProtection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../zblog/.idea/zblog.iml" filepath="$PROJECT_DIR$/../zblog/.idea/zblog.iml" />
     </modules>
   </component>
 </project>

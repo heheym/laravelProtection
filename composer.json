@@ -17,6 +17,7 @@
         "yansongda/laravel-pay": "^2.0",
         "yansongda/pay": "^2.7",
         "zgldh/qiniu-laravel-storage": "^0.10.1",
+        "zhpefe/select-tree": "^1.2",
         "zuweie/field-interaction": "^1.1"
     },
     "require-dev": {

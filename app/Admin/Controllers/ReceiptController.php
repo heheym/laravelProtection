@@ -14,6 +14,13 @@ use Encore\Admin\Show;
 use Encore\Admin\Admin;
 use Illuminate\Support\Facades\DB;
 
+use App\Admin\Extensions\Receivable\ReceivableEdit;
+use App\Admin\Extensions\Receipt\Invalid;
+
+use Encore\Admin\Grid\Displayers\Actions;
+
+use Illuminate\Support\Facades\Request;
+
 class ReceiptController extends Controller
 {
     use HasResourceActions;
@@ -84,6 +91,7 @@ class ReceiptController extends Controller
 //        Admin::js('js/hide.js');
         Admin::script('receipt();');
         $grid = new Grid(new Place);
+        $grid->paginate(5);
         $grid->setName('place');
         $grid->disableFilter(false);
         $grid->disableBatchActions();
@@ -141,9 +149,16 @@ class ReceiptController extends Controller
         $grid->roomtotal('机顶盒数量');
         $grid->expiredata('场所有效时间');
         $grid->country('国家');
-        $grid->province('省');
-        $grid->city('市');
-
+        $grid->province('省')->display(function ($province) {
+            if(!is_null($province)){
+                return DB::table('china_area')->where('code',$province)->value('name');
+            }
+        });
+        $grid->city('市')->display(function ($city) {
+            if(!is_null($city)){
+                return DB::table('china_area')->where('code',$city)->value('name');
+            }
+        });
 
         $grid->status('状态')->display(function ($status) {
             if(!is_null($status)){
@@ -156,11 +171,11 @@ class ReceiptController extends Controller
                 return DB::table('warningmode')->where('id',$wangMode)->value('warningName');
             }
         });
-        $grid->setMeal('套餐')->display(function ($setMeal) {
-            if(!is_null($setMeal)){
-                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
-            }
-        });
+//        $grid->setMeal('套餐')->display(function ($setMeal) {
+//            if(!is_null($setMeal)){
+//                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
+//            }
+//        });
 
         return $grid;
     }
@@ -174,20 +189,27 @@ class ReceiptController extends Controller
     {
         $grid = new Grid(new Receipt);
         $grid->setName('receipt');
+        $grid->setView('receipt.receipt');
         $grid->disableColumnSelector();
         $grid->disableExport();
         $grid->disableCreateButton();
+//        $grid->paginate(10);
+//        $grid->disableFilter(false);
+
+//        $grid->setActionClass(Actions::class);
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('svrkey','svrkey');
+            $filter->like('receipt_no','收款单号');
         });
         if(!app('request')->get('receipt_svrkey')){  //默认不显示应收纪录
             $grid->model()->where('svrkey', '');
         }
 
 //        $grid->id('Id');
+//
         $grid->placename('场所名称')->display(function () {
             return DB::table('place')->where('key',$this->svrkey)->value('placename');
         });
@@ -196,10 +218,44 @@ class ReceiptController extends Controller
         $grid->receipt_no('收款单号');
         $grid->receipt_date('收款日期');
         $grid->receipt_name('收款人');
+
         $grid->receipt_currency('币种');
-        $grid->receipt_rate('汇率');
+        $grid->local_money('收款金额(元)')->display(function () {
+            if($this->id){
+                return DB::table('receiptlist')->where('receipt_id',$this->id)->value('local_money');
+            }
+        });
+        $grid->payment_type('收款方式')->display(function () {
+            if($this->id){
+                $arr = [0=>'现金',1=>'微信',2=>'支付宝',3=>'转帐'];
+                $value = DB::table('receiptlist')->where('receipt_id',$this->id)->value('payment_type');
+                if($value){
+                    return $arr[$value];
+                }
+            }
+        });
+//        $grid->receipt_rate('汇率');
         $grid->createDate('建立时间');
         $grid->Remarks('备注');
+
+        $grid->status('状态')->display(function () {
+            if($this->id){
+                $exist =  DB::table('receiptvoid')->where('id',$this->id)->exists();
+                if($exist){
+                    return '已作废';
+                }
+            }
+        });
+
+        $grid->actions(function ($actions){
+            $actions->disableDelete();
+            $actions->disableView();
+            $id = $actions->row->id;
+            $exist =  DB::table('receipt')->where('id',$id)->exists();
+            if($exist){
+                $actions->append(new Invalid($actions->getKey()));
+            }
+        });
 
         return $grid;
     }
@@ -248,6 +304,9 @@ class ReceiptController extends Controller
         $placename = '';
         if($id){
             $key = DB::table('receipt')->where('id',$id)->value('svrkey');
+            if(empty($key)){
+                $key = DB::table('receiptvoid')->where('id',$id)->value('svrkey');
+            }
             $placename = DB::table('place')->where('key',$key)->value('placename');
         }
         $form->text('placename', '场所名称')->default($placename)->required()->readonly();
@@ -269,7 +328,37 @@ class ReceiptController extends Controller
             $table->text('item_date','应收日期');
         }) ->disableCreate()->disableDelete();;
 
-
         return $form;
     }
+
+    //收款单作废
+    public function Invalid(Request $request)
+    {
+        $id = $_POST['id'];
+        $receipt = DB::table('receipt')->where('id',$id)->first();
+        if(!$receipt->id){
+            return response()->json([
+                'status'  => false,
+                'message' => '收款单不存在',
+            ]);
+        }
+        $receipt=get_object_vars($receipt);
+        DB::transaction(function () use($receipt,$id){
+            $receiptlistId = DB::table('receiptlist')->where('receipt_id',$id)->value('id');
+            $receivableIds = DB::table('receipthedging')->where('receiptlist_id',$receiptlistId)->select('receivable_id','hedging_money')->get();
+            foreach($receivableIds as $v){
+                DB::table('receivable')->where('id',$v->receivable_id)->decrement('completion_money',$v->hedging_money);
+            }
+            DB::table('receiptvoid')->insert($receipt);
+            DB::table('receipt')->where('id',$id)->delete($id);
+
+        });
+        return response()->json([
+            'status'  => true,
+            'message' => '操作成功',
+        ]);
+    }
+
+
+
 }

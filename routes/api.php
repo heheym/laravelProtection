@@ -62,6 +62,8 @@ Route::post('/songs/downsongok', 'Api\PlaceController@downsongok');  //歌曲下
 
 Route::post('/songs/isboxreg', 'Api\PlaceController@isboxreg');  //机顶盒是否登记接口
 
+Route::post('/songs/posterList', 'Api\PlaceController@posterList');  //机顶盒是否登记接口
+
 
 
 

@@ -1,11 +1,14 @@
 <?php
 
 use Illuminate\Routing\Router;
+//use App\Admin\Controllers\ReceiptController;
 
 Admin::registerAuthRoutes();
 
 
 Route::get('itemId', 'App\Admin\Controllers\ReceivableController@itemId');  //表单联动
+
+
 
 Route::group([
     'prefix'        => config('admin.route.prefix'),
@@ -47,6 +50,17 @@ Route::group([
 
     $router->resource('boxregister', BoxRegisterController::class);//机顶盒预登记
 
+
+    Route::post('receipt/invalid', 'ReceiptController@Invalid'); //收款作废
+
+
+    Route::get('postertab/address', 'PosterTabController@address'); //
+    $router->resource('postertab', PosterTabController::class);  //广告推广
+
+
+
 });
+
+
 
 

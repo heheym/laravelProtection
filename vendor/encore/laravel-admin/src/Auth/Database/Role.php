@@ -4,6 +4,7 @@ namespace Encore\Admin\Auth\Database;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 
 class Role extends Model
 {
@@ -100,10 +101,32 @@ class Role extends Model
     {
         parent::boot();
 
+//        dd(123);
         static::deleting(function ($model) {
-            $model->administrators()->detach();
 
-            $model->permissions()->detach();
+//            $model->administrators()->detach();
+//
+//
+//            $model->permissions()->detach();
+        });
+
+        static::saving(function (Model $model){
+//            dd($model->attributes['permission']);
+            define("Permission",$model->attributes['permission']);
+            unset($model->permission);
+
+        });
+        static::saved(function (Model $model){
+//            dd($model);
+            DB::table('admin_role_permissions')->where('role_id',$model->id)->delete();
+            if(!empty(Permission)){
+                $arr = explode(',',Permission);
+                foreach($arr as $k=>$v){
+                    $data[$k]= ['role_id'=>$model->id,'permission_id'=>$v];
+                }
+                DB::table('admin_role_permissions')->insert($data);
+            }
+
         });
     }
 }

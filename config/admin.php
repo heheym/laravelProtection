@@ -274,7 +274,8 @@ return [
     |
     */
 //    'layout' => ['layout-top-nav'],
-    'layout' => ['sidebar-mini'],
+    'layout' => ['fixed'],
+//    'layout' => ['sidebar-mini'],
 //    'layout' => ['sidebar-mini', 'sidebar-collapse'],
 
     /*
@@ -359,5 +360,6 @@ return [
             'enable' => true,
         ]
     ],
+
 
 ];

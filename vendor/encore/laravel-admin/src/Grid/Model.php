@@ -54,7 +54,7 @@ class Model
      *
      * @var int
      */
-    protected $perPage = 20;
+    protected $perPage = 10;
 
     /**
      * If the model use pagination.

@@ -187,6 +187,9 @@ class PlaceController extends Controller
         }
 
         $post = json_decode(file_get_contents("php://input"), true);
+        if(!is_array( $post )){
+            return response()->json(['code' => 500, 'msg' => '数据出错', 'data' => $post]);
+        }
         foreach($post as $k=>$v){
             if(empty($v['KtvBoxid'])||empty($v['musicdbpk'])){
                 return response()->json(['code' => 500, 'msg' => '机器码或歌曲主键不能为空', 'data' => null]);
@@ -360,7 +363,7 @@ class PlaceController extends Controller
         try{
 
             $result = DB::table('parameterset')->select('SoftwareName','SoftwareVerno','NewSongHttp','SpeedLimit','LoginName',
-                'UpdateMode','SoftseverVer','SoftseverHttp','SoftseverMemo','SoftboxVer','SoftboxHttp','SoftboxMemo','SoftsongDbVer','SoftsongDbHttp','SingerPicHttp','SongNmelHttp','SongPicHttp','AppPicHttp')->first();
+                'UpdateMode','SoftseverVer','SoftseverHttp','SoftseverMemo','SoftboxVer','SoftboxHttp','SoftboxMemo','SoftsongDbVer','SoftsongDbHttp','SingerPicHttp','SongNmelHttp','SongPicHttp','AppPicHttp','WarningAtoBtime')->first();
 
 
         }catch (\Exception $e){
@@ -369,7 +372,7 @@ class PlaceController extends Controller
 
 
         return json_encode(['code'=>200,'SoftwareName'=>$result->SoftwareName,'SoftwareVerno'=>$result->SoftwareVerno,'NewSongHttp'=>$result->NewSongHttp,'SpeedLimit'=>$result->SpeedLimit,'LoginName'=>$result->LoginName,
-            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp],320);
+            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp,'WarningAtoBtime'=>$result->WarningAtoBtime],320);
 
 
     }
@@ -395,15 +398,20 @@ class PlaceController extends Controller
 
         $post = json_decode(file_get_contents("php://input"), true);
 
-        $accessKey = DB::table('parameterset')->value('AccessKey');
-        $secretKey = DB::table('parameterset')->value('SecretKey');
-        $bucket = DB::table('parameterset')->value('DomainNameSpace');
-        $domain = DB::table('parameterset')->value('Domain');
+        $parameterset = DB::table('parameterset')->first();
+        $accessKey = $parameterset->AccessKey;
+        $secretKey = $parameterset->SecretKey;
+        $bucket = $parameterset->DomainNameSpace;
+        $domain = $parameterset->Domain;
+
         // 构建Auth对象
         $auth = new Auth($accessKey, $secretKey);
         $config = new \Qiniu\Config();
         $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
 
+        if(!is_array( $post )){
+            return response()->json(['code' => 500, 'msg' => '数据出错', 'data' => $post]);
+        }
         foreach($post as $k=>$v){
             if(empty($v['musicdbpk'])){
                 return response()->json(['code' => 500, 'msg' => 'musicdbpk不能为空', 'data' => null]);
@@ -442,6 +450,9 @@ class PlaceController extends Controller
 
         $post = json_decode(file_get_contents("php://input"), true);
 
+        if(!is_array( $post )){
+            return response()->json(['code' => 500, 'msg' => '数据出错', 'data' => $post]);
+        }
         foreach($post as $k=>$v){
             $v['srvkey'] = $srvkey;
             $v['created_date'] = date('Y-m-d H:i:s');
@@ -474,6 +485,50 @@ class PlaceController extends Controller
             return response()->json(['code'=>500,'msg'=>'机器码不存在','data'=>null]);
         }
         return response()->json(['code' => 200, 'msg' => '已经登记','data'=>null]);
+    }
+
+    //场所获取广告接口
+    public function posterList(Request $request)
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $areaId = DB::table('place')->leftJoin('china_area', 'place.placArea', '=', 'china_area.code')->where(['key'=>$srvkey])->value('china_area.id');
+
+        $host = $_SERVER['HTTP_HOST'];
+
+
+        $sql = "select PosterTab.Poster_name,PosterTab.Enddate as enddate,PosterTab.Postertime,PosterTab.File_type,
+        PosterTab.Poster_filename,PosterTab.Poster_content
+        from PosterTab left join PosterSet on PosterTab.Poster_id=PosterSet.Poster_id 
+        where (PosterSet.Ly_type=4 and PosterSet.Srvkey='$srvkey') or (PosterSet.Ly_type=3 and PosterSet.Areaid=$areaId) 
+        or PosterSet.Ly_type=5 group by PosterTab.Poster_id";
+
+        $data = DB::select($sql);
+
+        $parameterset = DB::table('parameterset')->first();
+        $accessKey = $parameterset->AccessKey;
+        $secretKey = $parameterset->SecretKey;
+        $bucket = $parameterset->posterDomainSpace;
+        $domain = $parameterset->posterDomain;
+        // 对链接进行签名
+        $auth = new Auth($accessKey, $secretKey);
+
+        foreach($data as $v){
+            $baseUrl= $domain."/".$v->Poster_filename;
+            $v->Posterhttp = $auth->privateDownloadUrl($baseUrl,86400);
+        }
+        return json_encode(['code'=>200,'data'=>$data],320);
+
+
+
+
     }
 
 

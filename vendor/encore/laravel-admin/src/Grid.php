@@ -134,7 +134,7 @@ class Grid
      *
      * @var int
      */
-    public $perPage = 20;
+    public $perPage = 10;
 
     /**
      * @var []callable
@@ -449,6 +449,7 @@ class Grid
         $this->perPage = $perPage;
 
         $this->model()->setPerPage($perPage);
+
     }
 
     /**

@@ -19,10 +19,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '4e8671d7be9056dcd04ddd9e8e15f9cc' => __DIR__ . '/..' . '/encore/laravel-admin/src/helpers.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         'f960e77410032f236cef8c56617b313e' => __DIR__ . '/..' . '/overtrue/laravel-lang/src/helpers.php',
@@ -37,6 +37,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+        ),
+        'Z' => 
+        array (
+            'Zhpefe\\SelectTree\\' => 18,
         ),
         'Y' => 
         array (
@@ -167,6 +171,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Zhpefe\\SelectTree\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhpefe/select-tree/src',
         ),
         'Yansongda\\Supports\\' => 
         array (
@@ -501,6 +509,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\PlaceController' => __DIR__ . '/../..' . '/app/Admin/Controllers/PlaceController.php',
+        'App\\Admin\\Controllers\\PosterTabController' => __DIR__ . '/../..' . '/app/Admin/Controllers/PosterTabController.php',
         'App\\Admin\\Controllers\\PromoteController' => __DIR__ . '/../..' . '/app/Admin/Controllers/PromoteController.php',
         'App\\Admin\\Controllers\\ReceiptController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ReceiptController.php',
         'App\\Admin\\Controllers\\ReceivableController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ReceivableController.php',
@@ -513,9 +522,9 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserController.php',
         'App\\Admin\\Controllers\\UserSongController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserSongController.php',
         'App\\Admin\\Controllers\\WarningModeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/WarningModeController.php',
+        'App\\Admin\\Extensions\\Receipt\\Invalid' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receipt/Invalid.php',
         'App\\Admin\\Extensions\\Receivable\\CreateOtherFee' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/CreateOtherFee.php',
         'App\\Admin\\Extensions\\Receivable\\CreateSetMeal' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/CreateSetMeal.php',
-        'App\\Admin\\Extensions\\Receivable\\ReceivableEdit' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/ReceivableEdit.php',
         'App\\Admin\\Extensions\\Receivable\\ReceivableForm' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/ReceivableForm.php',
         'App\\Admin\\Extensions\\Tools\\SongOnline' => __DIR__ . '/../..' . '/app/Admin/Extensions/Tools/SongOnline.php',
         'App\\Admin\\Models\\AddSong' => __DIR__ . '/../..' . '/app/Admin/Models/AddSong.php',
@@ -524,9 +533,11 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Models\\Config' => __DIR__ . '/../..' . '/app/Admin/Models/Config.php',
         'App\\Admin\\Models\\DangerSong' => __DIR__ . '/../..' . '/app/Admin/Models/DangerSong.php',
         'App\\Admin\\Models\\Place' => __DIR__ . '/../..' . '/app/Admin/Models/Place.php',
+        'App\\Admin\\Models\\PosterTab' => __DIR__ . '/../..' . '/app/Admin/Models/PosterTab.php',
         'App\\Admin\\Models\\Promote' => __DIR__ . '/../..' . '/app/Admin/Models/Promote.php',
         'App\\Admin\\Models\\PromoteSong' => __DIR__ . '/../..' . '/app/Admin/Models/PromoteSong.php',
         'App\\Admin\\Models\\Receipt' => __DIR__ . '/../..' . '/app/Admin/Models/Receipt.php',
+        'App\\Admin\\Models\\ReceiptList' => __DIR__ . '/../..' . '/app/Admin/Models/ReceiptList.php',
         'App\\Admin\\Models\\Receivable' => __DIR__ . '/../..' . '/app/Admin/Models/Receivable.php',
         'App\\Admin\\Models\\SetMeal' => __DIR__ . '/../..' . '/app/Admin/Models/SetMeal.php',
         'App\\Admin\\Models\\SetTopBox' => __DIR__ . '/../..' . '/app/Admin/Models/SetTopBox.php',
@@ -5164,6 +5175,12 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'Yansongda\\Supports\\Logger' => __DIR__ . '/..' . '/yansongda/supports/src/Logger.php',
         'Yansongda\\Supports\\Str' => __DIR__ . '/..' . '/yansongda/supports/src/Str.php',
         'Yansongda\\Supports\\Traits\\HasHttpRequest' => __DIR__ . '/..' . '/yansongda/supports/src/Traits/HasHttpRequest.php',
+        'Zhpefe\\SelectTree\\FilterPresenter' => __DIR__ . '/..' . '/zhpefe/select-tree/src/FilterPresenter.php',
+        'Zhpefe\\SelectTree\\MultipleSelectForm' => __DIR__ . '/..' . '/zhpefe/select-tree/src/MultipleSelectForm.php',
+        'Zhpefe\\SelectTree\\SelectTree' => __DIR__ . '/..' . '/zhpefe/select-tree/src/SelectTree.php',
+        'Zhpefe\\SelectTree\\SelectTreeFilter' => __DIR__ . '/..' . '/zhpefe/select-tree/src/SelectTreeFilter.php',
+        'Zhpefe\\SelectTree\\SelectTreeForm' => __DIR__ . '/..' . '/zhpefe/select-tree/src/SelectTreeForm.php',
+        'Zhpefe\\SelectTree\\SelectTreeServiceProvider' => __DIR__ . '/..' . '/zhpefe/select-tree/src/SelectTreeServiceProvider.php',
         'a' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/php-token-stream/tests/_fixture/source4.php',
         'b' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/php-token-stream/tests/_fixture/source4.php',
         'bar\\baz\\source_with_namespace' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/php-code-coverage/tests/_files/source_with_namespace.php',

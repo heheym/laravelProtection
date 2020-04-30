@@ -10,9 +10,9 @@ class Promote extends Model
     public $timestamps = false;
 
 
-    public function promoteSong(){
-        return $this->hasMany(PromoteSong::class , 'promoteId');
-    }
+//    public function promoteSong(){
+//        return $this->hasMany(PromoteSong::class , 'promoteId');
+//    }
 
     public function getSongAttribute($extra)
     {
@@ -24,4 +24,9 @@ class Promote extends Model
     {
         $this->attributes['song'] = json_encode(array_values($extra));
     }
+
+
+//    public function getSongnumAttribute($value){
+//        return 123;
+//    }
 }

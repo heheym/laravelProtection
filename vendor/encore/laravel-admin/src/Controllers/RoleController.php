@@ -5,6 +5,7 @@ namespace Encore\Admin\Controllers;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends AdminController
 {
@@ -27,19 +28,20 @@ class RoleController extends AdminController
 
         $grid = new Grid(new $roleModel());
 
-        $grid->column('id', 'ID')->sortable();
+//        $grid->column('id', 'ID')->sortable();
         $grid->column('slug', trans('admin.slug'));
         $grid->column('name', trans('admin.name'));
 
-        $grid->column('permissions', trans('admin.permission'))->pluck('name')->label();
+//        $grid->column('permissions', trans('admin.permission'))->pluck('name')->label();
 
-        $grid->column('created_at', trans('admin.created_at'));
-        $grid->column('updated_at', trans('admin.updated_at'));
+//        $grid->column('created_at', trans('admin.created_at'));
+//        $grid->column('updated_at', trans('admin.updated_at'));
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->row->slug == 'administrator') {
                 $actions->disableDelete();
             }
+            $actions->disableView();
         });
 
         $grid->tools(function (Grid\Tools $tools) {
@@ -88,14 +90,36 @@ class RoleController extends AdminController
 
         $form = new Form(new $roleModel());
 
-        $form->display('id', 'ID');
+//        $form->display('id', 'ID');
 
         $form->text('slug', trans('admin.slug'))->rules('required');
         $form->text('name', trans('admin.name'))->rules('required');
-        $form->listbox('permissions', trans('admin.permissions'))->options($permissionModel::all()->pluck('name', 'id'));
+//        $form->listbox('permissions', trans('admin.permissions'))->options($permissionModel::all()->pluck('name', 'id'));
 
-        $form->display('created_at', trans('admin.created_at'));
-        $form->display('updated_at', trans('admin.updated_at'));
+        $che = '';
+        $id = request()->route()->parameters('id');
+        if($id){
+            $permissionId = DB::table('admin_role_permissions')->where(['role_id'=>$id])->pluck('permission_id');
+            $che = json_encode($permissionId);
+        }
+
+
+        $sql = "select id,parent_id,name from (
+              select t1.id,t1.parent_id,t1.name,
+              if(find_in_set(parent_id, @pids) > 0, @pids := concat(@pids, ',', id), 0) as ischild
+              from (
+                   select id,parent_id,name from admin_permissions t order by parent_id, id
+              ) t1,
+              (select @pids := 1) t2
+        ) t3 where ischild != 0";
+        $data = DB::select($sql);
+        array_unshift($data,['id'=>1,'parent_id'=>0,'name'=>'所有权限']);
+        $data = json_encode($data);
+
+        $form->html(view('role.permission',compact(['data','che'])),'权限');
+        $form->hidden('permission');
+//        $form->display('created_at', trans('admin.created_at'));
+//        $form->display('updated_at', trans('admin.updated_at'));
 
         return $form;
     }

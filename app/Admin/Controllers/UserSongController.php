@@ -162,6 +162,8 @@ class UserSongController extends Controller
             }, '联系人');
         });
 
+        $grid->model()->orderby('UploadDate','desc');
+
         $grid->srvkey('srvkey');
         $grid->KtvBoxid('机器码');
         $grid->musicdbpk('musicdbpk');

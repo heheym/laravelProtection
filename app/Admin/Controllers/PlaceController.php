@@ -130,8 +130,16 @@ class PlaceController extends Controller
         $grid->expiredata('场所有效时间');
         $grid->country('国家');
 
-        $grid->province('省');
-        $grid->city('市');
+        $grid->province('省')->display(function ($province) {
+            if(!is_null($province)){
+                return DB::table('china_area')->where('code',$province)->value('name');
+            }
+        });
+        $grid->city('市')->display(function ($city) {
+            if(!is_null($city)){
+                return DB::table('china_area')->where('code',$city)->value('name');
+            }
+        });
 
 
         $grid->status('状态')->display(function ($status) {
@@ -145,11 +153,11 @@ class PlaceController extends Controller
                 return DB::table('warningmode')->where('id',$wangMode)->value('warningName');
             }
         });
-        $grid->setMeal('套餐')->display(function ($setMeal) {
-            if(!is_null($setMeal)){
-                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
-            }
-        });
+//        $grid->setMeal('套餐')->display(function ($setMeal) {
+//            if(!is_null($setMeal)){
+//                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
+//            }
+//        });
 
         $grid->actions(function ($actions) {
             $actions->disableView();
@@ -231,23 +239,23 @@ class PlaceController extends Controller
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));
             $form->userno = !empty($form->model()->userno)?$form->model()->userno:time();
 
-            if(strlen($form->province)<=0){
-                $form->province = $form->model()->province;
-            }else{
-                $form->province = DB::table('china_area')->where('code',$form->province)->value('name');
-            }
-
-            if(strlen($form->city)<=0){
-                $form->city = $form->model()->city;
-            }else{
-                $form->city = DB::table('china_area')->where('code',$form->city)->value('name');
-            }
-
-            if(strlen($form->placArea)<=0){
-                $form->placArea = $form->model()->placArea;
-            }else{
-                $form->placArea = DB::table('china_area')->where('code',$form->placArea)->value('name');
-            }
+//            if(strlen($form->province)<=0){
+//                $form->province = $form->model()->province;
+//            }else{
+//                $form->province = DB::table('china_area')->where('code',$form->province)->value('name');
+//            }
+//
+//            if(strlen($form->city)<=0){
+//                $form->city = $form->model()->city;
+//            }else{
+//                $form->city = DB::table('china_area')->where('code',$form->city)->value('name');
+//            }
+//
+//            if(strlen($form->placArea)<=0){
+//                $form->placArea = $form->model()->placArea;
+//            }else{
+//                $form->placArea = DB::table('china_area')->where('code',$form->placArea)->value('name');
+//            }
 
         });
 

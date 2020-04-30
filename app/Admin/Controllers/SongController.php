@@ -294,7 +294,7 @@ class SongController extends Controller
     {
         $form = new Form(new Song);
 
-        $form->number('musicdbpk', 'Musicdbpk');
+        $form->text('musicdbpk', 'Musicdbpk')->readonly();
         $form->text('Singer', '歌星名称')->required();
         $form->text('Songname', '歌曲名称')->required();
         $form->text('SongAlias', '歌曲别名');
