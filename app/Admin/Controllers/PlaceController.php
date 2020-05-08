@@ -222,6 +222,7 @@ class PlaceController extends Controller
         $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
 //        $form->select('setMeal', '套餐')->options($setMeal);
 
+        
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');
         $form->text('phone', '手机号');
