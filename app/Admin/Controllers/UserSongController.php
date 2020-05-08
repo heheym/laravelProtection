@@ -13,6 +13,7 @@ use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use zgldh\QiniuStorage\QiniuStorage;
+use Encore\Admin\Facades\Admin;
 
 class UserSongController extends Controller
 {
@@ -268,6 +269,9 @@ class UserSongController extends Controller
 
         $grid->actions(function ($actions) {
             $actions->disableView();
+            if (!Admin::user()->can('预警歌曲删除')) {
+                $actions->disableDelete();
+            }
         });
 
         $grid->tools(function ($tools) {

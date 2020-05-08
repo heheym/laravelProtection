@@ -10,6 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Facades\Admin;
 
 class PlaceController extends Controller
 {
@@ -161,6 +162,9 @@ class PlaceController extends Controller
 
         $grid->actions(function ($actions) {
             $actions->disableView();
+            if (!Admin::user()->can('场所删除')) {
+                $actions->disableDelete();
+            }
         });
 
         $grid->tools(function ($tools) {
@@ -216,7 +220,7 @@ class PlaceController extends Controller
         $form->select('wangMode', '预警模式')->options($wangMode);
 
         $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
-        $form->select('setMeal', '套餐')->options($setMeal);
+//        $form->select('setMeal', '套餐')->options($setMeal);
 
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');

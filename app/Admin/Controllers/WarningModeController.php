@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
 
 class WarningModeController extends Controller
 {
@@ -90,6 +91,12 @@ class WarningModeController extends Controller
         $grid->warningCountRoom1('房间等级二预警数量');
 //        $grid->warningCountPlace1('WarningCountPlace1');
 
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('预警模式删除')) {
+                $actions->disableDelete();
+            }
+        });
         return $grid;
     }
 

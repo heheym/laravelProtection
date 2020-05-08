@@ -11,6 +11,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
+use Encore\Admin\Facades\Admin;
 
 class PromoteController extends Controller
 {
@@ -93,6 +94,13 @@ class PromoteController extends Controller
 
         $grid->column('created_date','更新日期')->display(function ($created_date) {
             return date('Y-m-d',strtotime($created_date));
+        });
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('新歌推广删除')) {
+                $actions->disableDelete();
+            }
         });
 
         return $grid;

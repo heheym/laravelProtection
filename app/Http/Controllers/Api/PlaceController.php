@@ -126,11 +126,21 @@ class PlaceController extends Controller
 //        }
 
         try{
-           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd','downloadMode','boxPass')->first();
+//           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd','downloadMode','boxPass','FeesMode','Opening_price','Effective_time')->first();
+           $result = DB::select("select place.*,setMealRoom.Opening_price,setMealRoom.Effective_time from place left join setMealRoom on place.setMeal=setMealRoom.setMeal_id where place.key='$srvkey'");
+           $result = $result[0];
+
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
         }
-        $data = DB::table('settopbox')->where('key', $srvkey)->select('KtvBoxid','machineCode','KtvBoxState','roomno')->get();
+
+        $data = DB::select("select settopbox.KtvBoxid,settopbox.machineCode,settopbox.KtvBoxState,settopbox.roomno,settopbox.FeesMode,setMealRoom.Opening_price,setMealRoom.Effective_time from settopbox left join setMealRoom on settopbox.setMeal_id=setMealRoom.setMeal_id where settopbox.key='$srvkey'");
+        foreach($data as $k=>$v){
+            if($v->FeesMode==0){
+                $data[$k]->Opening_price = $result->Opening_price;
+                $data[$k]->Effective_time = $result->Effective_time;
+            }
+        }
 
         $t1 = $result->expiredata;//你自己设置一个开始时间
         $t2 = date('Y-m-d H:i:s');//获取当前时间, 格式和$t1一致
@@ -143,7 +153,8 @@ class PlaceController extends Controller
         }
 
         return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
-            'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'data'=>$data]);
+            'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'FeesMode'=>$result->FeesMode,
+            'Opening_price'=>$result->Opening_price,'Effective_time'=>$result->Effective_time,'data'=>$data]);
 
     }
 

@@ -30,6 +30,7 @@ use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Grid\Displayers\DropdownActions;
 use Encore\Admin\Grid\Displayers\ContextMenuActions;  //原始图标
 
+
 class ReceivableController extends Controller
 {
     use HasResourceActions, FieldTriggerTrait, FieldSubscriberTrait;
@@ -293,6 +294,9 @@ class ReceivableController extends Controller
 
         $grid->actions(function ($actions) {
             $actions->disableView();
+            if (!Admin1::user()->can('应收管理删除')) {
+                $actions->disableDelete();
+            }
         });
 
 

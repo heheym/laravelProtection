@@ -12,6 +12,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use App\Admin\Extensions\Tools\SongOnline;
 use Illuminate\Http\Request;
+use Encore\Admin\Facades\Admin;
 
 
 class SongController extends Controller
@@ -211,6 +212,9 @@ class SongController extends Controller
         $grid->actions(function ($actions) {
 
             $actions->disableView();
+            if (!Admin::user()->can('歌曲删除')) {
+                $actions->disableDelete();
+            }
 
 
         });

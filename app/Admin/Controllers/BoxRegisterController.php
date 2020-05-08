@@ -9,6 +9,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Layout\Content;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Facades\Admin;
 
 class BoxRegisterController extends AdminController
 {
@@ -37,6 +38,13 @@ class BoxRegisterController extends AdminController
             $exists = DB::table('settopbox')->where('KtvBoxid',$this->KtvBoxid)->exists();
             if($exists){
                 return '已注册';
+            }
+        });
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('预登记删除')) {
+                $actions->disableDelete();
             }
         });
 

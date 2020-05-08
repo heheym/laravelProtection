@@ -5,6 +5,7 @@ namespace Encore\Admin\Controllers;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
 
 class UserController extends AdminController
 {
@@ -36,6 +37,9 @@ class UserController extends AdminController
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->getKey() == 1) {
+                $actions->disableDelete();
+            }
+            if (!Admin::user()->can('用户删除')) {
                 $actions->disableDelete();
             }
             $actions->disableView();
@@ -123,4 +127,5 @@ class UserController extends AdminController
 
         return $form;
     }
+
 }

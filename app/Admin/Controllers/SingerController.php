@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
 
 
 class SingerController extends Controller
@@ -141,6 +142,9 @@ class SingerController extends Controller
 
         $grid->actions(function ($actions) {
             $actions->disableView();
+            if (!Admin::user()->can('歌星删除')) {
+                $actions->disableDelete();
+            }
         });
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {

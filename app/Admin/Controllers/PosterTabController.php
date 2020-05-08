@@ -67,6 +67,13 @@ class PosterTabController extends AdminController
         $grid->column('CreateDate', __('创建立时间'));
         $grid->column('Operator', __('操作人'));
 
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('广告删除')) {
+                $actions->disableDelete();
+            }
+        });
+
         return $grid;
     }
 

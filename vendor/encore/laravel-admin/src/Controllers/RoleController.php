@@ -6,6 +6,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+use Encore\Admin\Facades\Admin;
 
 class RoleController extends AdminController
 {
@@ -39,6 +40,9 @@ class RoleController extends AdminController
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             if ($actions->row->slug == 'administrator') {
+                $actions->disableDelete();
+            }
+            if (!Admin::user()->can('角色删除')) {
                 $actions->disableDelete();
             }
             $actions->disableView();

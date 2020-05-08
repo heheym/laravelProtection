@@ -12,6 +12,7 @@ use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use App\Admin\Actions\SetTopBox\BatchChange;
+use Encore\Admin\Facades\Admin;
 
 class SetTopBoxController extends Controller
 {
@@ -153,6 +154,9 @@ class SetTopBoxController extends Controller
         });
         $grid->actions(function ($actions) {
             $actions->disableView();
+            if (!Admin::user()->can('机顶盒删除')) {
+                $actions->disableDelete();
+            }
         });
 
         return $grid;
