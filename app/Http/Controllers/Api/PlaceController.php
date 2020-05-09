@@ -127,18 +127,22 @@ class PlaceController extends Controller
 
         try{
 //           $result = DB::table('place')->where('key', $srvkey)->select('roomtotal','expiredata','status','placehd','downloadMode','boxPass','FeesMode','Opening_price','Effective_time')->first();
-           $result = DB::select("select place.*,setMealRoom.Opening_price,setMealRoom.Effective_time from place left join setMealRoom on place.setMeal=setMealRoom.setMeal_id where place.key='$srvkey'");
+           $result = DB::select("select * from place where place.key='$srvkey'");
            $result = $result[0];
 
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
         }
 
-        $data = DB::select("select settopbox.KtvBoxid,settopbox.machineCode,settopbox.KtvBoxState,settopbox.roomno,settopbox.FeesMode,setMealRoom.Opening_price,setMealRoom.Effective_time from settopbox left join setMealRoom on settopbox.setMeal_id=setMealRoom.setMeal_id where settopbox.key='$srvkey'");
+        $data = DB::select("select settopbox.KtvBoxid,settopbox.machineCode,settopbox.KtvBoxState,settopbox.roomno,settopbox.FeesMode,settopbox.Opening1_time,settopbox.Opening1_price,settopbox.Effective1_time,settopbox.Opening2_time,settopbox.Opening2_price,settopbox.Effective2_time from settopbox  where settopbox.key='$srvkey'");
         foreach($data as $k=>$v){
             if($v->FeesMode==0){
-                $data[$k]->Opening_price = $result->Opening_price;
-                $data[$k]->Effective_time = $result->Effective_time;
+                $data[$k]->Opening1_time = $result->Opening1_time;
+                $data[$k]->Opening1_price = $result->Opening1_price;
+                $data[$k]->Effective1_time = $result->Effective1_time;
+                $data[$k]->Opening2_time = $result->Opening2_time;
+                $data[$k]->Opening2_price = $result->Opening2_price;
+                $data[$k]->Effective2_time = $result->Effective2_time;
             }
         }
 
@@ -154,7 +158,9 @@ class PlaceController extends Controller
 
         return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
             'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'FeesMode'=>$result->FeesMode,
-            'Opening_price'=>$result->Opening_price,'Effective_time'=>$result->Effective_time,'data'=>$data]);
+            'Opening1_time'=>$result->Opening1_time,'Opening1_price'=>$result->Opening1_price,'Effective1_time'=>$result->Effective1_time,
+            'Opening2_time'=>$result->Opening2_time,'Opening2_price'=>$result->Opening2_price,'Effective2_time'=>$result->Effective2_time,
+            'data'=>$data]);
 
     }
 

@@ -218,11 +218,12 @@ class PlaceController extends Controller
 
         $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
         $form->select('wangMode', '预警模式')->options($wangMode);
+        $form->select('FeesMode', '收费模式')->options([0=>'其它模式',1=>'版权收费']);
+        $form->decimal('Place_Royalty', '分成比例')->default(0)->rules('between:0,1',['between'=>'必须0到1之间']);
 
         $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
 //        $form->select('setMeal', '套餐')->options($setMeal);
 
-        
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');
         $form->text('phone', '手机号');
