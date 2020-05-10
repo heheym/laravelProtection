@@ -16,15 +16,15 @@
 </head>
 <body>
 <div class="index-container">
-    <header class="index-header">新歌更新</header>
-    <main class="index-main">
+    <div class="index-header">新歌更新</div>
+    <div class="index-main">
         <!--顶部导航-->
         <nav class="index-main-nav">
             @foreach ($createdDate as $value)
                 <a href="javascript:;" id="{{$value->id}}">{{date("Y-m-d",strtotime($value->created_date))}}</a>
             @endforeach
         </nav>
- 
+
         <!--新歌统计-->
         <div class="index-main-statistics">
             <header><img src="img/xingetongji.png" height="26" width="107"/></header>
@@ -101,7 +101,7 @@
                 </tr>
             </table>-->
         </div>
-    </main>
+    </div>
     <footer class="index-footer"></footer>
 </div>
 </body>
