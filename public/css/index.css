@@ -179,6 +179,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    word-wrap: normal;
 }
 
 .index-main-hot-recommend ul li dl dd:nth-child(1) {
