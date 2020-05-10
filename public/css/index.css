@@ -13,9 +13,9 @@
     font-size: 32px;
     text-align: center;
     line-height: 1;
-    background: yellow;
+    /*background: yellow;*/
     -webkit-background-clip: text;
-    color: transparent;
+    color: yellow;
 }
 
 .index-main {
