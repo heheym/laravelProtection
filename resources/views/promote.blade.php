@@ -12,7 +12,6 @@
     {{--<script src="js/jquery-1.11.1.js"></script>--}}
     <script src="{{ URL::asset('js/jquery-1.11.1.js') }}"></script>
     <script src="{{ URL::asset('js/base.js') }}"></script>
-    <script src="{{ URL::asset('js/index.js') }}"></script>
 </head>
 <body>
 <div class="index-container">

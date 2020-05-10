@@ -13,7 +13,7 @@
     font-size: 32px;
     text-align: center;
     line-height: 1;
-    background: linear-gradient(to top, #f6ff00, #f6ff00, #ffffff, #ffffff, #ffffff);
+    background: yellow;
     -webkit-background-clip: text;
     color: transparent;
 }
