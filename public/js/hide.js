@@ -82,8 +82,11 @@ function localMoney() {
         $('#receivableMoney').val(owedPrice);
         $('#local_money').val(owedPrice);
     });
-
 }
 
+//开房时段
+function openingTime(){
+    $(".time1,.time2,.time3,.time4").datetimepicker({"format":"HH:mm","locale":"zh-CN","allowInputToggle":true});
+}
 
 

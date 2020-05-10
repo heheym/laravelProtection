@@ -202,6 +202,7 @@ class PlaceController extends Controller
      */
     protected function form()
     {
+        Admin::script('openingTime();');
         $form = new Form(new Place);
 
         $form->text('userno', '场所编号')->placeholder('自动生成')->readOnly();
@@ -219,10 +220,64 @@ class PlaceController extends Controller
         $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
         $form->select('wangMode', '预警模式')->options($wangMode);
         $form->select('FeesMode', '收费模式')->options([0=>'其它模式',1=>'版权收费']);
-        $form->decimal('Place_Royalty', '分成比例')->default(0)->rules('between:0,1',['between'=>'必须0到1之间']);
+//        $form->timeRange('Opening1_time', 'Opening1_time', '开房时段一');
+        $id = request()->route()->parameters('id');
+        $time1 = '00:00';
+        $time2 = '00:00';
+        $time3 = '00:00';
+        $time4 = '00:00';
+        if(!empty($id)){
+            $place = DB::table('place')->where('id',$id)->select('Opening1_time','Opening2_time')->first();
+            $time1 = explode('-',$place->Opening1_time)[0];
+            $time2 = explode('-',$place->Opening1_time)[1];
+            $time3 = explode('-',$place->Opening2_time)[0];
+            $time4 = explode('-',$place->Opening2_time)[1];
+        }
 
-        $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
-//        $form->select('setMeal', '套餐')->options($setMeal);
+        $form->html('
+        <div class="row" style="width: 370px">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 150px">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 150px">
+                </div>
+            </div>
+        </div>
+', '开房时段一');
+        $form->decimal('Opening1_price', '时段一单价(元)');
+        $form->decimal('Effective1_time', '时段一有效时长(分钟)');
+        $form->html('
+        <div class="row" style="width: 370px">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 150px">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 150px">
+                </div>
+            </div>
+        </div>
+', '开房时段二');
+        $form->decimal('Opening2_price', '时段二单价(元)');
+        $form->decimal('Effective2_time', '时段二有效时长(分钟)');
+        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('between:0,1',['between'=>'必须0到1之间']);
+        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0);
+        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0);
+        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
 
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');
@@ -239,30 +294,13 @@ class PlaceController extends Controller
 //        $form->text('province', '省');
 //        $form->text('city', '市');
         $form->select('downloadMode', '歌曲下载方式')->options([1=>'不下载',2=>'点播下载',3=>'智能下载']);
-
-
+        $form->hidden('Opening1_time');
+        $form->hidden('Opening2_time');
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));
             $form->userno = !empty($form->model()->userno)?$form->model()->userno:time();
-
-//            if(strlen($form->province)<=0){
-//                $form->province = $form->model()->province;
-//            }else{
-//                $form->province = DB::table('china_area')->where('code',$form->province)->value('name');
-//            }
-//
-//            if(strlen($form->city)<=0){
-//                $form->city = $form->model()->city;
-//            }else{
-//                $form->city = DB::table('china_area')->where('code',$form->city)->value('name');
-//            }
-//
-//            if(strlen($form->placArea)<=0){
-//                $form->placArea = $form->model()->placArea;
-//            }else{
-//                $form->placArea = DB::table('china_area')->where('code',$form->placArea)->value('name');
-//            }
-
+            $form->Opening1_time = request('time1').'-'.request('time2');
+            $form->Opening2_time = request('time3').'-'.request('time4');
         });
 
         $form->tools(function (Form\Tools $tools) {
