@@ -38,7 +38,7 @@
     text-align: center;
     border-radius: 5px;
     color: #fff;
-    background: linear-gradient(to top, #861aff, #47bcff);
+    background: #861aff;
 }
 
 .index-main-nav a:first-child {
@@ -47,7 +47,7 @@
 
 .index-main-nav a.active {
     color: #451260;
-    background: linear-gradient(to top, #9ad107, #fffc00, #fffc00);
+    background:  #fffc00;
 }
 
 .index-main-statistics {
