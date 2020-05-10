@@ -180,6 +180,7 @@
     overflow: hidden;
     white-space: nowrap;
     word-wrap: normal;
+    display: block;
 }
 
 .index-main-hot-recommend ul li dl dd:nth-child(1) {
