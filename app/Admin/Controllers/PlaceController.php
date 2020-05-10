@@ -272,7 +272,7 @@ class PlaceController extends Controller
 ', '开房时段二');
         $form->decimal('Opening2_price', '时段二单价(元)');
         $form->decimal('Effective2_time', '时段二有效时长(分钟)');
-        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('between:0,1',['between'=>'必须0到1之间']);
+        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);
         $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
         $form->decimal('Agent_Royalty', '代理商分成比例')->default(0);
         $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
