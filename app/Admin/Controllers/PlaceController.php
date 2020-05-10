@@ -274,9 +274,9 @@ class PlaceController extends Controller
         $form->decimal('Effective2_time', '时段二有效时长(分钟)');
         $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);
         $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
-        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0);
+        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
         $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
-        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0);
+        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
         $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
 
         $form->text('placeaddress', '地址');
