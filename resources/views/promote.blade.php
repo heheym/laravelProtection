@@ -12,6 +12,7 @@
     {{--<script src="js/jquery-1.11.1.js"></script>--}}
     <script src="{{ URL::asset('js/jquery-1.11.1.js') }}"></script>
     <script src="{{ URL::asset('js/base.js') }}"></script>
+
 </head>
 <body>
 <div class="index-container">
@@ -23,7 +24,7 @@
                 <a href="javascript:;" id="{{$value->id}}">{{date("Y-m-d",strtotime($value->created_date))}}</a>
             @endforeach
         </nav>
-        </nav>
+ 
         <!--新歌统计-->
         <div class="index-main-statistics">
             <header><img src="img/xingetongji.png" height="26" width="107"/></header>
