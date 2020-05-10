@@ -191,6 +191,7 @@ class SetTopBoxController extends Controller
      */
     protected function form()
     {
+        Admin::script('openingTime();');
         $form = new Form(new SetTopBox);
 
         $form->text('key', 'Key')->required()->rules(function ($form) {
