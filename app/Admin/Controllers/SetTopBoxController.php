@@ -219,6 +219,66 @@ class SetTopBoxController extends Controller
         $form->datetime('created_date', '启用日期');
 
         $form->text('mark', '备注');
+
+        $form->select('FeesMode', '收费模式')->options([0=>'按场所模式',1=>'版权收费模式']);
+        $id = request()->route()->parameters('id');
+        $time1 = '00:00';
+        $time2 = '00:00';
+        $time3 = '00:00';
+        $time4 = '00:00';
+        if(!empty($id)){
+            $place = DB::table('settopbox')->where('id',$id)->select('Opening1_time','Opening2_time')->first();
+            $time1 = explode('-',$place->Opening1_time)[0];
+            $time2 = explode('-',$place->Opening1_time)[1];
+            $time3 = explode('-',$place->Opening2_time)[0];
+            $time4 = explode('-',$place->Opening2_time)[1];
+        }
+
+        $form->html('
+        <div class="row" style="width: 370px">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 150px">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 150px">
+                </div>
+            </div>
+        </div>
+', '开房时段一');
+        $form->decimal('Opening1_price', '时段一单价(元)');
+        $form->decimal('Effective1_time', '时段一有效时长(分钟)');
+        $form->html('
+        <div class="row" style="width: 370px">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 150px">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 150px">
+                </div>
+            </div>
+        </div>
+', '开房时段二');
+        $form->decimal('Opening2_price', '时段二单价(元)');
+        $form->decimal('Effective2_time', '时段二有效时长(分钟)');
+        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);
+        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
+        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
+        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+
         $form->hidden('mark', '备注')->rules(function ($form) {
 
         // 如果不是编辑状态，则添加字段唯一验证
