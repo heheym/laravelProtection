@@ -162,6 +162,7 @@
 .index-main-hot-recommend ul li {
     margin-top: 8px;
     height:34px;
+    vertical-align: middle;
 }
 
 .index-main-hot-recommend ul li dl {
