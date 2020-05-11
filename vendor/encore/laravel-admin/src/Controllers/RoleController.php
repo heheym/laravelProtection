@@ -47,6 +47,9 @@ class RoleController extends AdminController
             }
             $actions->disableView();
         });
+        if (!Admin::user()->can('角色添加')) {
+            $grid->disableCreateButton();  //角色添加的权限
+        }
 
         $grid->tools(function (Grid\Tools $tools) {
             $tools->batch(function (Grid\Tools\BatchActions $actions) {

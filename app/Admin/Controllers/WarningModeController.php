@@ -94,9 +94,13 @@ class WarningModeController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableView();
             if (!Admin::user()->can('预警模式删除')) {
-                $actions->disableDelete();
+                $actions->disableDelete();  //预警模式删除的权限
             }
         });
+        if (!Admin::user()->can('预警模式添加')) {
+            $grid->disableCreateButton();  //预警模式添加的权限
+        }
+
         return $grid;
     }
 

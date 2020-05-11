@@ -45,6 +45,10 @@ class UserController extends AdminController
             $actions->disableView();
         });
 
+        if (!Admin::user()->can('用户添加')) {
+            $grid->disableCreateButton();  //用户添加的权限
+        }
+
         $grid->tools(function (Grid\Tools $tools) {
             $tools->batch(function (Grid\Tools\BatchActions $actions) {
                 $actions->disableDelete();
