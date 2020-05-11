@@ -19,7 +19,7 @@
 }
 
 .index-main {
-    margin-top: 17px;
+    margin-top: 10px;
 }
 
 .index-main-nav {
@@ -139,7 +139,7 @@
 .index-main-hot-recommend {
     position: relative;
     width: 770px;
-    height: 490px;
+    height: 478px;
     margin: 11px auto 0;
     border: 2px solid #16d8ee;
     background-color: rgba(255, 255, 255, .5);
