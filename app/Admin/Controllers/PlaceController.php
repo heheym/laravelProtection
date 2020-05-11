@@ -222,7 +222,7 @@ class PlaceController extends Controller
 
         $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
         $form->select('wangMode', '预警模式')->options($wangMode);
-        $form->select('FeesMode', '收费模式')->options([0=>'其它模式',1=>'版权收费']);
+        $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
 //        $form->timeRange('Opening1_time', 'Opening1_time', '开房时段一');
         $id = request()->route()->parameters('id');
         $time1 = '00:00';
