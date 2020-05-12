@@ -247,6 +247,7 @@ class PlaceController extends Controller
         $time4 = '00:00';
         $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
         $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
+        $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
         if(!empty($id)){
             $place = DB::table('place')->where('id',$id)->first();
             $time1 = explode('-',$place->Opening1_time)[0];
@@ -287,45 +288,40 @@ class PlaceController extends Controller
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">场所分成结算方式：
+                <label class="form-inline" style="margin-left:10px">*场所分成结算方式：
                 <select style="width:100px;height:30px" name="Place_Settlement">
                     <option value="1" '.($Place_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Place_Settlement==2?"selected":"").'>季结算</option>
+                    <option value="2" '.($Place_Settlement==2?"selected":"").'>按季结算</option>
                     <option value="3" '.($Place_Settlement==3?"selected":"").'>按年结算</option>
                     </select>
                 </label>
             </div>
-','场所分成比例');
+','*场所分成比例');
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="Agent_Royalty" value="'.$Agent_Royalty.'" class="form-control Agent_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">代理商分成结算方式：
+                <label class="form-inline" style="margin-left:10px">*代理商分成结算方式：
                 <select style="width:100px;height:30px" name="Agent_Settlement">
                     <option value="1" '.($Agent_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Agent_Settlement==2?"selected":"").'>季结算</option>
+                    <option value="2" '.($Agent_Settlement==2?"selected":"").'>按季结算</option>
                     <option value="3" '.($Agent_Settlement==3?"selected":"").'>按年结算</option>
                     </select>
                 </label>
             </div>
-','代理商分成比例');
+','*代理商分成比例');
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="Obligee_Royalty" value="'.$Obligee_Royalty.'" class="form-control Obligee_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">权利人分成结算方式：
+                <label class="form-inline" style="margin-left:10px">*权利人分成结算方式：
                 <select style="width:100px;height:30px" name="Obligee_Settlement">
                     <option value="1" '.($Obligee_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Obligee_Settlement==2?"selected":"").'>季结算</option>
+                    <option value="2" '.($Obligee_Settlement==2?"selected":"").'>按季结算</option>
                     <option value="3" '.($Obligee_Settlement==3?"selected":"").'>按年结算</option>
                     </select>
                 </label>
             </div>
-','权利人分成比例');
-//        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
-//        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
-//        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
-//        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
-//        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
-//        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
+','*权利人分成比例');
+
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');
         $form->text('phone', '手机号');
@@ -345,6 +341,7 @@ class PlaceController extends Controller
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));
             $form->userno = !empty($form->model()->userno)?$form->model()->userno:time();
+
             $form->Opening1_time = request('time1').'-'.request('time2');
             $form->Opening1_price = request('Opening1_price');
             $form->Effective1_time = request('Effective1_time');

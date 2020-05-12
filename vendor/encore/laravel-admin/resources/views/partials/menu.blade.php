@@ -21,7 +21,11 @@
                 @if (Lang::has($titleTranslation = 'admin.menu_titles.' . trim(str_replace(' ', '_', strtolower($item['title'])))))
                     <span>{{ __($titleTranslation) }}</span>
                 @else
-                    <span>{{ admin_trans($item['title']) }}</span>
+                    @if($item['title']=="Admin")
+                        <span>{{ \Encore\Admin\Facades\Admin::user()->name }}</span>
+                    @else
+                        <span>{{ admin_trans($item['title']) }}</span>
+                    @endif
                 @endif
                 <i class="fa fa-angle-left pull-right"></i>
             </a>

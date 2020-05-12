@@ -14,9 +14,12 @@ use Illuminate\Support\MessageBag;
 use App\Admin\Actions\SetTopBox\BatchChange;
 use Encore\Admin\Facades\Admin;
 
+use Field\Interaction\FieldTriggerTrait;
+use Field\Interaction\FieldSubscriberTrait;
+
 class SetTopBoxController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions,FieldTriggerTrait, FieldSubscriberTrait;
 
     /**
      * Index interface.
@@ -194,6 +197,20 @@ class SetTopBoxController extends Controller
         Admin::script('openingTime();');
         $form = new Form(new SetTopBox);
 
+        $form->hidden('Opening1_time');
+        $form->hidden('Opening1_price');
+        $form->hidden('Effective1_time');
+        $form->hidden('Opening2_time');
+        $form->hidden('Opening2_price');
+        $form->hidden('Effective2_time');
+
+        $form->hidden('Place_Royalty');
+        $form->hidden('Place_Settlement');
+        $form->hidden('Agent_Royalty');
+        $form->hidden('Agent_Settlement');
+        $form->hidden('Obligee_Royalty');
+        $form->hidden('Obligee_Settlement');
+
         $form->text('key', 'Key')->required()->rules(function ($form) {
             return 'exists:place,key';
             // 如果不是编辑状态，则添加字段唯一验证
@@ -221,67 +238,88 @@ class SetTopBoxController extends Controller
 
         $form->text('mark', '备注');
 
-        $form->select('FeesMode', '收费模式')->options([0=>'按场所模式',1=>'版权收费模式']);
+        $form->select('FeesMode', '收费模式')->options([0=>'场所收费模式',1=>'开房收费模式']);
         $id = request()->route()->parameters('id');
         $time1 = '00:00';
         $time2 = '00:00';
         $time3 = '00:00';
         $time4 = '00:00';
         if(!empty($id)){
-            $place = DB::table('settopbox')->where('id',$id)->select('Opening1_time','Opening2_time')->first();
+            $place = DB::table('settopbox')->where('id',$id)->first();
             $time1 = explode('-',$place->Opening1_time)[0];
             $time2 = explode('-',$place->Opening1_time)[1];
             $time3 = explode('-',$place->Opening2_time)[0];
             $time4 = explode('-',$place->Opening2_time)[1];
+
+            $Opening1_price = $place->Opening1_price;
+            $Effective1_time = $place->Effective1_time;
+            $Opening2_price = $place->Opening2_price;
+            $Effective2_time = $place->Effective2_time;
+
+            $Place_Royalty = $place->Place_Royalty;
+            $Place_Settlement = $place->Place_Settlement;
+            $Agent_Royalty = $place->Agent_Royalty;
+            $Agent_Settlement = $place->Agent_Settlement;
+            $Obligee_Royalty = $place->Obligee_Royalty;
+            $Obligee_Settlement = $place->Obligee_Settlement;
         }
 
         $form->html('
-        <div class="row" style="width: 370px">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 150px">
-                </div>
+        <div class="form-inline feesmode">
+               <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
+               <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening1_price" required value="'.$Opening1_price.'" /></label>
+                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective1_time" required value="'.$Effective1_time.'" /></label>
             </div>
+','*开房时段一');
 
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 150px">
-                </div>
-            </div>
-        </div>
-', '开房时段一');
-        $form->decimal('Opening1_price', '时段一单价(元)');
-        $form->decimal('Effective1_time', '时段一有效时长(分钟)');
         $form->html('
-        <div class="row" style="width: 370px">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 150px">
-                </div>
+        <div class="form-inline feesmode">
+               <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
+               <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening2_price" required value="'.$Opening2_price.'" /></label>
+                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective2_time" required value="'.$Effective2_time.'" /></label>
             </div>
+','*开房时段二');
 
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 150px">
-                </div>
+        $form->html('
+        <div class="form-inline feesmode">
+               <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*场所分成结算方式：
+                <select style="width:100px;height:30px" name="Place_Settlement">
+                    <option value="1" '.($Place_Settlement==1?"selected":"").'>按月结算</option>
+                    <option value="2" '.($Place_Settlement==2?"selected":"").'>按季结算</option>
+                    <option value="3" '.($Place_Settlement==3?"selected":"").'>按年结算</option>
+                    </select>
+                </label>
             </div>
-        </div>
-', '开房时段二');
-        $form->decimal('Opening2_price', '时段二单价(元)');
-        $form->decimal('Effective2_time', '时段二有效时长(分钟)');
-        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);
-        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
-        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
-        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
-        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
-        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+','*场所分成比例');
+        $form->html('
+        <div class="form-inline feesmode">
+               <input type="text" name="Agent_Royalty" value="'.$Agent_Royalty.'" class="form-control Agent_Royalty" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*代理商分成结算方式：
+                <select style="width:100px;height:30px" name="Agent_Settlement">
+                    <option value="1" '.($Agent_Settlement==1?"selected":"").'>按月结算</option>
+                    <option value="2" '.($Agent_Settlement==2?"selected":"").'>按季结算</option>
+                    <option value="3" '.($Agent_Settlement==3?"selected":"").'>按年结算</option>
+                    </select>
+                </label>
+            </div>
+','*代理商分成比例');
+        $form->html('
+        <div class="form-inline feesmode">
+               <input type="text" name="Obligee_Royalty" value="'.$Obligee_Royalty.'" class="form-control Obligee_Royalty" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*权利人分成结算方式：
+                <select style="width:100px;height:30px" name="Obligee_Settlement">
+                    <option value="1" '.($Obligee_Settlement==1?"selected":"").'>按月结算</option>
+                    <option value="2" '.($Obligee_Settlement==2?"selected":"").'>按季结算</option>
+                    <option value="3" '.($Obligee_Settlement==3?"selected":"").'>按年结算</option>
+                    </select>
+                </label>
+            </div>
+','*权利人分成比例');
 
         $form->hidden('mark', '备注')->rules(function ($form) {
-
         // 如果不是编辑状态，则添加字段唯一验证
         if (!$id = $form->model()->id) {
             return 'unique:settopbox,KtvBoxid';
@@ -299,8 +337,19 @@ class SetTopBoxController extends Controller
             if ($form->password && $form->model()->password != $form->password) {
                 $form->password = bcrypt($form->password);
             }
+            $form->Opening1_time = request('time1').'-'.request('time2');
+            $form->Opening1_price = request('Opening1_price');
+            $form->Effective1_time = request('Effective1_time');
+            $form->Opening2_time = request('time3').'-'.request('time4');
+            $form->Opening2_price = request('Opening2_price');
+            $form->Effective2_time = request('Effective2_time');
 
-
+            $form->Place_Royalty = request('Place_Royalty');
+            $form->Place_Settlement = request('Place_Settlement');
+            $form->Agent_Royalty = request('Agent_Royalty');
+            $form->Agent_Settlement = request('Agent_Settlement');
+            $form->Obligee_Royalty = request('Obligee_Royalty');
+            $form->Obligee_Settlement = request('Obligee_Settlement');
 
             $count2 = DB::table('settopbox')->where(['key'=> $form->key])
                 ->where(function ($query) {
@@ -319,6 +368,24 @@ class SetTopBoxController extends Controller
             }
         });
 
+        $triggerScript = $this->createTriggerScript($form);
+        $subscribeScript = $this->createSubscriberScript($form, function($builder){
+            //费项名称
+            $builder->subscribe('FeesMode', 'select', function($event){
+                //setMeal_mode,1：按有效机顶盒数量，2按固定费用
+                return <<< EOT
+                function (data) {
+                    var id = data.id;
+                    if(id ==0){ 
+                        $('.feesmode').parents('.form-group').hide();
+                    }else if(id ==1){
+                        $('.feesmode').parents('.form-group').show();
+                    }
+                }
+EOT;
+            });
+        });
+        $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
 
         return $form;
     }
