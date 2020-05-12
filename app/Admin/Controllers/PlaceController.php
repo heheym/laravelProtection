@@ -93,8 +93,6 @@ class PlaceController extends Controller
             $filter->disableIdFilter();
 
             // 在这里添加字段过滤器
-
-
             $filter->column(1/2, function ($filter) {
                 $filter->like('key', 'key');
                 $filter->like('placename', '场所名称');
@@ -117,8 +115,6 @@ class PlaceController extends Controller
                 $filter->between('expiredata', '场所有效时间')->datetime();
             });
         });
-
-
 
 //        $grid->id('Id');
         $grid->userno('场所编号');
@@ -144,8 +140,6 @@ class PlaceController extends Controller
                 return DB::table('china_area')->where('code',$city)->value('name');
             }
         });
-
-
         $grid->status('状态')->display(function ($status) {
             if(!is_null($status)){
                 $arra = [0=>'未启用',1=>'已启用'];
@@ -157,12 +151,6 @@ class PlaceController extends Controller
                 return DB::table('warningmode')->where('id',$wangMode)->value('warningName');
             }
         });
-//        $grid->setMeal('套餐')->display(function ($setMeal) {
-//            if(!is_null($setMeal)){
-//                return DB::table('setMeal')->where('setMeal_id',$setMeal)->value('setMeal_name');
-//            }
-//        });
-
         $grid->actions(function ($actions) {
             $actions->disableView();
             if (!Admin::user()->can('场所删除')) {
@@ -223,6 +211,12 @@ class PlaceController extends Controller
         $form->hidden('Agent_Settlement');
         $form->hidden('Obligee_Royalty');
         $form->hidden('Obligee_Settlement');
+//        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
+        $form->hidden('placeaddress');
+        $form->hidden('mailbox');
+        $form->hidden('phone');
+        $form->hidden('contacts');
+        $form->hidden('tel');
 
         $form->text('userno', '场所编号')->placeholder('自动生成')->readOnly();
         $form->text('key', 'key')->placeholder('自动生成')->readOnly();
@@ -248,6 +242,7 @@ class PlaceController extends Controller
         $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
         $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
         $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
+        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
         if(!empty($id)){
             $place = DB::table('place')->where('id',$id)->first();
             $time1 = explode('-',$place->Opening1_time)[0];
@@ -265,6 +260,12 @@ class PlaceController extends Controller
             $Agent_Settlement = $place->Agent_Settlement;
             $Obligee_Royalty = $place->Obligee_Royalty;
             $Obligee_Settlement = $place->Obligee_Settlement;
+ //        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
+            $placeaddress = $place->placeaddress;
+            $mailbox = $place->mailbox;
+            $phone = $place->phone;
+            $contacts = $place->contacts;
+            $tel = $place->tel;
         }
 
         $form->html('
@@ -322,11 +323,31 @@ class PlaceController extends Controller
             </div>
 ','*权利人分成比例');
 
-        $form->text('placeaddress', '地址');
-        $form->email('mailbox', '邮箱');
-        $form->text('phone', '手机号');
-        $form->text('contacts', '联系人');
-        $form->text('tel', '联系电话');
+        //地址邮箱。。
+        $form->html('
+        <div class="form-inline">
+               <input type="text" name="placeaddress" value="'.$placeaddress.'" class="form-control placeaddress" style="width: 150px" >
+                <label class="form-inline" style="margin-left:5px">邮箱：
+                <input type="text" name="mailbox" value="'.$mailbox.'" class="form-control mailbox" style="width: 90px" >
+                </label>
+                <label class="form-inline" style="margin-left:5px">手机号：
+                <input type="text" name="phone" value="'.$phone.'" class="form-control phone" style="width: 90px" >
+                </label>
+                <label class="form-inline" style="margin-left:5px">联系人：
+                <input type="text" name="contacts" value="'.$contacts.'" class="form-control contacts" style="width: 90px" >
+                </label>
+                </label>
+                <label class="form-inline" style="margin-left:5px">联系电话：
+                <input type="text" name="tel" value="'.$tel.'" class="form-control tel" style="width: 90px" >
+                </label>
+            </div>
+','地址');
+
+//        $form->text('placeaddress', '地址');
+//        $form->email('mailbox', '邮箱');
+//        $form->text('phone', '手机号');
+//        $form->text('contacts', '联系人');
+//        $form->text('tel', '联系电话');
         $form->number('roomtotal', '机顶盒数量');
         $form->datetime('created_date', '注册时间');
         $form->datetime('expiredata', '场所有效时间');
@@ -343,18 +364,18 @@ class PlaceController extends Controller
             $form->userno = !empty($form->model()->userno)?$form->model()->userno:time();
 
             $form->Opening1_time = request('time1').'-'.request('time2');
-            $form->Opening1_price = request('Opening1_price');
-            $form->Effective1_time = request('Effective1_time');
+//            $form->Opening1_price = request('Opening1_price');
+//            $form->Effective1_time = request('Effective1_time');
             $form->Opening2_time = request('time3').'-'.request('time4');
-            $form->Opening2_price = request('Opening2_price');
-            $form->Effective2_time = request('Effective2_time');
+//            $form->Opening2_price = request('Opening2_price');
+//            $form->Effective2_time = request('Effective2_time');
 
-            $form->Place_Royalty = request('Place_Royalty');
-            $form->Place_Settlement = request('Place_Settlement');
-            $form->Agent_Royalty = request('Agent_Royalty');
-            $form->Agent_Settlement = request('Agent_Settlement');
-            $form->Obligee_Royalty = request('Obligee_Royalty');
-            $form->Obligee_Settlement = request('Obligee_Settlement');
+//            $form->Place_Royalty = request('Place_Royalty');
+//            $form->Place_Settlement = request('Place_Settlement');
+//            $form->Agent_Royalty = request('Agent_Royalty');
+//            $form->Agent_Settlement = request('Agent_Settlement');
+//            $form->Obligee_Royalty = request('Obligee_Royalty');
+//            $form->Obligee_Settlement = request('Obligee_Settlement');
         });
 
         $form->tools(function (Form\Tools $tools) {
