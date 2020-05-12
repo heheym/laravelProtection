@@ -285,7 +285,7 @@ class PlaceController extends Controller
 ','*开房时段二');
 
         $form->html('
-        <div class="form-inline">
+        <div class="form-inline feesmode">
                <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
                 <label class="form-inline" style="margin-left:10px">场所分成结算方式：
                 <select style="width:100px;height:30px" name="Place_Settlement">
@@ -297,7 +297,7 @@ class PlaceController extends Controller
             </div>
 ','场所分成比例');
         $form->html('
-        <div class="form-inline">
+        <div class="form-inline feesmode">
                <input type="text" name="Agent_Royalty" value="'.$Agent_Royalty.'" class="form-control Agent_Royalty" style="width: 60px" required>
                 <label class="form-inline" style="margin-left:10px">代理商分成结算方式：
                 <select style="width:100px;height:30px" name="Agent_Settlement">
@@ -309,7 +309,7 @@ class PlaceController extends Controller
             </div>
 ','代理商分成比例');
         $form->html('
-        <div class="form-inline">
+        <div class="form-inline feesmode">
                <input type="text" name="Obligee_Royalty" value="'.$Obligee_Royalty.'" class="form-control Obligee_Royalty" style="width: 60px" required>
                 <label class="form-inline" style="margin-left:10px">权利人分成结算方式：
                 <select style="width:100px;height:30px" name="Obligee_Settlement">
@@ -320,14 +320,12 @@ class PlaceController extends Controller
                 </label>
             </div>
 ','权利人分成比例');
-
 //        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
 //        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
 //        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
 //        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
 //        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
 //        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
-
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');
         $form->text('phone', '手机号');
@@ -354,12 +352,12 @@ class PlaceController extends Controller
             $form->Opening2_price = request('Opening2_price');
             $form->Effective2_time = request('Effective2_time');
 
-            $form->Effective2_time = request('Place_Royalty');
-            $form->Effective2_time = request('Place_Settlement');
-            $form->Effective2_time = request('Agent_Royalty');
-            $form->Effective2_time = request('Agent_Settlement');
-            $form->Effective2_time = request('Obligee_Royalty');
-            $form->Effective2_time = request('Obligee_Settlement');
+            $form->Place_Royalty = request('Place_Royalty');
+            $form->Place_Settlement = request('Place_Settlement');
+            $form->Agent_Royalty = request('Agent_Royalty');
+            $form->Agent_Settlement = request('Agent_Settlement');
+            $form->Obligee_Royalty = request('Obligee_Royalty');
+            $form->Obligee_Settlement = request('Obligee_Settlement');
         });
 
         $form->tools(function (Form\Tools $tools) {
