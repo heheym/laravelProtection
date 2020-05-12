@@ -162,6 +162,10 @@ class SetTopBoxController extends Controller
             }
         });
 
+        if (!Admin::user()->can('机顶盒添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
+
         return $grid;
     }
 

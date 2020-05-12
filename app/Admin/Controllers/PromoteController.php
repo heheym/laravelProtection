@@ -102,6 +102,9 @@ class PromoteController extends Controller
                 $actions->disableDelete();
             }
         });
+        if (!Admin::user()->can('新歌推广添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         return $grid;
     }

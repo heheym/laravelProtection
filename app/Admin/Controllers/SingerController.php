@@ -146,6 +146,10 @@ class SingerController extends Controller
                 $actions->disableDelete();
             }
         });
+
+        if (!Admin::user()->can('歌星添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
                 $batch->disableDelete();

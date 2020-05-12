@@ -48,6 +48,10 @@ class BoxRegisterController extends AdminController
             }
         });
 
+        if (!Admin::user()->can('预登记添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
+
         return $grid;
     }
 

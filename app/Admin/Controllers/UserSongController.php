@@ -273,6 +273,9 @@ class UserSongController extends Controller
                 $actions->disableDelete();
             }
         });
+        if (!Admin::user()->can('预警歌曲添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {

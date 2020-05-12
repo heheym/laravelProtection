@@ -210,14 +210,15 @@ class SongController extends Controller
 //        $grid->UpdateDate('最后更新时间')->editable('datetime');
 
         $grid->actions(function ($actions) {
-
             $actions->disableView();
             if (!Admin::user()->can('歌曲删除')) {
                 $actions->disableDelete();
             }
-
-
         });
+
+        if (!Admin::user()->can('歌曲添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         $grid->tools(function (Grid\Tools $tools) {
             $tools->append(new BatchSongOnline());

@@ -73,6 +73,9 @@ class PosterTabController extends AdminController
                 $actions->disableDelete();
             }
         });
+        if (!Admin::user()->can('广告添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         return $grid;
     }
