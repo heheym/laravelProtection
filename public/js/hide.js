@@ -87,6 +87,13 @@ function localMoney() {
 //开房时段
 function openingTime(){
     $(".time1,.time2,.time3,.time4").datetimepicker({"format":"HH:mm","locale":"zh-CN","allowInputToggle":true});
+
+    var feesmode =$(".FeesMode option:selected").val();
+    if(feesmode ==0){
+        $('.feesmode').parents('.form-group').hide();
+    }else if(feesmode ==1){
+        $('.feesmode').parents('.form-group').show();
+    }
 }
 
 

@@ -12,9 +12,12 @@ use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 use Encore\Admin\Facades\Admin;
 
+use Field\Interaction\FieldTriggerTrait;
+use Field\Interaction\FieldSubscriberTrait;
+
 class PlaceController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions,FieldTriggerTrait, FieldSubscriberTrait;
 
     /**
      * Index interface.
@@ -207,6 +210,12 @@ class PlaceController extends Controller
     {
         Admin::script('openingTime();');
         $form = new Form(new Place);
+        $form->hidden('Opening1_time');
+        $form->hidden('Opening1_price');
+        $form->hidden('Effective1_time');
+        $form->hidden('Opening2_time');
+        $form->hidden('Opening2_price');
+        $form->hidden('Effective2_time');
 
         $form->text('userno', '场所编号')->placeholder('自动生成')->readOnly();
         $form->text('key', 'key')->placeholder('自动生成')->readOnly();
@@ -229,58 +238,46 @@ class PlaceController extends Controller
         $time2 = '00:00';
         $time3 = '00:00';
         $time4 = '00:00';
+        $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
         if(!empty($id)){
-            $place = DB::table('place')->where('id',$id)->select('Opening1_time','Opening2_time')->first();
+            $place = DB::table('place')->where('id',$id)->first();
             $time1 = explode('-',$place->Opening1_time)[0];
             $time2 = explode('-',$place->Opening1_time)[1];
             $time3 = explode('-',$place->Opening2_time)[0];
             $time4 = explode('-',$place->Opening2_time)[1];
+            $Opening1_price = $place->Opening1_price;
+            $Effective1_time = $place->Effective1_time;
+            $Opening2_price = $place->Opening2_price;
+            $Effective2_time = $place->Effective2_time;
         }
 
         $form->html('
-        <div class="row" style="width: 370px">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 150px">
-                </div>
+        <div class="form-inline feesmode">
+               <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
+               <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening1_price" required value="'.$Opening1_price.'" /></label>
+                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective1_time" required value="'.$Effective1_time.'" /></label>
             </div>
+','*开房时段一');
 
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 150px">
-                </div>
-            </div>
-        </div>
-', '开房时段一');
-        $form->decimal('Opening1_price', '时段一单价(元)');
-        $form->decimal('Effective1_time', '时段一有效时长(分钟)');
+//        $form->decimal('Opening1_price', '时段一单价(元)');
+//        $form->decimal('Effective1_time', '时段一有效时长(分钟)');
         $form->html('
-        <div class="row" style="width: 370px">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 150px">
-                </div>
+        <div class="form-inline feesmode">
+               <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
+               <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening2_price" required value="'.$Opening2_price.'" /></label>
+                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective2_time" required value="'.$Effective2_time.'" /></label>
             </div>
-
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 150px">
-                </div>
-            </div>
-        </div>
-', '开房时段二');
-        $form->decimal('Opening2_price', '时段二单价(元)');
-        $form->decimal('Effective2_time', '时段二有效时长(分钟)');
-        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);
-        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
-        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
-        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
-        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间']);;
-        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算']);
+','*开房时段二');
+//        $form->decimal('Opening2_price', '时段二单价(元)');
+//        $form->decimal('Effective2_time', '时段二有效时长(分钟)');
+        $form->decimal('Place_Royalty', '场所分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
+        $form->select('Place_Settlement', '场所分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
+        $form->decimal('Agent_Royalty', '代理商分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
+        $form->select('Agent_Settlement', '代理商分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
+        $form->decimal('Obligee_Royalty', '权利人分成比例')->default(0)->rules('numeric|between:0,1',['between'=>'必须0到1之间'])->required();
+        $form->select('Obligee_Settlement', '权利人分成结算方式')->options([1=>'按月结算',2=>'季结算',3=>'按年结算'])->default(1)->required();
 
         $form->text('placeaddress', '地址');
         $form->email('mailbox', '邮箱');
@@ -297,20 +294,42 @@ class PlaceController extends Controller
 //        $form->text('province', '省');
 //        $form->text('city', '市');
         $form->select('downloadMode', '歌曲下载方式')->options([1=>'不下载',2=>'点播下载',3=>'智能下载']);
-        $form->hidden('Opening1_time');
-        $form->hidden('Opening2_time');
+
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));
             $form->userno = !empty($form->model()->userno)?$form->model()->userno:time();
             $form->Opening1_time = request('time1').'-'.request('time2');
+            $form->Opening1_price = request('Opening1_price');
+            $form->Effective1_time = request('Effective1_time');
             $form->Opening2_time = request('time3').'-'.request('time4');
+            $form->Opening2_price = request('Opening2_price');
+            $form->Effective2_time = request('Effective2_time');
         });
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
         });
 
-
+        $triggerScript = $this->createTriggerScript($form);
+        $subscribeScript = $this->createSubscriberScript($form, function($builder){
+            //费项名称
+            $builder->subscribe('FeesMode', 'select', function($event){
+                //setMeal_mode,1：按有效机顶盒数量，2按固定费用
+                return <<< EOT
+                function (data) {
+                    var id = data.id;
+                    if(id ==0){ 
+                        $('.feesmode').parents('.form-group').hide();
+                    }else if(id ==1){
+                        $('.feesmode').parents('.form-group').show();
+                    }
+                }
+EOT;
+            });
+        });
+        // 最后把 $triggerScript 和 $subscribeScript 注入到Form中去。
+        // scriptinjecter 第一个参数可以为任何字符，但不能为空！！！！
+        $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
         return $form;
     }
 

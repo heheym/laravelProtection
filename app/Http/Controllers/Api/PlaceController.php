@@ -378,7 +378,6 @@ class PlaceController extends Controller
         }
 
         try{
-
             $result = DB::table('parameterset')->select('SoftwareName','SoftwareVerno','NewSongHttp','SpeedLimit','LoginName',
                 'UpdateMode','SoftseverVer','SoftseverHttp','SoftseverMemo','SoftboxVer','SoftboxHttp','SoftboxMemo','SoftsongDbVer','SoftsongDbHttp','SingerPicHttp','SongNmelHttp','SongPicHttp','AppPicHttp','WarningAtoBtime')->first();
 
