@@ -85,8 +85,11 @@ class SetTopBoxController extends Controller
     protected function grid()
     {
         $grid = new Grid(new SetTopBox);
+        $grid->setView('settopbox.index');
 
-        $grid->disableFilter(false);
+        $grid->disableExport();
+
+//        $grid->disableFilter(false);
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
@@ -95,22 +98,24 @@ class SetTopBoxController extends Controller
             $filter->column(1/2,function($filter){
                 $filter->like('key', 'key');
                 $filter->where(function ($query) {
+                    dd(123);
                     $query->whereHas('place', function ($query) {
                         $query->where('placename', 'like', "%{$this->input}%");
                     });
                 }, '场所');
                 $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
             });
+
             $filter->column(1/2,function($filter){
                 $filter->where(function ($query) {
                     $query->whereHas('place', function ($query) {
-                        $query->where('province', 'like', "%{$this->input}%")
-                            ->orWhere('city', 'like', "%{$this->input}%");
+                        $query->where('province', '=', request('province'));
+//                            ->andWhere('city', '=', "%{$this->input}%");
                     });
                 }, '省市');
                 $filter->where(function ($query) {
                     $query->whereHas('place', function ($query) {
-                        $query->where('contacts', 'like', "%{$this->input}%");
+                        $query->where('contacts', 'like', request('province'));
                     });
                 }, '联系人');
             });
@@ -141,7 +146,13 @@ class SetTopBoxController extends Controller
         });
         $grid->address('省市')->display(function () {
             $province = DB::table('place')->where('key',$this->key )->value('province');
+            if(!is_null($province)){
+                $province =  DB::table('china_area')->where('code',$province)->value('name');
+            }
             $city = DB::table('place')->where('key',$this->key )->value('city');
+            if(!is_null($province)){
+                $city =  DB::table('china_area')->where('code',$city)->value('name');
+            }
             return $province.$city;
         });
 

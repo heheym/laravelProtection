@@ -85,29 +85,35 @@ class PlaceController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Place);
-        $grid->disableFilter(false);
+        $grid->setView('place.index');
 
+//        $grid->disableColumnSelector();
+        $grid->disableExport();
+//        $grid->disableCreateButton();
+
+//        $grid->disableFilter(false);
         $grid->filter(function($filter){
-
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
-
             // 在这里添加字段过滤器
             $filter->column(1/2, function ($filter) {
                 $filter->like('key', 'key');
                 $filter->like('placename', '场所名称');
                 $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
                 $filter->equal('wangMode','预警模式')->select($wangMode);
-                $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
-                $filter->equal('setMeal','套餐')->select($setMeal);
+//                $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
+//                $filter->equal('setMeal','套餐')->select($setMeal);
                 $filter->equal('status','状态')->select([0=>'未启用',1=>'已启用']);
             });
 
             $filter->column(1/2, function ($filter) {
-                $filter->where(function ($query) {
-                    $query->where('province', 'like', "%{$this->input}%")
-                        ->orWhere('city', 'like', "%{$this->input}%");
-                }, '省市');
+//                $filter->where(function ($query) {
+//                    $query->where('province', 'like', "%{$this->input}%")
+//                        ->orWhere('city', 'like', "%{$this->input}%");
+//                }, '省市');
+
+                $filter->equal('province');
+                $filter->equal('city');
 //                $filter->like('province', '省');
 //                $filter->like('city', '市');
                 $filter->like('contacts', '联系人');

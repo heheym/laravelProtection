@@ -71,21 +71,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/settopbox" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receipt" />
-      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receivable" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\laravelProtection\resources\views\settopbox" />
       <recent name="G:\onedrive\web\laravelProtection\app\Admin\Models" />
       <recent name="E:\web\laravelProtection\app\Admin\Models" />
       <recent name="E:\web\laravelProtection\resources\views\postertab" />
       <recent name="E:\web\laravelProtection\resources\views\receipt" />
-      <recent name="E:\web\laravelProtection\resources\views\receivable" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receipt" />
+      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receivable" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -173,6 +173,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588756270571" />
+    <state x="574" y="319" key="NewPhpFileDialog" timestamp="1589342461262">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="319" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1589342461262" />
     <state x="434" y="54" key="SettingsEditor" timestamp="1588753261300">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -185,9 +189,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="469" y="130" width="762" height="646" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1589270022595" />
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1589267390199">
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1589349740410">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1589267390199" />
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1589349740410" />
   </component>
 </project>

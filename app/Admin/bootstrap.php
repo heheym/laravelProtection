@@ -34,6 +34,7 @@ Admin::js('js/hide.js');
 
 Grid::init(function (Grid $grid) {
     $grid->disableFilter();
+    $grid->disableExport();
     $grid->actions(function (Grid\Displayers\Actions $actions) {
         $actions->disableView();
     });
