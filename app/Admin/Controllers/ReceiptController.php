@@ -250,6 +250,7 @@ class ReceiptController extends Controller
         $grid->actions(function ($actions){
             $actions->disableDelete();
             $actions->disableView();
+            $actions->disableEdit();
             $id = $actions->row->id;
             $exist =  DB::table('receipt')->where('id',$id)->exists();
             if($exist){

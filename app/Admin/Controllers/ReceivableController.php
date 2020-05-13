@@ -216,8 +216,8 @@ class ReceivableController extends Controller
         });
 //        $grid->paginate(10);
 
-        $query = '?'.http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createSetMeal']);
-        $query1 = '?'.http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createOtherFee']);
+        $query = http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createSetMeal']);
+        $query1 = http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createOtherFee']);
 
         //新增其它费项
         $grid->tools(function ($tools)use($grid, $query1){
@@ -230,7 +230,6 @@ class ReceivableController extends Controller
         $grid->tools(function (Grid\Tools $tools) {
             $tools->append(new ReceivableForm());
         });
-
 
 //        $grid->disableFilter(false);
         $grid->filter(function($filter){
