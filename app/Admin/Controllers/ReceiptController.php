@@ -91,9 +91,10 @@ class ReceiptController extends Controller
 //        Admin::js('js/hide.js');
         Admin::script('receipt();');
         $grid = new Grid(new Place);
+        $grid->setView('receipt.index');
         $grid->paginate(5);
         $grid->setName('place');
-        $grid->disableFilter(false);
+//        $grid->disableFilter(false);
         $grid->disableBatchActions();
         $grid->disableCreateButton();
         $grid->actions(function ($actions) {

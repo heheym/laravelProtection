@@ -125,7 +125,8 @@ class ReceivableController extends Controller
         Admin::script('receivable();');
         $grid = new Grid(new Place);
         $grid->setName('place');
-        $grid->disableFilter(false);
+        $grid->setView('receivable.index');
+//        $grid->disableFilter(false);
         $grid->disableBatchActions();
         $grid->disableCreateButton();
         $grid->actions(function ($actions) {
@@ -134,7 +135,6 @@ class ReceivableController extends Controller
             $actions->disableDelete();
         });
         $grid->paginate(5);
-
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -236,6 +236,7 @@ class ReceivableController extends Controller
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('svrkey','svrkey');
+            $filter->like('item_no','item_no');
         });
         if(!app('request')->get('receivable_svrkey')){  //默认不显示应收纪录
             $grid->model()->where('svrkey', '');

@@ -87,40 +87,35 @@ class SetTopBoxController extends Controller
         $grid = new Grid(new SetTopBox);
         $grid->setView('settopbox.index');
 
-        $grid->disableExport();
+        $where = [];
+        if(!empty(request('placename'))){
+            $placename =request('placename');
+            $where[] = ['placename','like','%'.$placename.'%'];
+        }
+        if(!empty(request('contacts'))){
+            $contacts =request('contacts');
+            $where[] = ['contacts','like','%'.$contacts.'%'];
+        }
+        if(!empty(request('province'))){
+            $province =request('province');
+            $where[] = ['province','like','%'.$province.'%'];
+        }
+        if(!empty(request('city'))){
+            $city =request('city');
+            $where[] = ['city','like','%'.$city.'%'];
+        }
+//        $grid->model()->place()->where('placename','快唱办公室');
+        $grid->model()->whereHas('place', function ($query) use($where){
+            $query->where($where);
+        });
 
 //        $grid->disableFilter(false);
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
-
-            $filter->column(1/2,function($filter){
-                $filter->like('key', 'key');
-                $filter->where(function ($query) {
-                    dd(123);
-                    $query->whereHas('place', function ($query) {
-                        $query->where('placename', 'like', "%{$this->input}%");
-                    });
-                }, '场所');
-                $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
-            });
-
-            $filter->column(1/2,function($filter){
-                $filter->where(function ($query) {
-                    $query->whereHas('place', function ($query) {
-                        $query->where('province', '=', request('province'));
-//                            ->andWhere('city', '=', "%{$this->input}%");
-                    });
-                }, '省市');
-                $filter->where(function ($query) {
-                    $query->whereHas('place', function ($query) {
-                        $query->where('contacts', 'like', request('province'));
-                    });
-                }, '联系人');
-            });
-
-
+            $filter->like('key', 'key');
+            $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
         });
 
         $grid->id('Id');
@@ -259,6 +254,9 @@ class SetTopBoxController extends Controller
         $time2 = '00:00';
         $time3 = '00:00';
         $time4 = '00:00';
+        $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
+        $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
+        $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
         if(!empty($id)){
             $place = DB::table('settopbox')->where('id',$id)->first();
             $time1 = explode('-',$place->Opening1_time)[0];

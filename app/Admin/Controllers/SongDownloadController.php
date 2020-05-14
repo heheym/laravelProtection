@@ -35,13 +35,36 @@ class SongDownloadController extends Controller
     protected function grid()
     {
         $grid = new Grid(new SongDownload);
+        $grid->setView('songdownload.index');
+
+        $where = [];
+        if(!empty(request('placename'))){
+            $placename =request('placename');
+            $where[] = ['placename','like','%'.$placename.'%'];
+        }
+//        if(!empty(request('contacts'))){
+//            $contacts =request('contacts');
+//            $where[] = ['contacts','like','%'.$contacts.'%'];
+//        }
+        if(!empty(request('province'))){
+            $province =request('province');
+            $where[] = ['province','like','%'.$province.'%'];
+        }
+        if(!empty(request('city'))){
+            $city =request('city');
+            $where[] = ['city','like','%'.$city.'%'];
+        }
+
+        $grid->model()->whereHas('place', function ($query) use($where){
+            $query->where($where);
+        });
 
         $grid->disableCreateButton();
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableView();
             $actions->disableEdit();
         });
-        $grid->disableFilter(false);
+//        $grid->disableFilter(false);
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
@@ -84,7 +107,13 @@ class SongDownloadController extends Controller
         });
         $grid->address('省市')->display(function () {
             $province = DB::table('place')->where('key',$this->srvkey )->value('province');
+            if(!is_null($province)){
+                $province =  DB::table('china_area')->where('code',$province)->value('name');
+            }
             $city = DB::table('place')->where('key',$this->srvkey )->value('city');
+            if(!is_null($province)){
+                $city =  DB::table('china_area')->where('code',$city)->value('name');
+            }
             return $province.$city;
         });
         $grid->column('created_date', __('时间'));

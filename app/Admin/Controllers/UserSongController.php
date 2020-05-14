@@ -143,13 +143,25 @@ class UserSongController extends Controller
     protected function grid()
     {
         $grid = new Grid(new UserSong);
+        $grid->setView('usersong.index');
 
-        $grid->disableFilter(false);
+        $where = [];
+        if(!empty(request('placename'))){
+            $placename =request('placename');
+            $where[] = ['placename','like','%'.$placename.'%'];
+        }
+        if(!empty(request('contacts'))){
+            $contacts =request('contacts');
+            $where[] = ['contacts','like','%'.$contacts.'%'];
+        }
+        $grid->model()->whereHas('place', function ($query) use($where){
+            $query->where($where);
+        });
+
+//        $grid->disableFilter(false);
         $grid->filter(function($filter){
-
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
-
             $filter->like('srvkey','srvkey');
             $filter->where(function ($query) {
                 $query->whereHas('place', function ($query) {
@@ -264,9 +276,7 @@ class UserSongController extends Controller
             return $isbver?'是':'否';
         });
         $grid->songnum('歌曲编号');
-
 */
-
         $grid->actions(function ($actions) {
             $actions->disableView();
             if (!Admin::user()->can('预警歌曲删除')) {

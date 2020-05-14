@@ -1,13 +1,5 @@
 <div class="box">
     <br />
-    <form class="form-inline" id="target" action="" method="get">
-        <div class="form-group">
-            <label for="exampleInputName2">单号</label>
-            <input type="text" class="form-control" id="receipt_no" placeholder="">
-        </div>
-        <button type="submit" class="btn btn-default" id="butt">搜索</button>
-    </form>
-
     @if(isset($title))
     <div class="box-header with-border">
         <h3 class="box-title"> {{ $title }}</h3>
@@ -16,6 +8,14 @@
 
     @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
     <div class="box-header with-border">
+        <form class="form-inline" id="receipt" action="" method="get" style="display:inline-block;">
+            <div class="form-group">
+                <label for="exampleInputName2">单号</label>
+                <input type="text" class="form-control" id="receipt_no" placeholder="">
+            </div>
+            <button type="submit" class="btn btn-default" id="butt">搜索</button>
+        </form>
+
         <div class="pull-right">
             {!! $grid->renderColumnSelector() !!}
             {!! $grid->renderExportButton() !!}
@@ -28,8 +28,6 @@
         @endif
     </div>
     @endif
-
-
 
     {{--{!! $grid->renderFilter() !!}--}}
 
@@ -93,7 +91,7 @@ $(function () {
     var receipt_svrkey = url.searchParams.get('receipt_no');
     $('#receipt_no').val(receipt_svrkey);
 });
-    $('#target').click(function() {
+    $('#receipt').click(function() {
         var url = new URL(location);
         var receipt_no = $('#receipt_no').val();
         var receipt_svrkey = url.searchParams.get('receipt_svrkey');
@@ -102,8 +100,8 @@ $(function () {
         }
         $('input[name=receipt_no]').remove();
         $('input[name=receipt_svrkey]').remove();
-        $('#target').append("<input type='hidden' name='receipt_no' value='"+receipt_no+"'>");
-        $('#target').append("<input type='hidden' name='receipt_svrkey' value='"+receipt_svrkey+"'>");
+        $('#receipt').append("<input type='hidden' name='receipt_no' value='"+receipt_no+"'>");
+        $('#receipt').append("<input type='hidden' name='receipt_svrkey' value='"+receipt_svrkey+"'>");
 //        return false;
 //        $('#target').submit();
     });

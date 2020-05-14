@@ -7,6 +7,13 @@
 
     @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
     <div class="box-header with-border">
+        <form class="form-inline" id="receivable" action="" method="get" style="display: inline-block;">
+            <div class="form-group">
+                <label for="exampleInputName2">单号</label>
+                <input type="text" class="form-control" id="receivable_item_no" placeholder="">
+            </div>
+            <button type="submit" class="btn btn-default" id="butt">搜索</button>
+        </form>
         <div class="pull-right">
             {!! $grid->renderColumnSelector() !!}
             {!! $grid->renderExportButton() !!}
@@ -75,3 +82,23 @@
     </div>
     <!-- /.box-body -->
 </div>
+
+<script>
+    $(function () {
+        var url = new URL(location);
+        var receivable_item_no = url.searchParams.get('receivable_item_no');
+        $('#receivable_item_no').val(receivable_item_no);
+    });
+    $('#receivable').click(function() {
+        var url = new URL(location);
+        var receivable_item_no = $('#receivable_item_no').val();
+        var receivable_svrkey = url.searchParams.get('receivable_svrkey');
+        if(receivable_svrkey==null){
+            receivable_svrkey = '';
+        }
+        $('input[name=receivable_item_no]').remove();
+        $('input[name=receivable_svrkey]').remove();
+    $('#receivable').append("<input type='hidden' name='receivable_item_no' value='"+receivable_item_no+"'>");
+        $('#receivable').append("<input type='hidden' name='receivable_svrkey' value='"+receivable_svrkey+"'>");
+    });
+</script>
