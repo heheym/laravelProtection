@@ -178,6 +178,7 @@ class ConfigController extends Controller
         $form->text('SongPicHttp', '歌曲图片下载地址');
         $form->text('AppPicHttp', '前端App分类图片下载地址');
         $form->text('WarningAtoBtime', 'A版转B版时间(分钟)')->default(40);
+        $form->text('WechatPublicHttp', '公众号链接地址');
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();

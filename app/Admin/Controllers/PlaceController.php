@@ -364,6 +364,7 @@ class PlaceController extends Controller
 //        $form->text('province', '省');
 //        $form->text('city', '市');
         $form->select('downloadMode', '歌曲下载方式')->options([1=>'不下载',2=>'点播下载',3=>'智能下载']);
+        $form->select('apkUpdateMode', '机顶盒apk版本更新方式')->options([1=>'不更新',2=>'必须更新'])->default(2);
 
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));
