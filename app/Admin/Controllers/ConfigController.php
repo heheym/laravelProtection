@@ -177,6 +177,7 @@ class ConfigController extends Controller
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
+            $tools->disableDelete();
         });
 
         return $form;

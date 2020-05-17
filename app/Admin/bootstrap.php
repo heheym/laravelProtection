@@ -51,6 +51,7 @@ Form::init(function (Form $form) {
         $tools->disableView();
 
         $tools->append('<a class="btn btn-sm btn-default form-history-bac" style="float: right;margin-right: 20px;" href="javascript:history.go(-1);" ><i class="fa fa-arrow-left"></i>&nbsp;返回</a>');
+        $tools->disableDelete();
     });
 
     $form->footer(function ($footer) {
