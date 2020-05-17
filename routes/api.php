@@ -17,8 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//需要Authorization，是users表，更新歌曲歌星等信息
 Route::group(['middleware' => 'auth:api'], function() {
-
     Route::post('/songs/addSongs', 'Api\SongController@addSongs');  //添加高危歌曲
     Route::post('/songs/modifySongs', 'Api\SongController@modifySongs');  //修改高危歌曲
     Route::post('/songs/addSongbanned', 'Api\SongController@addSongbanned');  //添加禁播歌曲
@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 });
 
 //url，需要加一个api，如：192.168.10.227:81/api/login
+//需要srvkey，场所使用，是place表用户，
 Route::get('register', 'Auth\RegisterController@register');  //api 注册 by ma
 Route::post('/songs/service/login', 'Auth\LoginController@login');  //api 登录 by ma
 
@@ -63,6 +64,13 @@ Route::post('/songs/downsongok', 'Api\PlaceController@downsongok');  //歌曲下
 Route::post('/songs/isboxreg', 'Api\PlaceController@isboxreg');  //机顶盒是否登记接口
 
 Route::post('/songs/posterList', 'Api\PlaceController@posterList');  //机顶盒是否登记接口
+
+Route::post('/songs/posterList', 'Api\PlaceController@posterList');  //机顶盒是否登记接口
+
+
+
+Route::post('/fees/setMealPayment', 'OrderController@generateQrCode');  //生成套餐支付订单返回接口，返回二维码链接
+
 
 
 

@@ -20,7 +20,7 @@ Class LeshuaHelper
     // 交易成功回调地址，如不接收回调不必提供
     private $callback_url = "";
 
-    public function __construct($merchant_id = '', $key = '',$pay_way = '',$jspay_flag) {
+    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '0000000018', $key = 'a1613a0e7cb9d3a51e33784ee4d212ac') {
         if(!empty($merchant_id)){
             $this->merchant_id = $merchant_id;
         }
@@ -39,20 +39,20 @@ Class LeshuaHelper
      * 生成指定金额的二维码，服务窗支付
      * 仅支持支付宝，微信已经停用此支付方式
      */
-    public function getTdCode($amount, $order_id){
+    public function getTdCode($arr=[]){
         $param = array(
             'merchant_id'=>$this->merchant_id,
             'service'=>'get_tdcode',
-             'pay_way'=>$this->pay_way,
-            'body'=>'zf',
-             'jspay_flag'=>$this->jspay_flag,
+            'pay_way'=>$this->pay_way,
+            'body'=>$arr['body'],
+            'jspay_flag'=>$this->jspay_flag,
             'nonce_str'=>$this->nonce_str(),
-            'sub_openid'=>'',
-            'third_order_id'=>$order_id,
-            'amount'=>$amount,
-            'notify_url'=>$this->callback_url,
-            'jump_url'=>'http://www.boosoochina.com/',
-            'callback_url'=>$this->callback_url,
+            'sub_openid'=>$arr['sub_openid'],
+            'third_order_id'=> $arr['third_order_id'],
+            'amount'=>$arr['amount']*100,
+            'notify_url'=>$arr['notify_url'],
+            'jump_url'=>$arr['jump_url'],
+            'order_expiration' => $arr['order_expiration'],
         );
         $param_str = $this->sign($param);
 

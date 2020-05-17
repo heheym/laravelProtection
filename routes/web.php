@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('admin');
+//    return view('welcome');
 });
 
 Auth::routes();
@@ -23,6 +24,9 @@ Route::get('/promote', 'PromoteController@index');  //新歌推广页面
 Route::get('/promote/song', 'PromoteController@song');//新歌推广ajax获取数据
 
 Route::get('/qrCodeUrl', 'OrderController@qrCodeUrl');//二维码页面
+
+Route::get('/notify_url', 'OrderController@notify_url');//乐刷通知地址
+
 
 
 
