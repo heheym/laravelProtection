@@ -62,7 +62,7 @@ class OrderController extends Controller
             }
             return redirect($url);
         };
-return $protocol.$domainName.'/notify_url';
+
         return response()->json(['code' => 500, 'msg' => '请使用微信或支付宝扫码', 'data' => null]);
     }
 
