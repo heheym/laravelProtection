@@ -82,6 +82,7 @@ class ConfigController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Config);
+        $grid->disableCreateButton();
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -114,9 +115,9 @@ class ConfigController extends Controller
 //
 //        $grid->warningTime1('时间1');
 //        $grid->warningCountRoom1('数量1');
-
         $grid->actions(function ($actions) {
             $actions->disableView();
+            $actions->disableDelete();
         });
         return $grid;
     }
@@ -130,10 +131,8 @@ class ConfigController extends Controller
     protected function detail($id)
     {
         $show = new Show(Config::findOrFail($id));
-
         $show->id('Id');
         $show->version('版本');
-
         return $show;
     }
 
@@ -144,13 +143,9 @@ class ConfigController extends Controller
      */
     protected function form()
     {
-
-
         $form = new Form(new Config);
-
 //        Admin1::disablePjax();
 //        Admin::js('js/hide.js');
-
         Admin::script('show();');
 
         $form->text('SoftwareName', '软件名称')->required();

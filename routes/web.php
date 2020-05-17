@@ -19,7 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/promote', 'PromoteController@index');
-Route::get('/promote/song', 'PromoteController@song');
+Route::get('/promote', 'PromoteController@index');  //新歌推广页面
+Route::get('/promote/song', 'PromoteController@song');//新歌推广ajax获取数据
+
+Route::get('/qrCodeUrl', 'OrderController@qrCodeUrl');//二维码页面
+
 
 

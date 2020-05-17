@@ -11,7 +11,7 @@
     @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
 
         <div class="box-header with-border">
-            <form class="form-inline" id="target" action="" method="get" style="display: inline-block;">
+            <form class="form-inline" id="target"  action="" method="get" style="display: inline-block;" >
                 <div class="form-group">
                     <label for="exampleInputName2">key</label>
                     <input type="text" class="form-control" id="key" placeholder="" name="key" style="width:120px">
@@ -160,7 +160,7 @@
         }
     });
 
-    $('#target').click(function() {
+    $('#butt').click(function() {
         var sel =$("#sel option:selected").val();
         var selvalue = $("#selvalue").val();
         $('#selhidden').remove();

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../project/guoshu/.idea/guoshu.iml" filepath="$PROJECT_DIR$/../../project/guoshu/.idea/guoshu.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/laravelProtection.iml" filepath="$PROJECT_DIR$/.idea/laravelProtection.iml" />
       <module fileurl="file://$PROJECT_DIR$/../zblog/.idea/zblog.iml" filepath="$PROJECT_DIR$/../zblog/.idea/zblog.iml" />
     </modules>
