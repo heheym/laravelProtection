@@ -137,6 +137,7 @@ class PlaceController extends Controller
         $data = DB::select("select settopbox.KtvBoxid,settopbox.machineCode,settopbox.KtvBoxState,settopbox.roomno,settopbox.FeesMode,settopbox.Opening1_time,settopbox.Opening1_price,settopbox.Effective1_time,settopbox.Opening2_time,settopbox.Opening2_price,settopbox.Effective2_time from settopbox  where settopbox.key='$srvkey'");
         foreach($data as $k=>$v){
             if($v->FeesMode==0){
+                $data[$k]->FeesMode = $result->FeesMode;
                 $data[$k]->Opening1_time = $result->Opening1_time;
                 $data[$k]->Opening1_price = $result->Opening1_price;
                 $data[$k]->Effective1_time = $result->Effective1_time;

@@ -12,7 +12,7 @@ Class LeshuaHelper
     // 测试环境地址
     private $url = "https://t-paygate.lepass.cn/cgi-bin/lepos_pay_gateway.cgi";
     // 正式环境地址
-    // private $url = "https://paygate.leshuazf.com/cgi-bin/lepos_pay_gateway.cgi";
+//     private $url = "https://paygate.leshuazf.com/cgi-bin/lepos_pay_gateway.cgi";
 
     private $merchant_id = '';
     private $key = '';
@@ -55,7 +55,6 @@ Class LeshuaHelper
             'order_expiration' => $arr['order_expiration'],
         );
         $param_str = $this->sign($param);
-
 
         //response
         $filecontent = $this->post($this->url, $param_str);

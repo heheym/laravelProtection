@@ -23,9 +23,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/promote', 'PromoteController@index');  //新歌推广页面
 Route::get('/promote/song', 'PromoteController@song');//新歌推广ajax获取数据
 
-Route::get('/qrCodeUrl', 'OrderController@qrCodeUrl');//二维码页面
-
+Route::get('/qrCodeUrl', 'OrderController@qrCodeUrl');//扫二维码后访问的链接页面
 Route::get('/notify_url', 'OrderController@notify_url');//乐刷通知地址
+Route::get('/queryOrder', 'OrderController@queryOrder');//查询订单
 
 
 
