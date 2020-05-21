@@ -20,7 +20,7 @@ Class LeshuaHelper
     // 交易成功回调地址，如不接收回调不必提供
     private $callback_url = "";
 
-    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '0000000018', $key = 'a1613a0e7cb9d3a51e33784ee4d212ac') {
+    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '8311110454', $key = '6E9C35FC1B420E55220B5D23B9D7B523') {
         if(!empty($merchant_id)){
             $this->merchant_id = $merchant_id;
         }
