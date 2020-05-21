@@ -156,6 +156,8 @@ class PlaceController extends Controller
         if($t<0){
             $t=0;
         }
+        array_multisort(array_column($data, 'roomno'), SORT_DESC, $data);
+
 
         return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
             'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'apkUpdateMode'=>$result->apkUpdateMode,

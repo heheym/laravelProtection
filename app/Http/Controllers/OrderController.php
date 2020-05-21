@@ -164,6 +164,8 @@ class OrderController extends Controller
             $re = $ls_pay->getTdCode($arr);
 
             $url =$re->jspay_url;
+            echo $url;
+            return;
             if(empty($url)){
                 return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
             }
