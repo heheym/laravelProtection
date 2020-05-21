@@ -25,24 +25,24 @@ class LogController extends AdminController
 
         $grid->model()->orderBy('id', 'DESC');
 
-        $grid->column('id', 'ID')->sortable();
-        $grid->column('user.name', 'User');
-        $grid->column('method')->display(function ($method) {
+//        $grid->column('id', 'ID')->sortable();
+        $grid->column('user.name', '用户名称');
+        $grid->column('method',' 操作')->display(function ($method) {
             $color = Arr::get(OperationLog::$methodColors, $method, 'grey');
 
             return "<span class=\"badge bg-$color\">$method</span>";
         });
-        $grid->column('path')->label('info');
+        $grid->column('path','路径')->label('info');
         $grid->column('ip')->label('primary');
-        $grid->column('input')->display(function ($input) {
-            $input = json_decode($input, true);
-            $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
-            if (empty($input)) {
-                return '<code>{}</code>';
-            }
-
-            return '<pre>'.json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE).'</pre>';
-        });
+//        $grid->column('input')->display(function ($input) {
+//            $input = json_decode($input, true);
+//            $input = Arr::except($input, ['_pjax', '_token', '_method', '_previous_']);
+//            if (empty($input)) {
+//                return '<code>{}</code>';
+//            }
+//
+//            return '<pre>'.json_encode($input, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE).'</pre>';
+//        });
 
         $grid->column('created_at', trans('admin.created_at'));
 
