@@ -10,9 +10,9 @@ namespace App\Http\Models;
 Class LeshuaHelper
 {
     // 测试环境地址
-    private $url = "https://t-paygate.lepass.cn/cgi-bin/lepos_pay_gateway.cgi";
+//    private $url = "https://t-paygate.lepass.cn/cgi-bin/lepos_pay_gateway.cgi";
     // 正式环境地址
-//     private $url = "https://paygate.leshuazf.com/cgi-bin/lepos_pay_gateway.cgi";
+     private $url = "https://paygate.leshuazf.com/cgi-bin/lepos_pay_gateway.cgi";
 
     private $merchant_id = '';
     private $key = '';

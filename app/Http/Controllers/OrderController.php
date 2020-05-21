@@ -84,25 +84,33 @@ class OrderController extends Controller
     }
 
     /**
-     * 扫二维码后访问的链接页面
+     * 扫二维码后访问的链接页面,生成订单并转到支付页面
      * @return \Illuminate\Http\Response
      */
     public function qrCodeUrl()
     {
-        if(empty($_GET['sn'])){
-            return response()->json(['code' => 500, 'msg' => '订单号不能为空', 'data' => null]);
-        }
-        $order_sn = $_GET['sn'];
-        $exist = DB::table('order')->where('order_sn',$order_sn)->exists();
-        if(!$exist){
-            return response()->json(['code' => 500, 'msg' => '订单号不存在', 'data' => null]);
-        }
+        $srvkey = \Request::header('tonkey');
+        $srvkey = $_GET['tonkey'];
+        $srvkey = explode(' ',$srvkey)[0];
 
-        $third_order_id = $this->get_order_sn();
-        //更新支付订单号
-        Db::table('order')->where('order_sn',$order_sn)->update(['order_sn_submit'=>$third_order_id]);
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+        $insertData = array(
+            'key'=>$srvkey,
+            'order_sn' => $this->get_order_sn(), //订单号，显示用
+            'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
+            'amount' => 1,
+            'submit_time' => date('Y-m-d H:i:s',time()),
+            'o_status' => 1  //订单是否有效  0无效，1有效
+        );
 
-        $order = DB::table('order')->where('order_sn',$order_sn)->first();
+        $result = DB::table('order')->insertGetId($insertData);
+
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
 
@@ -114,8 +122,8 @@ class OrderController extends Controller
                 $arr = [
                     'body'=>'快唱',
                     'sub_openid'=>'',
-                    'third_order_id'=>$third_order_id,
-                    'amount'=>$order->amount,
+                    'third_order_id'=>$insertData['order_sn_submit'],
+                    'amount'=>1,
                     'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
                     'jump_url'=>urlencode($protocol.$domainName),
                     'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
@@ -127,40 +135,28 @@ class OrderController extends Controller
                 }
                 return redirect($url);
         }else{
-                $ls_pay = new LeshuaHelper('ZFBZF','0');
-                $arr = [
-                    'body'=>'快唱',
-                    'sub_openid'=>'',
-                    'third_order_id'=>$third_order_id,
-                    'amount'=>$order->amount,
-                    'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
-                    'jump_url'=>urlencode($protocol.$domainName),
-                    'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
-                ];
-                var_dump($arr['notify_url']);
-                return;
-                $re = $ls_pay->getTdCode($arr);
-                $url =$re->td_code;
-                if(empty($url)){
-                    return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
-                }
-                return redirect($url);
+            $ls_pay = new LeshuaHelper('ZFBZF','0');
+            $arr = [
+                'body'=>'快唱',
+                'sub_openid'=>'',
+                'third_order_id'=>$insertData['order_sn_submit'],
+                'amount'=>1,
+                'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
+                'jump_url'=>urlencode($protocol.$domainName),
+                'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
+            ];
+            $re = $ls_pay->getTdCode($arr);
+            var_dump($arr['notify_url']);
+            return;
+            $url =$re->td_code;
+
+            if(empty($url)){
+                return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
+            }
+            return redirect($url);
         }
 
         return response()->json(['code' => 500, 'msg' => '请使用微信或支付宝扫码', 'data' => null]);
-    }
-
-    //生成订单号
-    public function get_order_sn(){
-        //防止重复订单号存在
-        while (true) {
-            $order_sn = date('YmdHis').rand(1000,9999); //订单号
-            $count = Db::table('order')->where('order_sn', $order_sn)->count();
-            if($count == 0){
-                break;
-            }
-        }
-        return $order_sn;
     }
 
     //支付成功，乐刷通知地址
@@ -197,5 +193,18 @@ class OrderController extends Controller
         return $result;
     }
 
+
+    //生成订单号
+    public function get_order_sn(){
+        //防止重复订单号存在
+        while (true) {
+            $order_sn = date('YmdHis').rand(1000,9999); //订单号
+            $count = Db::table('order')->where('order_sn', $order_sn)->count();
+            if($count == 0){
+                break;
+            }
+        }
+        return $order_sn;
+    }
 
 }
