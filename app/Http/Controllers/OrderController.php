@@ -146,8 +146,6 @@ class OrderController extends Controller
                 'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
             ];
             $re = $ls_pay->getTdCode($arr);
-            var_dump($arr['notify_url']);
-            return;
             $url =$re->td_code;
 
             if(empty($url)){
