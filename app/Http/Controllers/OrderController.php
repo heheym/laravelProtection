@@ -137,6 +137,8 @@ class OrderController extends Controller
                     'jump_url'=>urlencode($protocol.$domainName),
                     'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
                 ];
+                var_dump($arr['notify_url']);
+                return;
                 $re = $ls_pay->getTdCode($arr);
                 $url =$re->td_code;
                 if(empty($url)){
