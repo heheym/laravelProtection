@@ -115,39 +115,55 @@ class OrderController extends Controller
         $domainName = $_SERVER['HTTP_HOST'];
 
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
-                return '微信支付';
-        }else if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
-        {
-                $ls_pay = new LeshuaHelper('ZFBZF','0');
-                $arr = [
-                    'body'=>'快唱',
-                    'sub_openid'=>'',
-                    'third_order_id'=>$insertData['order_sn_submit'],
-                    'amount'=>0.01,
-                    'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
-                    'jump_url'=>urlencode($protocol.$domainName),
-                    'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
-                ];
-                $re = $ls_pay->getTdCode($arr);
-                $url =$re->td_code;
-                if(empty($url)){
-                    return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
-                }
-                return redirect($url);
-        }else{
-            $ls_pay = new LeshuaHelper('ZFBZF','0');
+            $ls_pay = new LeshuaHelper('WXZF','2');
             $arr = [
                 'body'=>'快唱',
                 'sub_openid'=>'',
                 'third_order_id'=>$insertData['order_sn_submit'],
                 'amount'=>0.01,
-                'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
+                'notify_url'=>urlencode($protocol.$domainName.'/notifyUrl'),
+                'jump_url'=>urlencode($protocol.$domainName),
+                'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
+            ];
+
+            $re = $ls_pay->getTdCode($arr);
+            $url =$re->jspay_url;
+            if(empty($url)){
+                return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
+            }
+            return redirect($url);
+        }else if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
+        {
+                $ls_pay = new LeshuaHelper('ZFBZF','2');
+                $arr = [
+                    'body'=>'快唱',
+                    'sub_openid'=>'',
+                    'third_order_id'=>$insertData['order_sn_submit'],
+                    'amount'=>0.01,
+                    'notify_url'=>urlencode($protocol.$domainName.'/notifyUrl'),
+                    'jump_url'=>urlencode($protocol.$domainName),
+                    'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
+                ];
+                $re = $ls_pay->getTdCode($arr);
+                $url =$re->jspay_url;
+                if(empty($url)){
+                    return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
+                }
+                return redirect($url);
+        }else{
+            $ls_pay = new LeshuaHelper('ZFBZF','2');
+            $arr = [
+                'body'=>'快唱',
+                'sub_openid'=>'',
+                'third_order_id'=>$insertData['order_sn_submit'],
+                'amount'=>0.01,
+                'notify_url'=>urlencode($protocol.$domainName.'/notifyUrl'),
                 'jump_url'=>urlencode($protocol.$domainName),
                 'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
             ];
             $re = $ls_pay->getTdCode($arr);
-            $url =$re->td_code;
 
+            $url =$re->jspay_url;
             if(empty($url)){
                 return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
             }
