@@ -104,7 +104,7 @@ class OrderController extends Controller
             'key'=>$srvkey,
             'order_sn' => $this->get_order_sn(), //订单号，显示用
             'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
-            'amount' => 1,
+            'amount' => 0.01,
             'submit_time' => date('Y-m-d H:i:s',time()),
             'o_status' => 1  //订单是否有效  0无效，1有效
         );
@@ -123,7 +123,7 @@ class OrderController extends Controller
                     'body'=>'快唱',
                     'sub_openid'=>'',
                     'third_order_id'=>$insertData['order_sn_submit'],
-                    'amount'=>1,
+                    'amount'=>0.01,
                     'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
                     'jump_url'=>urlencode($protocol.$domainName),
                     'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
@@ -140,7 +140,7 @@ class OrderController extends Controller
                 'body'=>'快唱',
                 'sub_openid'=>'',
                 'third_order_id'=>$insertData['order_sn_submit'],
-                'amount'=>1,
+                'amount'=>0.01,
                 'notify_url'=>urlencode($protocol.$domainName.'/notify_url'),
                 'jump_url'=>urlencode($protocol.$domainName),
                 'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
