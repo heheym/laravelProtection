@@ -237,7 +237,9 @@ class PlaceController extends Controller
         $form->number('boxPass', '机顶盒设置密码')->default('888888')->rules('required|regex:/^\d+$/',['regex' => '必须全部为数字']);
 
         $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
-        $form->select('wangMode', '预警模式')->options($wangMode);
+//        $form->select('wangMode', '预警模式')->options($wangMode);
+        $form->number('warningRoomcount', '房间预警数量')->default(0);
+        $form->number('warningCutsongcount', '切歌预警数量')->default(0);
         $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
 //        $form->timeRange('Opening1_time', 'Opening1_time', '开房时段一');
         $id = request()->route()->parameters('id');
@@ -365,6 +367,8 @@ class PlaceController extends Controller
 //        $form->text('city', '市');
         $form->select('downloadMode', '歌曲下载方式')->options([1=>'不下载',2=>'点播下载',3=>'智能下载']);
         $form->select('apkUpdateMode', '机顶盒apk版本更新方式')->options([1=>'不更新',2=>'必须更新'])->default(2);
+        $form->select('isclosePingfen', '是否要关闭评分功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
+        $form->select('iscloseSound', '是否要关闭录音功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
 
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));

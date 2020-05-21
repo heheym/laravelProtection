@@ -219,16 +219,16 @@ class PlaceController extends Controller
             $post[$k]['srvkey'] = $srvkey;
             $post[$k]['KtvBoxid'] = trim($v['KtvBoxid']);
             $post[$k]['UploadDate'] = date('Y-m-d H:i:s');
-            $post[$k]['State'] = 0;
-
-            $song = DB::table('song')->where('musicdbpk',$v['musicdbpk'])->first();
-            if(empty($song)){
-                return response()->json(['code' => 500, 'msg' => 'musicdbpk不存在', 'data' => null]);
-            }
-            $exists = DB::table('song')->where(['Singer'=>$song->Singer,'Songname'=>$song->Songname,'LangType'=>$song->LangType,'IsAverSong'=>1])->exists();
-            if($exists){
-                $post[$k]['State'] = 1;
-            }
+//            $post[$k]['State'] = 0;
+//
+//            $song = DB::table('song')->where('musicdbpk',$v['musicdbpk'])->first();
+//            if(empty($song)){
+//                return response()->json(['code' => 500, 'msg' => 'musicdbpk不存在', 'data' => null]);
+//            }
+//            $exists = DB::table('song')->where(['Singer'=>$song->Singer,'Songname'=>$song->Songname,'LangType'=>$song->LangType,'IsAverSong'=>1])->exists();
+//            if($exists){
+//                $post[$k]['State'] = 1;
+//            }
         }
 
         try{
