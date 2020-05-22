@@ -20,7 +20,10 @@ Class LeshuaHelper
     // 交易成功回调地址，如不接收回调不必提供
     private $callback_url = "";
 
-    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '8311110454', $key = '6E9C35FC1B420E55220B5D23B9D7B523') {
+    //快唱商户 7514317365
+    //上海七晟科技 0413119717
+    //广州歌神娱乐 8311110454
+    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '0413119717', $key = '6E9C35FC1B420E55220B5D23B9D7B523') {
         if(!empty($merchant_id)){
             $this->merchant_id = $merchant_id;
         }
@@ -67,10 +70,11 @@ Class LeshuaHelper
     }
 
     public function queryOrder($args){
-        $param = array('merchant_id'=>$this->merchant_id,
+        $param = array(
+            'merchant_id'=>$this->merchant_id,
             'service'=>'query_status',
             'nonce_str'=>$this->nonce_str(),
-            'third_order_id'=>$args['order'],
+            'leshua_order_id'=>$args['order'],
         );
 
         //request
@@ -81,6 +85,7 @@ Class LeshuaHelper
         $filecontent = $this->post($this->url, $param_str);
         // echo($filecontent).PHP_EOL;
         $re_obj = simplexml_load_string($filecontent);
+        var_dump($re_obj);
         return $re_obj;
     }
 
