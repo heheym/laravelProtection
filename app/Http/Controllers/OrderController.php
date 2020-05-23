@@ -118,6 +118,7 @@ class OrderController extends Controller
         //判断是支付宝还是微信
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
                 $ls_pay = new LeshuaHelper('WXZF','2');
+//                $ls_pay = new LeshuaHelper('ZFBZF','2');
                 $arr = [
                     'body'=>'快唱',
                     'sub_openid'=>'',
@@ -139,7 +140,8 @@ class OrderController extends Controller
                 return redirect($url);
         }else if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
         {
-                $ls_pay = new LeshuaHelper('ZFBZF','2');
+//                $ls_pay = new LeshuaHelper('ZFBZF','2');
+                $ls_pay = new LeshuaHelper('WXZF','2');
                 $arr = [
                     'body'=>'快唱',
                     'sub_openid'=>'',
@@ -203,17 +205,50 @@ class OrderController extends Controller
     //支付成功，跳转地址
     public function jumpUrl()
     {
+        $html='<div class="info" style="padding: 30px;
+    background: #ff9326;
+    color: #FFF;font-size:50px">您的订单支付成功</div>
+<div class="mark" style="
+  margin:auto;
+  padding-top:130px;
+  fill:#6eb700;">
+  <img src="/img/yes.jpg" width=300 height=300 style="display:block;margin:auto"/>
+</div>';
         if(isset($_GET['leshuaOrderId']) && isset($_GET['result'])){
             $leshuaOrderId = $_GET['leshuaOrderId'];
             $result = $_GET['result'];
             if($result==1){
-                return '支付成功';
-            }else{
-                return '没有支付';
+                return '<div class="info" style="padding: 30px;
+    background: #ff9326;
+    color: #FFF;font-size:50px">您的订单支付成功</div>
+<div class="mark" style="
+  margin:auto;
+  padding-top:130px;
+  fill:#6eb700;">
+  <img src="/img/yes.jpg" width=200 height=200 style="display:block;margin:auto"/>
+</div>';
+            }else {
+                return '<div class="info" style="padding: 30px;
+    background: #ff9326;
+    color: #FFF;font-size:50px">您的订单没有支付</div>
+<div class="mark" style="
+  margin:auto;
+  padding-top:130px;
+  fill:#6eb700;">
+  <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
+</div>';
             }
-        }else{
-            return '支付失败';
         }
+
+        return '<div class="info" style="padding: 30px;
+    background: #ff9326;
+    color: #FFF;font-size:50px">订单失败</div>
+<div class="mark" style="
+  margin:auto;
+  padding-top:130px;
+  fill:#6eb700;">
+  <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
+</div>';
 
 //        if(!isset($_GET['sn'])){
 //            return response()->json(['code' => 500, 'msg' => '订单号错误1', 'data' => null]);
