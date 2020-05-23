@@ -20,8 +20,9 @@ Class LeshuaHelper
     // 交易成功回调地址，如不接收回调不必提供
     private $callback_url = "";
 
+    //测试 0000000018，交易密钥 a1613a0e7cb9d3a51e33784ee4d212ac   通知密钥 D4B7951B628632950AA035FB64BDFAAC
     //快唱商户 7514317365
-    //上海七晟科技 0413119717
+    //上海七晟科技 0413119717   6E9C35FC1B420E55220B5D23B9D7B523   967EBF00E6B5181D49C517B1987005F2
     //广州歌神娱乐 8311110454
     public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '0413119717', $key = '6E9C35FC1B420E55220B5D23B9D7B523') {
         if(!empty($merchant_id)){
@@ -76,16 +77,13 @@ Class LeshuaHelper
             'nonce_str'=>$this->nonce_str(),
             'leshua_order_id'=>$args['order'],
         );
-
         //request
         $param_str = $this->sign($param);
-        // echo($param_str.PHP_EOL);
-
         //response
         $filecontent = $this->post($this->url, $param_str);
-        // echo($filecontent).PHP_EOL;
-        $re_obj = simplexml_load_string($filecontent);
-        var_dump($re_obj);
+//         echo($filecontent).PHP_EOL;
+        $re_obj = simplexml_load_string($filecontent,'SimpleXMLElement',LIBXML_NOCDATA );
+
         return $re_obj;
     }
 
@@ -129,7 +127,7 @@ Class LeshuaHelper
 
         //response
         $filecontent = $this->post($this->url, $param_str);
-        $re_obj = simplexml_load_string($filecontent);
+        $re_obj = simplexml_load_string($filecontent,'SimpleXMLElement',LIBXML_NOCDATA);
         return $re_obj;
     }
 
@@ -153,7 +151,6 @@ Class LeshuaHelper
         //echo('post ' . $url . '?' . $data);
         $filecontent = curl_exec($ch);
 
-        // var_dump($filecontent);
         return $filecontent;
     }
 
