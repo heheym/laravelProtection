@@ -24,7 +24,7 @@ Class LeshuaHelper
     //快唱商户 7514317365
     //上海七晟科技 0413119717   6E9C35FC1B420E55220B5D23B9D7B523   967EBF00E6B5181D49C517B1987005F2
     //广州歌神娱乐 8311110454
-    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '0413119717', $key = '6E9C35FC1B420E55220B5D23B9D7B523') {
+    public function __construct($pay_way = '',$jspay_flag='',$merchant_id = '8311110454', $key = '6E9C35FC1B420E55220B5D23B9D7B523') {
         if(!empty($merchant_id)){
             $this->merchant_id = $merchant_id;
         }

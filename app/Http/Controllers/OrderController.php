@@ -198,11 +198,11 @@ class OrderController extends Controller
             );
 
         }else{
-            file_put_contents('1.txt',"订单号:".$_POST['third_order_id']);
+            return response()->json(['code' => 500, 'msg' => '异步通知失败', 'data' => null]);
         }
     }
     
-    //支付成功，跳转地址
+    //支付成功，直接跳转地址 乐刷会带参数跳转leshuaOrderId，result
     public function jumpUrl()
     {
         $html='<div class="info" style="padding: 30px;
@@ -285,7 +285,7 @@ class OrderController extends Controller
         $result = $ls_pay->queryOrder($arr);
 //        var_dump($result);
        if(isset($result->result_code)&&empty($result->result_code)){
-            return $result->status;
+            var_dump($result); ;
        }else{
            return response()->json(['code' => 500, 'msg' => '订单查询失败', 'data' => null]);
        }
