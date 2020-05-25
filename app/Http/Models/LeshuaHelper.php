@@ -59,7 +59,7 @@ Class LeshuaHelper
             'order_expiration' => $arr['order_expiration'],
         );
         $param_str = $this->sign($param);
-//        var_dump($param_str);
+        var_dump($param_str);
 
         //response
         $filecontent = $this->post($this->url, $param_str);
@@ -134,7 +134,7 @@ Class LeshuaHelper
     }
 
     public function post($url, $data){
-        var_dump($data);
+//        echo $data;
         $ch = curl_init();
         $header = array();
         $header[] = 'Content-Type:application/x-www-form-urlencoded';
@@ -177,7 +177,6 @@ Class LeshuaHelper
         }
 
         $mqueryParam_arr['sign'] = $sign;
-
 
         // echo($sign);
         return  http_build_query($mqueryParam_arr);
