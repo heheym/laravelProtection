@@ -180,7 +180,7 @@ class OrderController extends Controller
                 if(empty($url)){
                     return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
                 }
-            
+
                 var_dump($re);
                 return;
                 return redirect($url);
