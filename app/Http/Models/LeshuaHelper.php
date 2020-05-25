@@ -59,6 +59,7 @@ Class LeshuaHelper
             'order_expiration' => $arr['order_expiration'],
         );
         $param_str = $this->sign($param);
+        var_dump($param_str);
 
         //response
         $filecontent = $this->post($this->url, $param_str);

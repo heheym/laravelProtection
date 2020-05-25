@@ -192,7 +192,7 @@ class OrderController extends Controller
     //支付成功，乐刷通知地址
     public function notifyUrl()
     {
-        file_put_contents('1.txt',"回调成功");
+
         if(isset($_POST['status']) && ($_POST['status']== 2)){
 //            file_put_contents('1.txt',"订单号:".$_POST['third_order_id']."\r\n".
 //                "金额:".$_POST['amount']."\r\n".
