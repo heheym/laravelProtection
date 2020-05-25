@@ -162,7 +162,7 @@ class OrderController extends Controller
                 }
                 return redirect($url);
         }else{
-                $ls_pay = new LeshuaHelper('ZFBZF','2');
+                $ls_pay = new LeshuaHelper('WXZF','2');
                 $arr = [
                     'body'=>'快唱',
                     'sub_openid'=>'',
