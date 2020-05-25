@@ -59,7 +59,8 @@ Class LeshuaHelper
             'order_expiration' => $arr['order_expiration'],
         );
         $param_str = $this->sign($param);
-        var_dump($param_str);
+//        var_dump($param_str);
+        var_dump($param_str); ;
 
         //response
         $filecontent = $this->post($this->url, $param_str);
@@ -84,6 +85,7 @@ Class LeshuaHelper
         $filecontent = $this->post($this->url, $param_str);
 //         echo($filecontent).PHP_EOL;
         $re_obj = simplexml_load_string($filecontent,'SimpleXMLElement',LIBXML_NOCDATA );
+
 
         return $re_obj;
     }
@@ -166,12 +168,16 @@ Class LeshuaHelper
             $queryParam_arr[] = $k."=".$v;
         }
         $queryParam = implode("&", $queryParam_arr);
+
         $sign = strtoupper(md5($queryParam.'&key='.$this->key));
+
         $mqueryParam_arr = array();
         foreach($mparam as $k=>$v){
             $mqueryParam_arr[$k] = $v;
         }
+
         $mqueryParam_arr['sign'] = $sign;
+
 
         // echo($sign);
         return  http_build_query($mqueryParam_arr);
