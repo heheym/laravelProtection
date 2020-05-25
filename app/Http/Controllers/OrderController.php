@@ -89,9 +89,9 @@ class OrderController extends Controller
      */
     public function qrCodeUrl()
     {
-        $srvkey = \Request::header('tonkey');
-        $srvkey = $_GET['tonkey'];
-        $srvkey = explode(' ',$srvkey)[0];
+//        $srvkey = \Request::header('tonkey');
+        $srvkey = isset($_GET['key'])?$_GET['key']:'';
+        $KtvBoxid = isset($_GET['KtvBoxid'])?$_GET['KtvBoxid']:''; //机器码
 
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
@@ -107,6 +107,7 @@ class OrderController extends Controller
         }
         $insertData = array(
             'key'=>$srvkey,
+            'KtvBoxid'=>$KtvBoxid,
 //            'order_sn' => $this->get_order_sn(), //订单号，显示用
             'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
             'amount' => 0.01,
@@ -179,6 +180,7 @@ class OrderController extends Controller
                 if(empty($url)){
                     return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
                 }
+                var_dump($notify_url);
                 var_dump($re);
                 return;
                 return redirect($url);
