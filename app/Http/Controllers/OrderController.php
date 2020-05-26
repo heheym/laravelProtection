@@ -203,6 +203,13 @@ class OrderController extends Controller
             }else {
                 $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
                 Log::info($post.PHP_EOL);
+                if(isset($re_obj->status) && $re_obj->status==2){
+                    $result = DB::table('order')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1]);
+                    if($result){
+                        return 000000;
+                    }
+                    Log::info('修改订单状态失败'.PHP_EOL);
+                }
             }
         }catch (\Exception $e){
             Log::getMonolog()->popHandler();
