@@ -193,32 +193,22 @@ class OrderController extends Controller
     //支付成功，乐刷通知地址
     public function notifyUrl()
     {
-
+        Log::getMonolog()->popHandler();
+        Log::useDailyFiles(storage_path('logs/notifyUrl.log'));
         try{
-
-//            $post = file_get_contents("php://input");
-//            $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
+            $post = file_get_contents("php://input");
+            $xml_parser = xml_parser_create();
+            if(!xml_parse($xml_parser,$post,true)){
+                Log::info('不是xml格式'.PHP_EOL);
+            }else {
+                $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
+                Log::info($post.PHP_EOL);
+            }
+        }catch (\Exception $e){
             Log::getMonolog()->popHandler();
             Log::useDailyFiles(storage_path('logs/notifyUrl.log'));
-            Log::info('测试123435');
-
-
-
-        }catch (\Exception $e){
-            var_dump($e->getMessage());
+            Log::info($e->getMessage());
         }
-
-//        if(isset($_POST['status']) && ($_POST['status']== 2)){
-////            file_put_contents('1.txt',"订单号:".$_POST['third_order_id']."\r\n".
-////                "金额:".$_POST['amount']."\r\n".
-////                "支付时间:".$_POST['pay_time']."\r\n".
-////                "支付类型:".$_POST['pay_way']."\r\n"
-////            );
-//            file_put_contents('1.txt',"回调成功");
-//        }else{
-////            file_put_contents('1.txt',"订单号:");
-//            return response()->json(['code' => 500, 'msg' => '异步通知失败', 'data' => null]);
-//        }
     }
     
     //支付成功，直接跳转地址 乐刷会带参数跳转leshuaOrderId，result
