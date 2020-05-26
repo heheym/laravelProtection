@@ -27,7 +27,7 @@ class SetTopBox extends Model
         static::saved(function (Model $model) {
             $roomno = DB::table('settopbox')->where('id',$model->id)->value('roomno');
             if(empty($roomno)){
-                DB::table('settopbox')->where('id',$model->id)->update(['roomno'=>'J'.$model->id]);
+                DB::table('settopbox')->where('id',$model->id)->update(['roomno'=>'Z'.$model->id]);
             }
         });
     }
