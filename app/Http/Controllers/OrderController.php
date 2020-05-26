@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Models\LeshuaHelper;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -192,13 +193,19 @@ class OrderController extends Controller
     //支付成功，乐刷通知地址
     public function notifyUrl()
     {
+
         try{
-            $post = file_get_contents("php://input");
-            $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
 
-            file_put_contents('2.txt',$re_obj->status);
+//            $post = file_get_contents("php://input");
+//            $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
+            Log::getMonolog()->popHandler();
+            Log::useDailyFiles(storage_path('logs/notifyUrl.log'));
+            Log::info('测试123435');
+
+
+
         }catch (\Exception $e){
-
+            var_dump($e->getMessage());
         }
 
 //        if(isset($_POST['status']) && ($_POST['status']== 2)){
