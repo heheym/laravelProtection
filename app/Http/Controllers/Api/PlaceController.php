@@ -134,7 +134,7 @@ class PlaceController extends Controller
             return response()->json(['code' => 500, 'msg' => '传入信息出错', 'data' => $e->getMessage()]);
         }
 
-        $data = DB::select("select settopbox.KtvBoxid,settopbox.machineCode,settopbox.KtvBoxState,settopbox.roomno,settopbox.FeesMode,settopbox.Opening1_time,settopbox.Opening1_price,settopbox.Effective1_time,settopbox.Opening2_time,settopbox.Opening2_price,settopbox.Effective2_time from settopbox  where settopbox.key='$srvkey'");
+        $data = DB::select("select settopbox.KtvBoxid,settopbox.machineCode,settopbox.KtvBoxState,settopbox.roomno,settopbox.FeesMode,settopbox.Opening1_time,settopbox.Opening1_price,settopbox.Effective1_time,settopbox.Opening2_time,settopbox.Opening2_price,settopbox.Effective2_time from settopbox  where settopbox.key='$srvkey' order by KtvBoxState desc,roomno asc");
         foreach($data as $k=>$v){
             if($v->FeesMode==0){
                 $data[$k]->FeesMode = $result->FeesMode;
@@ -156,8 +156,7 @@ class PlaceController extends Controller
         if($t<0){
             $t=0;
         }
-        array_multisort(array_column($data, 'roomno'), SORT_ASC, $data);
-
+//        array_multisort(array_column($data, 'roomno'), SORT_ASC, $data);
 
         return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
             'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'apkUpdateMode'=>$result->apkUpdateMode,
@@ -174,7 +173,6 @@ class PlaceController extends Controller
     //机顶盒数据查询接口
     public function qryboxmsg(Request $request)
     {
-
         $KtvBoxid = \Request::header('KtvBoxid');
         if(empty($KtvBoxid)){
             return response()->json(['code' => 500, 'msg' => 'KtvBoxid不能为空', 'data' => null]);
