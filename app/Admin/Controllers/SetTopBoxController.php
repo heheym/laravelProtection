@@ -334,11 +334,10 @@ class SetTopBoxController extends Controller
 
         $form->hidden('mark', '备注')->rules(function ($form) {
         // 如果不是编辑状态，则添加字段唯一验证
-        if (!$id = $form->model()->id) {
-            return 'unique:settopbox,KtvBoxid';
-        }
-
-    });;
+            if (!$id = $form->model()->id) {
+                return 'unique:settopbox,KtvBoxid';
+            }
+        });
 
 
 

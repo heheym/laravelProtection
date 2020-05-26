@@ -18,7 +18,7 @@ class Role extends Model
     public static function boot()
     {
         var_dump(123);
-        return 123
+        return 123;
     }
 
 }
