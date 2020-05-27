@@ -12,54 +12,33 @@
 
         <div class="box-header with-border">
             <form class="form-inline" id="target" action="" method="get" style="display: inline-block;">
-                <div class="form-group">
-                    <label for="exampleInputName2">key</label>
-                    <input type="text" class="form-control" id="key" placeholder="" name="key" style="width:120px">
-                    &nbsp;&nbsp;&nbsp;
+                <div class="form-group">&nbsp;&nbsp;&nbsp;
                     <select  id="sel" class="form-control">
-                        <option value="placename">
-                            场所名称
-                        </option>
                         <option value="KtvBoxid">
                             机器码
                         </option>
                         <option value="machineCode">
                             机顶盒MAC
                         </option>
-                        <option value="contacts">
-                            联系人
-                        </option>
                     </select>
 
                     <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
 
-                    <label for="" style="margin-left:10px">地址:</label>
-                    <div data-toggle="distpicker" data-value-type="code" class="form-control" id="distpicker">
-                        <select name="province" data-province="" style="border: none;outline: none;width:100px"></select>
-                        <select name="city" data-city="" style="border: none;outline: none;"></select>
-                    </div>
+{{--                    <label for="" style="margin-left:10px">地址:</label>--}}
+{{--                    <div data-toggle="distpicker" data-value-type="code" class="form-control" id="distpicker">--}}
+{{--                        <select name="province" data-province="" style="border: none;outline: none;width:100px"></select>--}}
+{{--                        <select name="city" data-city="" style="border: none;outline: none;"></select>--}}
+{{--                    </div>--}}
 
-                    <label for="" style="margin-left:10px">状态:</label>
-                    <select  id="KtvBoxState" class="form-control" name="KtvBoxState">
-                        <option value="">
-                            所有
-                        </option>
-                        <option value="0">
-                            待审核
-                        </option>
-                        <option value="1">
-                            正常
-                        </option>
-                        <option value="2">
-                            返修
-                        </option>
-                        <option value="3">
-                            过期
-                        </option>
-                        <option value="4">
-                            作废
-                        </option>
-                    </select>
+{{--                    <label for="" style="margin-left:10px">状态:</label>--}}
+{{--                    <select  id="KtvBoxState" class="form-control" name="KtvBoxState">--}}
+{{--                        <option value="">--}}
+{{--                            所有--}}
+{{--                        </option>--}}
+{{--                        <option value="0">--}}
+{{--                            待审核--}}
+{{--                        </option>--}}
+{{--                    </select>--}}
                 </div>
                 <button type="submit" class="btn btn-default" id="butt">搜索</button>
             </form>

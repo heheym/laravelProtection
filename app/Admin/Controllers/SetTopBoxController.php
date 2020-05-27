@@ -104,6 +104,14 @@ class SetTopBoxController extends Controller
             $city =request('city');
             $where[] = ['city','like','%'.$city.'%'];
         }
+//        if(!empty(request('KtvBoxid'))){
+//            $KtvBoxid =request('KtvBoxid');
+//            $where[] = ['KtvBoxid','like','%'.$KtvBoxid.'%'];
+//        }
+//        if(!empty(request('machineCode'))){
+//            $machineCode =request('machineCode');
+//            $where[] = ['machineCode','like','%'.$machineCode.'%'];
+//        }
 //        $grid->model()->place()->where('placename','快唱办公室');
         $grid->model()->whereHas('place', function ($query) use($where){
             $query->where($where);
@@ -111,10 +119,11 @@ class SetTopBoxController extends Controller
 
 //        $grid->disableFilter(false);
         $grid->filter(function($filter){
-
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('key', 'key');
+            $filter->like('KtvBoxid', 'KtvBoxid');
+            $filter->like('machineCode', 'machineCode');
             $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
         });
 

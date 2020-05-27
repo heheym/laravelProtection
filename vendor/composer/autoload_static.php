@@ -54,6 +54,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         ),
         'W' => 
         array (
+            'Workerman\\' => 10,
             'Whoops\\' => 7,
             'Webmozart\\Assert\\' => 17,
         ),
@@ -191,6 +192,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+        ),
+        'Workerman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/workerman',
         ),
         'Whoops\\' => 
         array (
@@ -5128,6 +5133,39 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'Workerman\\Autoloader' => __DIR__ . '/..' . '/workerman/workerman/Autoloader.php',
+        'Workerman\\Connection\\AsyncTcpConnection' => __DIR__ . '/..' . '/workerman/workerman/Connection/AsyncTcpConnection.php',
+        'Workerman\\Connection\\AsyncUdpConnection' => __DIR__ . '/..' . '/workerman/workerman/Connection/AsyncUdpConnection.php',
+        'Workerman\\Connection\\ConnectionInterface' => __DIR__ . '/..' . '/workerman/workerman/Connection/ConnectionInterface.php',
+        'Workerman\\Connection\\TcpConnection' => __DIR__ . '/..' . '/workerman/workerman/Connection/TcpConnection.php',
+        'Workerman\\Connection\\UdpConnection' => __DIR__ . '/..' . '/workerman/workerman/Connection/UdpConnection.php',
+        'Workerman\\Events\\Ev' => __DIR__ . '/..' . '/workerman/workerman/Events/Ev.php',
+        'Workerman\\Events\\Event' => __DIR__ . '/..' . '/workerman/workerman/Events/Event.php',
+        'Workerman\\Events\\EventInterface' => __DIR__ . '/..' . '/workerman/workerman/Events/EventInterface.php',
+        'Workerman\\Events\\Libevent' => __DIR__ . '/..' . '/workerman/workerman/Events/Libevent.php',
+        'Workerman\\Events\\React\\Base' => __DIR__ . '/..' . '/workerman/workerman/Events/React/Base.php',
+        'Workerman\\Events\\React\\ExtEventLoop' => __DIR__ . '/..' . '/workerman/workerman/Events/React/ExtEventLoop.php',
+        'Workerman\\Events\\React\\ExtLibEventLoop' => __DIR__ . '/..' . '/workerman/workerman/Events/React/ExtLibEventLoop.php',
+        'Workerman\\Events\\React\\StreamSelectLoop' => __DIR__ . '/..' . '/workerman/workerman/Events/React/StreamSelectLoop.php',
+        'Workerman\\Events\\Select' => __DIR__ . '/..' . '/workerman/workerman/Events/Select.php',
+        'Workerman\\Events\\Swoole' => __DIR__ . '/..' . '/workerman/workerman/Events/Swoole.php',
+        'Workerman\\Lib\\Timer' => __DIR__ . '/..' . '/workerman/workerman/Lib/Timer.php',
+        'Workerman\\Protocols\\Frame' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Frame.php',
+        'Workerman\\Protocols\\Http' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http.php',
+        'Workerman\\Protocols\\Http\\Chunk' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Chunk.php',
+        'Workerman\\Protocols\\Http\\Request' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Request.php',
+        'Workerman\\Protocols\\Http\\Response' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Response.php',
+        'Workerman\\Protocols\\Http\\ServerSentEvents' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/ServerSentEvents.php',
+        'Workerman\\Protocols\\Http\\Session' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Session.php',
+        'Workerman\\Protocols\\Http\\SessionException' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Session.php',
+        'Workerman\\Protocols\\Http\\Session\\FileSessionHandler' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Session/FileSessionHandler.php',
+        'Workerman\\Protocols\\Http\\Session\\RedisSessionHandler' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Http/Session/RedisSessionHandler.php',
+        'Workerman\\Protocols\\ProtocolInterface' => __DIR__ . '/..' . '/workerman/workerman/Protocols/ProtocolInterface.php',
+        'Workerman\\Protocols\\Text' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Text.php',
+        'Workerman\\Protocols\\Websocket' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Websocket.php',
+        'Workerman\\Protocols\\Ws' => __DIR__ . '/..' . '/workerman/workerman/Protocols/Ws.php',
+        'Workerman\\Timer' => __DIR__ . '/..' . '/workerman/workerman/Timer.php',
+        'Workerman\\Worker' => __DIR__ . '/..' . '/workerman/workerman/Worker.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
         'Yansongda\\LaravelPay\\Facades\\Pay' => __DIR__ . '/..' . '/yansongda/laravel-pay/src/Facades/Pay.php',
         'Yansongda\\LaravelPay\\PayServiceProvider' => __DIR__ . '/..' . '/yansongda/laravel-pay/src/PayServiceProvider.php',

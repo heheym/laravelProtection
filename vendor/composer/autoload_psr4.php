@@ -13,6 +13,7 @@ return array(
     'Yansongda\\Pay\\' => array($vendorDir . '/yansongda/pay/src'),
     'Yansongda\\LaravelPay\\' => array($vendorDir . '/yansongda/laravel-pay/src'),
     'XdgBaseDir\\' => array($vendorDir . '/dnoegel/php-xdg-base-dir/src'),
+    'Workerman\\' => array($vendorDir . '/workerman/workerman'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),

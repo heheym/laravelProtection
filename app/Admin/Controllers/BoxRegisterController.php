@@ -29,9 +29,17 @@ class BoxRegisterController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new BoxRegister);
+        $grid->setView('boxregister.index');
+
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+            $filter->like('KtvBoxid', 'KtvBoxid');
+            $filter->like('machineCode', 'machineCode');
+        });
 
 //        $grid->column('id', __('Id'));
-        $grid->column('KtvBoxid', __('KtvBoxid'));
+        $grid->column('KtvBoxid', __('机器码'));
         $grid->column('machineCode', '机顶盒MAC');
         $grid->column('CreateDate', '生成时间');
         $grid->status('状态')->display(function () {
