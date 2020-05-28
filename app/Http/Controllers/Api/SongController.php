@@ -478,7 +478,7 @@ class SongController extends Controller
         $post = json_decode(file_get_contents("php://input"), true);
         $minutes = !empty($post['minutes'])?$post['minutes']:60;
 
-        $queryStartDateTime = date("Y-m-d H:i:s", strtotime("-1 year"));
+        $queryStartDateTime = date("Y-m-d H:i:s", strtotime("-$minutes minutes"));
         $queryEndDateTime = date('Y-m-d H:i:s',time());
         $sql = "select A.srvkey,A.KtvBoxid,B.RecordCompany, sum(1) as Clickcount, min(A.UploadDate) as startdate,max(A.UploadDate) as enddate 
            from users_songs AS A Inner Join song AS B ON A.musicdbpk = B.musicdbpk 

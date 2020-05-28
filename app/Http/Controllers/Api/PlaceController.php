@@ -566,14 +566,17 @@ class PlaceController extends Controller
         $post = json_decode(file_get_contents("php://input"), true);
         $days = !empty($post['days'])?$post['days']:30;
 
-        if(empty($post['KtvBoxid'])){
-            return response()->json(['code'=>500,'msg'=>'KtvBoxid不能为空','data'=>null]);
+        $enddate = date('Y-m-d');
+        $startdate = date('Y-m-d',strtotime("-$days days"));
+//        var_dump($enddate.$startdate);
+
+        $data = DB::select("select recordCompany,count(*) as abnormalCount from warningcompany where creatdate>$startdate and creatdate<$enddate  group by RecordCompany");
+        $summ = 0;
+        foreach($data as $k=>$v){
+            $summ+=$v->abnormalCount;
         }
-        $exists = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
-        if(!$exists){
-            return response()->json(['code'=>500,'msg'=>'机器码不存在','data'=>null]);
-        }
-        return response()->json(['code' => 200, 'msg' => '已经登记','data'=>null]);
+
+        return response()->json(['code' => 200,'data'=>$data]);
     }
 
 
