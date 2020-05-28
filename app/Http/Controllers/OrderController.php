@@ -62,7 +62,7 @@ class OrderController extends Controller
             'o_status' => 1  //订单是否有效  0无效，1有效
         );
 
-        $result = DB::table('order')->insertGetId($insertData);
+        $result = DB::table('ordersn')->insertGetId($insertData);
         if(!$result){
             return response()->json(['code' => 200, 'msg' => '生成订单失败','data'=>null]);
         }
@@ -115,7 +115,7 @@ class OrderController extends Controller
             'submit_time' => date('Y-m-d H:i:s',time()),
             'o_status' => 1  //订单是否有效  0无效，1有效
         );
-        $result = DB::table('order')->insertGetId($insertData);
+        $result = DB::table('ordersn')->insertGetId($insertData);
 
         //判断是支付宝还是微信
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
@@ -137,7 +137,7 @@ class OrderController extends Controller
                     return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
                 }
                 if(isset($re->leshua_order_id)){
-                    DB::table('order')->where('order_sn_submit',$insertData['order_sn_submit'])->update(['leshua_order_id'=>$re->leshua_order_id]);
+                    DB::table('ordersn')->where('order_sn_submit',$insertData['order_sn_submit'])->update(['leshua_order_id'=>$re->leshua_order_id]);
                 }
                 return redirect($url);
         }else if(strpos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false)
@@ -159,7 +159,7 @@ class OrderController extends Controller
                     return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
                 }
                 if(isset($re->leshua_order_id)){
-                    DB::table('order')->where('order_sn_submit',$insertData['order_sn_submit'])->update(['leshua_order_id'=>$re->leshua_order_id]);
+                    DB::table('ordersn')->where('order_sn_submit',$insertData['order_sn_submit'])->update(['leshua_order_id'=>$re->leshua_order_id]);
                 }
                 return redirect($url);
         }else{
@@ -176,7 +176,7 @@ class OrderController extends Controller
                 $re = $ls_pay->getTdCode($arr);
                 $url =$re->jspay_url;
                 if(isset($re->leshua_order_id)) {
-                    DB::table('order')->where('order_sn_submit', $insertData['order_sn_submit'])->update(['leshua_order_id' => $re->leshua_order_id]);
+                    DB::table('ordersn')->where('order_sn_submit', $insertData['order_sn_submit'])->update(['leshua_order_id' => $re->leshua_order_id]);
                 }
                 if(empty($url)){
                     return response()->json(['code' => 500, 'msg' => '订单错误', 'data' => null]);
@@ -204,7 +204,7 @@ class OrderController extends Controller
                 $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
                 Log::info($post.PHP_EOL);
                 if(isset($re_obj->status) && $re_obj->status==2){
-                    $result = DB::table('order')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1]);
+                    $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1]);
                     if($result){
                         return 000000;
                     }
@@ -272,7 +272,7 @@ class OrderController extends Controller
 //        $sn = $_GET['sn'];
 //        echo($sn);
 //
-//        $order = DB::table('order')->where('order_sn_submit',$sn)->first();
+//        $order = DB::table('ordersn')->where('order_sn_submit',$sn)->first();
 //        if(empty($order)){
 //            return response()->json(['code' => 500, 'msg' => '订单号错误2', 'data' => null]);
 //        }
@@ -290,7 +290,7 @@ class OrderController extends Controller
         if(isset($_GET['sn'])){
             $sn = $_GET['sn'];
         }
-        $order = DB::table('order')->where('order_sn_submit',$sn)->first();
+        $order = DB::table('ordersn')->where('order_sn_submit',$sn)->first();
         if(empty($sn)||empty($order)){
             return response()->json(['code' => 500, 'msg' => '订单号错误3', 'data' => null]);
         }
@@ -314,7 +314,7 @@ class OrderController extends Controller
         //防止重复订单号存在
         while (true) {
             $order_sn = date('YmdHis').rand(1000,9999); //订单号
-            $count = Db::table('order')->where('order_sn', $order_sn)->count();
+            $count = Db::table('ordersn')->where('order_sn_submit', $order_sn)->count();
             if($count == 0){
                 break;
             }

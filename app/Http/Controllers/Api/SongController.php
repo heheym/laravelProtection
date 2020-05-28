@@ -472,4 +472,53 @@ class SongController extends Controller
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
+    //定时统计异常唱片公司接口
+    public function rcompany()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        $minutes = !empty($post['minutes'])?$post['minutes']:60;
+
+        $queryStartDateTime = date("Y-m-d H:i:s", strtotime("-1 year"));
+        $queryEndDateTime = date('Y-m-d H:i:s',time());
+        $sql = "select A.srvkey,A.KtvBoxid,B.RecordCompany, sum(1) as Clickcount, min(A.UploadDate) as startdate,max(A.UploadDate) as enddate 
+           from users_songs AS A Inner Join song AS B ON A.musicdbpk = B.musicdbpk 
+           where A.UploadDate >='$queryStartDateTime' and A.UploadDate < '$queryEndDateTime' and B.RecordCompany>'' 
+           group by A.srvkey,A.KtvBoxid,B.RecordCompany
+           having count(*)>=20;";
+        $data = DB::select($sql);
+        if(!empty($data)){
+            foreach($data as $v){
+                $exists = DB::table('warningcompany')->where([
+                    ['svrkey','=',$v->srvkey],
+                    ['ktvboxid','=',$v->KtvBoxid],
+                    ['RecordCompany','=',$v->RecordCompany],
+                    ['startdatetime','<=',$v->startdate],
+                    ['enddatetime','>=',$v->startdate]])->exists();
+
+                if($exists){
+                    DB::table('warningcompany')->where([
+                        ['svrkey','=',$v->srvkey],
+                        ['ktvboxid','=',$v->KtvBoxid],
+                        ['RecordCompany','=',$v->RecordCompany],
+                        ['startdatetime','<=',$v->startdate],
+                        ['enddatetime','>=',$v->startdate]])->update(['enddatetime'=>$v->enddate]);
+//                    return response()->json(['code'=>200,'msg'=>'请求成功1','data'=>null]);
+                }else{
+                    DB::table('warningcompany')->insert([
+                        'svrkey'=>$v->srvkey,
+                        'ktvboxid'=>$v->KtvBoxid,
+                        'RecordCompany'=>$v->RecordCompany,
+                        'Clickcount'=>$v->Clickcount,
+                        'startdatetime'=>$v->startdate,
+                        'enddatetime'=>$v->enddate,
+                        'creatdate'=>$queryEndDateTime,
+                    ]);
+//                    return response()->json(['code'=>200,'msg'=>'请求成功2','data'=>null]);
+                }
+            }
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }
+
+    }
+
 }

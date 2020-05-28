@@ -100,7 +100,11 @@ class PlaceController extends Controller
             $post['machineCode'] = $machineCode;
 
             try{
-                DB::table('settopbox')->insert($post);
+                $id = DB::table('settopbox')->insertGetId($post);
+                if(empty($post['roomno'])){
+                    DB::table('settopbox')->where('id',$id)->update(['roomno'=>'Z'.$id]);
+                }
+
             }catch (\Exception $e){
                 return response()->json(['code' => 500, 'msg' => $e->getMessage(), 'data' => null]);
             }
@@ -545,10 +549,31 @@ class PlaceController extends Controller
             $v->Posterhttp = $auth->privateDownloadUrl($baseUrl,86400);
         }
         return json_encode(['code'=>200,'data'=>$data],320);
+    }
 
+    //唱片公司异常接口
+    public function companyWarning(Request $request)
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
 
+        $post = json_decode(file_get_contents("php://input"), true);
+        $days = !empty($post['days'])?$post['days']:30;
 
-
+        if(empty($post['KtvBoxid'])){
+            return response()->json(['code'=>500,'msg'=>'KtvBoxid不能为空','data'=>null]);
+        }
+        $exists = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
+        if(!$exists){
+            return response()->json(['code'=>500,'msg'=>'机器码不存在','data'=>null]);
+        }
+        return response()->json(['code' => 200, 'msg' => '已经登记','data'=>null]);
     }
 
 

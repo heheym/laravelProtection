@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::post('/songs/addregbox', 'Api\SongController@addRegbox');  //机顶盒预登记接口
 
+    Route::post('/songs/service/rcompany', 'Api\SongController@rcompany');  //机顶盒预登记接口
+
 });
 
 //url，需要加一个api，如：192.168.10.227:81/api/login
