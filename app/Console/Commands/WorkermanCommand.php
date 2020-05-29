@@ -12,7 +12,7 @@ class WorkermanCommand extends Command
      *
      * @var string
      */
-    
+
     protected $signature = 'wk {action}';
 
     /**
