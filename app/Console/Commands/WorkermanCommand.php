@@ -40,18 +40,10 @@ class WorkermanCommand extends Command
     public function handle()
     {
         global $argv;
-        $arg = $this->argument('action');
-        $argv[1] = $arg;
+        $action = $this->argument('action');
+        $argv[1] = $action;
         $argv[2] = $this->option('d') ? '-d' : '';//该参数是以daemon（守护进程）方式启动
-        switch ($arg) {
-            case 'start':
-                $this->start();
-                break;
-            case 'stop':
-                $argv = 'stop';
-                Worker::runAll();
-        }
-
+        $this->start();
     }
 
     private function start()
