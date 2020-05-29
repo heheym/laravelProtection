@@ -47,6 +47,9 @@ class WorkermanCommand extends Command
             case 'start':
                 $this->start();
                 break;
+            case 'stop':
+                $argv = 'stop';
+                Worker::runAll();
         }
 
     }
