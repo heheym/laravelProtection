@@ -99,12 +99,12 @@ class OrderController extends Controller
         $notify_url = $protocol.$domainName.'/notifyUrl';
         $jump_url = $protocol.$domainName.'/jumpUrl';
 
-        if(empty($srvkey)){
-            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        if(empty($KtvBoxid)){
+            return response()->json(['code' => 500, 'msg' => '机器码错误', 'data' => null]);
         }
-        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        $exists = DB::table('settopbox')->where(['KtvBoxid'=>$KtvBoxid])->exists();
         if(!$exists){
-            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+            return response()->json(['code' => 500, 'msg' => '机器码不存在', 'data' => null]);
         }
         $insertData = array(
             'key'=>$srvkey,
