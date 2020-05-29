@@ -486,6 +486,7 @@ class SongController extends Controller
            group by A.srvkey,A.KtvBoxid,B.RecordCompany
            having count(*)>=20;";
         $data = DB::select($sql);
+
         if(!empty($data)){
             foreach($data as $v){
                 $exists = DB::table('warningcompany')->where([
@@ -501,7 +502,8 @@ class SongController extends Controller
                         ['ktvboxid','=',$v->KtvBoxid],
                         ['RecordCompany','=',$v->RecordCompany],
                         ['startdatetime','<=',$v->startdate],
-                        ['enddatetime','>=',$v->startdate]])->update(['enddatetime'=>$v->enddate]);
+                        ['enddatetime','>=',$v->startdate]])
+                    ->update(['enddatetime'=>$v->enddate]);
 //                    return response()->json(['code'=>200,'msg'=>'请求成功1','data'=>null]);
                 }else{
                     DB::table('warningcompany')->insert([

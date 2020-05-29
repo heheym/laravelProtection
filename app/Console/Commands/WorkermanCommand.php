@@ -13,7 +13,7 @@ class WorkermanCommand extends Command
      * @var string
      */
 
-    protected $signature = 'wk {action}';
+    protected $signature = 'workerman {action} {--d}';
 
     /**
      * The console command description.
@@ -41,8 +41,8 @@ class WorkermanCommand extends Command
     {
         global $argv;
         $arg = $this->argument('action');
-        $argv[1] = $argv[2];
-        $argv[2] = isset($argv[3]) ? "-{$argv[3]}" : '';
+        $argv[1] = $arg;
+        $argv[2] = $this->option('d') ? '-d' : '';//该参数是以daemon（守护进程）方式启动
         switch ($arg) {
             case 'start':
                 $this->start();
