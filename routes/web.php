@@ -28,6 +28,8 @@ Route::post('/notifyUrl', 'OrderController@notifyUrl');//支付成功乐刷异�
 Route::get('/jumpUrl', 'OrderController@jumpUrl');//支付成功页面跳转地址
 Route::get('/queryOrder', 'OrderController@queryOrder');//查询订单
 
+Route::get('/workerman','Workerman\WorkermanController@index');
+
 
 
 

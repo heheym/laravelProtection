@@ -518,7 +518,7 @@ class SongController extends Controller
             }
             return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
         }
-
+        return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
 }

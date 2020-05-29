@@ -570,11 +570,9 @@ class PlaceController extends Controller
         $startdate = date('Y-m-d',strtotime("-$days days"));
 //        var_dump($enddate.$startdate);
 
-        $data = DB::select("select recordCompany,count(*) as abnormalCount from warningcompany where creatdate>$startdate and creatdate<$enddate  group by RecordCompany");
-        $summ = 0;
-        foreach($data as $k=>$v){
-            $summ+=$v->abnormalCount;
-        }
+        $sql = "select RecordCompany as recordCompany,count(*) as abnormalCount from warningcompany where creatdate>='$startdate' and creatdate<='$enddate'  group by RecordCompany";
+        
+        $data = DB::select($sql);
 
         return response()->json(['code' => 200,'data'=>$data]);
     }

@@ -22,7 +22,7 @@ class OrderController extends Controller
     //返回二维码链接,生成套餐支付订单返回接口
     public function generateQrCode()
     {
-        $srvkey = \Request::header('tonkey');
+        $srvkey = \Request::header('KtvBoxid');
         $srvkey = explode(' ',$srvkey)[0];
 
         if(empty($srvkey)){
