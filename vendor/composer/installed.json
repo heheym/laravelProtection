@@ -5344,7 +5344,7 @@
         },
         "time": "2020-05-19T07:23:34+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Workerman\\": "./"
