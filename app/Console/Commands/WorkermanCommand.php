@@ -56,15 +56,16 @@ class WorkermanCommand extends Command
         $worker->onWorkerStart = function($worker)
         {
             // 开启一个内部端口，方便内部系统推送数据，Text协议格式 文本+换行符
-            $inner_text_worker = new Worker('text://0.0.0.0:82');
+            $inner_text_worker = new Worker('Text://0.0.0.0:82');
             $inner_text_worker->onMessage = function($connection, $buffer)
             {
                 global $worker;
                 // $data数组格式，里面有uid，表示向那个uid的页面推送数据
                 $data = json_decode($buffer, true);
-                $uid = $data['uid'];
+//                $uid = $data['uid'];
                 // 通过workerman，向uid的页面推送数据
-                $ret = sendMessageByUid($uid, $data['percent']);
+//                $ret = sendMessageByUid($uid, $data['percent']);
+                $ret = broadcast('推送成功123');
                 // 返回推送结果
                 $connection->send($ret ? 'ok' : 'fail1');
             };
