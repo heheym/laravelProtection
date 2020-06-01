@@ -30,6 +30,8 @@ Route::get('/queryOrder', 'OrderController@queryOrder');//查询订单
 
 Route::get('/workerman','Workerman\WorkermanController@index');
 
+Route::get('/test','OrderController@test');
+
 
 
 

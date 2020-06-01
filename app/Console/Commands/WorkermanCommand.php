@@ -62,10 +62,10 @@ class WorkermanCommand extends Command
                 global $worker;
                 // $data数组格式，里面有uid，表示向那个uid的页面推送数据
                 $data = json_decode($buffer, true);
-//                $uid = $data['uid'];
+                $uid = $data['uid'];
                 // 通过workerman，向uid的页面推送数据
-//                $ret = sendMessageByUid($uid, $data['percent']);
-                $ret = broadcast('推送成功123');
+                $ret = sendMessageByUid($uid, $data['percent']);
+//                $ret = broadcast('推送成功123');
                 // 返回推送结果
                 $connection->send($ret ? 'ok' : 'fail1');
             };

@@ -322,4 +322,9 @@ class OrderController extends Controller
         return $order_sn;
     }
 
+    public function test()
+    {
+        return view('test');
+    }
+
 }
