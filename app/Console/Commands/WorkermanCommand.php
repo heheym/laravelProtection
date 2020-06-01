@@ -109,7 +109,6 @@ class WorkermanCommand extends Command
             }
             return false;
         }
-
         Worker::runAll();
     }
 
