@@ -51,7 +51,7 @@ class WorkermanCommand extends Command
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
         $worker = new Worker('websocket://0.0.0.0:8081');
 
-        $worker->count = 4;
+        $worker->count = 1;
         $worker->uidConnections = [];
 
 // worker进程启动后创建一个text Worker以便打开一个内部通讯端口
