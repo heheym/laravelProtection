@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Models\LeshuaHelper;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Workerman\WorkermanController;
 
 class OrderController extends Controller
 {
@@ -206,6 +207,8 @@ class OrderController extends Controller
                 if(isset($re_obj->status) && $re_obj->status==2){
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1]);
                     if($result){
+                        $worker = new WorkermanController();
+                        $worker->index();
                         return 000000;
                     }
                     Log::info('修改订单状态失败'.PHP_EOL);
@@ -305,7 +308,6 @@ class OrderController extends Controller
        }else{
            return response()->json(['code' => 500, 'msg' => '订单查询失败', 'data' => null]);
        }
-
     }
 
 

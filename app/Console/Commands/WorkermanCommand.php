@@ -52,31 +52,36 @@ class WorkermanCommand extends Command
         $worker = new Worker('websocket://0.0.0.0:8081');
 
         $worker->count = 4;
+        $worker->uidConnections = [];
 
 // worker进程启动后创建一个text Worker以便打开一个内部通讯端口
         $worker->onWorkerStart = function ($worker){
 
             // 开启一个内部端口，方便内部系统推送数据，Text协议格式 文本+换行符
-            $inner_text_worker = new Worker('text://0.0.0.0:82');
+            $inner_text_worker = new Worker('Text://0.0.0.0:82');
             $inner_text_worker->onMessage = function ($connection, $buffer){
                 // 使用uid判断需要向哪个页面推送数据
                 // $data数组格式，里面有uid，表示向那个uid的页面推送数据
                 $data = json_decode($buffer, true);
-                $uid = $data['uid'];
+//                $uid = $data['uid'];
+//                $res = sendMessageByUid($uid, $buffer);
+//                $connection->send($res ? 'ok' : 'fail');
 
-                // 通过workerman，向uid的页面推送数据
-                $res = sendMessageByUid($uid, $buffer);
-                $connection->send($res ? 'ok' : 'fail');
+                $res = broadCast($buffer);
+                $connection->send($res ? true : false);
             };
             $inner_text_worker->listen();
         };
 
 
-        $worker->uidConnections = [];
-
 // 当有客户端发来消息时执行的回调函数, 客户端需要表明自己是哪个uid
         $worker->onMessage = function ($connection, $data){
             global $worker;
+            if($data == '广播'){
+                broadCast('这是广播消息，所有页面都有'.date('Y-m-d H:i:s'));
+            }else{
+                $connection->send($data);
+            }
             if(!isset($connection->uid)){
                 // 没验证的话把第一个包当做uid（这里为了方便演示，没做真正的验证）
                 $connection->uid = $data;
@@ -94,9 +99,13 @@ class WorkermanCommand extends Command
 
         function broadCast($message){
             global $worker;
-            foreach ($worker->uidConnections as $connection){
-                $connection->send($message);
+            if(!empty($worker->uidConnections)){
+                foreach ($worker->uidConnections as $connection){
+                    $connection->send($message);
+                }
+                return true;
             }
+            return false;
         }
 
 // 向客户端某一个uid推送数据
