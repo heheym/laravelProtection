@@ -206,9 +206,10 @@ class OrderController extends Controller
                 Log::info($post.PHP_EOL);
                 if(isset($re_obj->status) && $re_obj->status==2){
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1]);
+                    $KtvBoxid = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->value('KtvBoxid');
                     if($result){
                         $worker = new WorkermanController();
-                        $worker->index();
+                        $worker->index($KtvBoxid);
                         return '000000';
                     }
                     Log::info('修改订单状态失败'.PHP_EOL);
