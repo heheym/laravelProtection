@@ -209,7 +209,7 @@ class OrderController extends Controller
                     if($result){
                         $worker = new WorkermanController();
                         $worker->index();
-                        return 000000;
+                        return '000000';
                     }
                     Log::info('修改订单状态失败'.PHP_EOL);
                 }
