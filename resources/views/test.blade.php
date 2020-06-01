@@ -9,7 +9,7 @@
 
 <body>
 <h3>WebSocket协议的客户端程序</h3>
-{{--<button id="btConnect">连接到WS服务器</button>--}}
+<button id="btConnect">连接到WS服务器</button>
 <p><input type-="text" id="subtext"><button id="btSendAndReceive">向WS服务器发消息并接收消息</button></p>
 <button id="btClose">断开与WS服务器的连接</button>
 <button id="postcast">广播</button>
