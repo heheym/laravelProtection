@@ -78,7 +78,7 @@ class WorkermanCommand extends Command
             if(!empty($data['srvkey'])){
                 $connection->uid = $data['srvkey'];
                 $worker->uidConnections[$connection->uid] = $connection;
-                $respond = json_encode(['code'=>200,'msg'=>'请求成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                $respond = json_encode(['code'=>200,'msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
                 return;
             }
