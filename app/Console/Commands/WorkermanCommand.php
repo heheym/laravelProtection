@@ -63,7 +63,7 @@ class WorkermanCommand extends Command
                 // 使用uid判断需要向哪个页面推送数据
                 // $data数组格式，里面有uid，表示向那个uid的页面推送数据
                 $data = json_decode($buffer, true);
-                $send = json_encode(['code'=>200, 'msg'=>'支付成功','data'=>$data['KtvBoxid']],JSON_UNESCAPED_UNICODE);
+                $send = json_encode($data,JSON_UNESCAPED_UNICODE);
                 $res = sendMessageByUid($data['srvkey'], $send);
                 $connection->send($res ? true : false);
             };
