@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Workerman\Worker;
+use Illuminate\Support\Facades\Log;
 
 class WorkermanCommand extends Command
 {
@@ -48,6 +49,9 @@ class WorkermanCommand extends Command
 
     private function start()
     {
+//        Log::getMonolog()->popHandler();
+//        Log::useDailyFiles(storage_path('logs/worker.log'));
+//        Log::info('123'.PHP_EOL);
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
         $worker = new Worker('websocket://0.0.0.0:8081');
 
@@ -64,8 +68,9 @@ class WorkermanCommand extends Command
                 // $data数组格式，里面有uid，表示向那个uid的页面推送数据
                 $data = json_decode($buffer, true);
                 $send = json_encode($data,JSON_UNESCAPED_UNICODE);
+//                Log::info('456'.PHP_EOL);
                 $res = sendMessageByUid($data['srvkey'], $send);
-                $connection->send($res ? true : false);
+                $connection->send($res ? 'success' : 'false');
             };
             $inner_text_worker->listen();
         };
