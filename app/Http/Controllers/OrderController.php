@@ -60,6 +60,7 @@ class OrderController extends Controller
 //        $srvkey = \Request::header('tonkey');
 //        $srvkey = isset($_GET['key'])?$_GET['key']:'';
         $KtvBoxid = isset($_GET['KtvBoxid'])?$_GET['KtvBoxid']:''; //机器码
+        $amount = isset($_GET['amount'])?$_GET['amount']:0.01; //机器码
 
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
@@ -78,7 +79,7 @@ class OrderController extends Controller
             'KtvBoxid'=>$exists->KtvBoxid,
 //            'order_sn' => $this->get_order_sn(), //订单号，显示用
             'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
-            'amount' => 0.01,
+            'amount' => $amount,
             'submit_time' => date('Y-m-d H:i:s',time()),
             'o_status' => 1  //订单是否有效  0无效，1有效
         );
@@ -92,7 +93,7 @@ class OrderController extends Controller
                     'body'=>'快唱',
                     'sub_openid'=>'',
                     'third_order_id'=>$insertData['order_sn_submit'],
-                    'amount'=>0.01,
+                    'amount'=>$amount,
                     'notify_url'=>urlencode($notify_url),
                     'jump_url'=>urlencode($jump_url),
                     'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
@@ -115,7 +116,7 @@ class OrderController extends Controller
                     'body'=>'快唱',
                     'sub_openid'=>'',
                     'third_order_id'=>$insertData['order_sn_submit'],
-                    'amount'=>0.01,
+                    'amount'=>$amount,
                     'notify_url'=>urlencode($notify_url),
                     'jump_url'=>urlencode($jump_url),
                     'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
@@ -135,7 +136,7 @@ class OrderController extends Controller
                     'body'=>'快唱',
                     'sub_openid'=>'',
                     'third_order_id'=>$insertData['order_sn_submit'],
-                    'amount'=>0.01,
+                    'amount'=>$amount,
                     'notify_url'=>urlencode($notify_url),
                     'jump_url'=>urlencode($jump_url),
                     'order_expiration'=>60, //订单有效时长 支付宝为分钟，微信为秒
