@@ -63,11 +63,8 @@ class WorkermanCommand extends Command
                 // 使用uid判断需要向哪个页面推送数据
                 // $data数组格式，里面有uid，表示向那个uid的页面推送数据
                 $data = json_decode($buffer, true);
-//                $uid = $data['uid'];
-//                $res = sendMessageByUid($uid, $buffer);
-//                $connection->send($res ? 'ok' : 'fail');
-
-                $res = broadCast($buffer);
+                $send = json_encode(['code'=>200, 'msg'=>'支付成功','data'=>$data['KtvBoxid']],JSON_UNESCAPED_UNICODE);
+                $res = sendMessageByUid($data['srvkey'], $send);
                 $connection->send($res ? true : false);
             };
             $inner_text_worker->listen();
@@ -76,17 +73,20 @@ class WorkermanCommand extends Command
 
 // 当有客户端发来消息时执行的回调函数, 客户端需要表明自己是哪个uid
         $worker->onMessage = function ($connection, $data){
+            $data = json_decode($data,true);
             global $worker;
-            if($data == '广播'){
-                broadCast('这是广播消息，所有页面都有'.date('Y-m-d H:i:s'));
-            }else{
-                $connection->send($data);
+            if(!empty($data['srvkey'])){
+                $connection->uid = $data['srvkey'];
+                $worker->uidConnections[$connection->uid] = $connection;
+                $respond = json_encode(['code'=>200,'msg'=>'请求成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                $connection->send($respond);
+                return;
             }
             if(!isset($connection->uid)){
                 // 没验证的话把第一个包当做uid（这里为了方便演示，没做真正的验证）
-                $connection->uid = $data;
-                $worker->uidConnections[$connection->uid] = $connection;
-                return ;
+                $respond = json_encode(['code'=>200,'msg'=>'没有授权','data'=>null],JSON_UNESCAPED_UNICODE);
+                $connection->send($respond);
+                return;
             }
         };
 

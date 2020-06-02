@@ -21,10 +21,9 @@ class OrderController extends Controller
     }
 
     //返回二维码链接,生成套餐支付订单返回接口
-    public function generateQrCode()
+    public function getQrCodeUrl()
     {
-        $srvkey = \Request::header('KtvBoxid');
-        $srvkey = explode(' ',$srvkey)[0];
+        $srvkey = \Request::header('srvkey');
 
         if(empty($srvkey)){
             return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
@@ -35,54 +34,21 @@ class OrderController extends Controller
         }
 
         $post = json_decode(file_get_contents("php://input"), true);
-        if(empty($post['setMeal_id'])){
-            return response()->json(['code' => 500, 'msg' => '参数错误','data'=>null]);
-        }
-        $setMeal_id = $post['setMeal_id'];
-        $setMeal_num = !empty($post['setMeal_num'])?$post['setMeal_num']:1;
-
-        $exists = DB::table('setMeal')->where('setMeal_id',$setMeal_id)->exists();
-        if(!$exists){
-            return response()->json(['code' => 500, 'msg' => '套餐不存在','data'=>null]);
-        }
-
-        $setMeal = DB::table('setMeal')->where('setMeal_id',$post['setMeal_id'])->first();
-        //setMeal_mode,套餐计费方式:1：按有效机顶盒数量，2按固定费用
-        if($setMeal->setMeal_mode==1){
-
-        }elseif($setMeal->setMeal_mode==2){
-            $setMeal_totalprice = $setMeal->setMeal_price*$setMeal_num*$setMeal->setMeal_discount;
-        }
-
-        $insertData = array(
-            'key'=>$srvkey,
-            'order_sn' => $this->get_order_sn(), //订单号，显示用
-            'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
-            'amount' => $setMeal_totalprice,
-            'submit_time' => date('Y-m-d H:i:s',time()),
-            'o_status' => 1  //订单是否有效  0无效，1有效
-        );
-
-        $result = DB::table('ordersn')->insertGetId($insertData);
-        if(!$result){
-            return response()->json(['code' => 200, 'msg' => '生成订单失败','data'=>null]);
-        }
 
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
-        $data['code_url'] = $protocol.$domainName."/qrCodeUrl?sn=".$insertData['order_sn'];
+        foreach($post as $k=>$v){
+            if(empty($v['KtvBoxid'])){
+                return response()->json(['code' => 500, 'msg'=>'机器码KtvBoxid错误','data'=>null]);
+            }
+            $exists = DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$v['KtvBoxid']])->exists();
+            if(!$exists){
+                return response()->json(['code' => 500, 'msg'=>'场所没有该机器码','data'=>null]);
+            }
+            $post[$k]['qrcode'] = $protocol.$domainName."/qrCodeUrl?KtvBoxid=".$v['KtvBoxid'];
+        }
 
-        return response()->json(['code' => 200,
-            'Payment_id' => $insertData['order_sn'],
-            'setMeal_id'=>$setMeal_id,
-            'setMeal_name'=>$setMeal->setMeal_name,
-            'expired_date'=>'2023-12-12',
-            'setMeal_days'=>365,
-            'setMeal_totalprice'=> $setMeal_totalprice,
-            'setMeal_num' => $setMeal_num,
-            'data'=>$data
-        ]);
-
+        return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => $post]);
     }
 
     /**
@@ -92,7 +58,7 @@ class OrderController extends Controller
     public function qrCodeUrl()
     {
 //        $srvkey = \Request::header('tonkey');
-        $srvkey = isset($_GET['key'])?$_GET['key']:'';
+//        $srvkey = isset($_GET['key'])?$_GET['key']:'';
         $KtvBoxid = isset($_GET['KtvBoxid'])?$_GET['KtvBoxid']:''; //机器码
 
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
@@ -103,13 +69,13 @@ class OrderController extends Controller
         if(empty($KtvBoxid)){
             return response()->json(['code' => 500, 'msg' => '机器码错误', 'data' => null]);
         }
-        $exists = DB::table('settopbox')->where(['KtvBoxid'=>$KtvBoxid])->exists();
-        if(!$exists){
+        $exists = DB::table('settopbox')->where(['KtvBoxid'=>$KtvBoxid])->select('KtvBoxid','key')->first();
+        if(empty($exists->KtvBoxid)){
             return response()->json(['code' => 500, 'msg' => '机器码不存在', 'data' => null]);
         }
         $insertData = array(
-            'key'=>$srvkey,
-            'KtvBoxid'=>$KtvBoxid,
+            'key'=>$exists->key,
+            'KtvBoxid'=>$exists->KtvBoxid,
 //            'order_sn' => $this->get_order_sn(), //订单号，显示用
             'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
             'amount' => 0.01,
@@ -206,10 +172,10 @@ class OrderController extends Controller
                 Log::info($post.PHP_EOL);
                 if(isset($re_obj->status) && $re_obj->status==2){
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1]);
-                    $KtvBoxid = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->value('KtvBoxid');
+                    $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->select('key','KtvBoxid')->first();
                     if($result){
                         $worker = new WorkermanController();
-                        $worker->index($KtvBoxid);
+                        $worker->index($ordersn->key,$ordersn->KtvBoxid);
                         return '000000';
                     }
                     Log::info('修改订单状态失败'.PHP_EOL);

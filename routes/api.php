@@ -70,7 +70,7 @@ Route::post('/songs/posterList', 'Api\PlaceController@posterList');  //机顶盒
 Route::post('/songs/posterList', 'Api\PlaceController@posterList');  //机顶盒是否登记接口
 
 
-Route::post('/fees/setMealPayment', 'OrderController@generateQrCode');  //生成套餐支付订单返回接口，返回二维码链接
+Route::post('/fees/getQrCodeUrl', 'OrderController@getQrCodeUrl');  //生成接口，返回二维码链接
 
 
 Route::post('/songs/companyWarning', 'Api\PlaceController@companyWarning');  //唱片公司异常接口
