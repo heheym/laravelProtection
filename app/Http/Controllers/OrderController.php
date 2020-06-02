@@ -173,7 +173,7 @@ class OrderController extends Controller
                 Log::info($post.PHP_EOL);
                 if(isset($re_obj->status) && $re_obj->status==2){
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time]);
-                    $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->select('key','KtvBoxid')->first();
+                    $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->first();
                     if($result){
                         $worker = new WorkermanController();
                         $data = ['srvkey'=>$ordersn->key,'KtvBoxid'=>$ordersn->KtvBoxid,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount];

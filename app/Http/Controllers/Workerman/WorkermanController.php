@@ -11,6 +11,8 @@ class WorkermanController extends Controller
     //
     public function index($arr=[])
     {
+        $ordersn = DB::table('ordersn')->where('key','SZGA8BOPZLBB')->select('key','KtvBoxid')->first();
+        $data = ['srvkey'=>$ordersn->key,'KtvBoxid'=>$ordersn->KtvBoxid,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount];
         /// 建立socket连接到内部推送端口
         $client = stream_socket_client('tcp://47.106.155.48:82', $errno, $errmsg, 1);
 //        $client = stream_socket_client('tcp://127.0.0.1:82', $errno, $errmsg, 1);
