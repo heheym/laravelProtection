@@ -18,12 +18,11 @@
 <script type="text/javascript">
     var wsClient=null;
     $(function () {
-        wsClient=new WebSocket('ws://127.0.0.1:8081');
+        wsClient=new WebSocket('ws://47.106.155.48:8081');
         console.log(wsClient)
         wsClient.onopen = function(){
-            var uid = uuid(8,16);
-            // 表名自己是uid1
-            wsClient.send(uid);
+            var sen = '{"srvkey":"SZGA8BOPZLBB"}'
+            wsClient.send(sen);
             $('#val').append('<p>连接成功</p>');
         }
         wsClient.onmessage = function(e){
