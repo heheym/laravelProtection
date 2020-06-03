@@ -25,7 +25,7 @@ class WorkermanController extends Controller
 //        var_dump($client);
         fwrite($client, json_encode($arr,JSON_UNESCAPED_UNICODE)."\n");
 // 读取推送结果
-        echo(fread($client, 8192));
+//        echo fread($client, 8192);
         fclose($client);
     }
 }

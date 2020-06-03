@@ -175,7 +175,7 @@ class OrderController extends Controller
                 $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
                 Log::info($post.PHP_EOL);
                 if(isset($re_obj->status) && $re_obj->status==2){
-                    $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time]);
+                    $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time,'pay_way'=>$re_obj->pay_way]);
                     $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->first();
                     if($result){
                         $worker = new WorkermanController();
