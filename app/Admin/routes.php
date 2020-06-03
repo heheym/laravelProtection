@@ -58,6 +58,9 @@ Route::group([
     $router->resource('postertab', PosterTabController::class);  //广告推广
 
 
+    $router->resource('ordersn', OrderController::class); //订单列表
+
+
 
 });
 
