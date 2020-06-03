@@ -37,6 +37,9 @@ class OrderController extends Controller
 
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
+//        if(!is_array($post)){
+//            return response()->json(['code' => 500, 'msg' => 'post数据错误', 'data' => null]);
+//        }
         foreach($post as $k=>$v){
             if(empty($v['KtvBoxid'])){
                 return response()->json(['code' => 500, 'msg'=>'机器码KtvBoxid错误','data'=>null]);

@@ -238,8 +238,8 @@ class PlaceController extends Controller
 
         $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
 //        $form->select('wangMode', '预警模式')->options($wangMode);
-        $form->number('warningRoomcount', '房间预警数量')->default(0);
-        $form->number('warningCutsongcount', '切歌预警数量')->default(0);
+        $form->number('warningRoomcount', '房间预警数量')->default(8);
+        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
         $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
 //        $form->timeRange('Opening1_time', 'Opening1_time', '开房时段一');
         $id = request()->route()->parameters('id');
@@ -356,10 +356,10 @@ class PlaceController extends Controller
 //        $form->text('phone', '手机号');
 //        $form->text('contacts', '联系人');
 //        $form->text('tel', '联系电话');
-        $form->number('roomtotal', '机顶盒数量');
-        $form->datetime('created_date', '注册时间');
-        $form->datetime('expiredata', '场所有效时间');
-        $form->select('status', '状态')->options([0=>'未启用',1=>'已启用']);
+        $form->number('roomtotal', '机顶盒数量')->default(1);
+        $form->datetime('created_date', '注册时间')->default(date('Y-m-d H:i:s'));
+        $form->datetime('expiredata', '场所有效时间')->default(date('Y-m-d H:i:s',strtotime('+2 years')));
+        $form->select('status', '状态')->options([0=>'未启用',1=>'已启用'])->default(1);
         $form->hidden('key', 'key');
         $form->text('country', '国')->default('中国');
         $form->distpicker(['province', 'city', 'placArea']);
