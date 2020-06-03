@@ -49,8 +49,8 @@ class WorkermanCommand extends Command
 
     private function start()
     {
-//        Log::getMonolog()->popHandler();
-//        Log::useDailyFiles(storage_path('logs/worker.log'));
+        Log::getMonolog()->popHandler();
+        Log::useDailyFiles(storage_path('logs/worker.log'));
 //        Log::info('123'.PHP_EOL);
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
         $worker = new Worker('websocket://0.0.0.0:8081');
@@ -78,7 +78,9 @@ class WorkermanCommand extends Command
 
 // 当有客户端发来消息时执行的回调函数, 客户端需要表明自己是哪个uid
         $worker->onMessage = function ($connection, $data){
+            Log::info($data.PHP_EOL);
             $data = json_decode($data,true);
+
             global $worker;
             if(!empty($data['srvkey'])){
                 $connection->uid = $data['srvkey'];
