@@ -119,8 +119,9 @@ class WorkermanCommand extends Command
 
             if(!isset($connection->uid)){
                 // 没验证的话把第一个包当做uid（这里为了方便演示，没做真正的验证）
-                $respond = json_encode(['code'=>500,'msg'=>'没有授权','data'=>null],JSON_UNESCAPED_UNICODE);
+                $respond = json_encode(['code'=>500,'msg'=>'没有授权,断开连接','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
+                $connection->close();
                 return;
             }
             $respond = json_encode(['code'=>200,'msg'=>'接收成功','data'=>$data],JSON_UNESCAPED_UNICODE);
