@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Workerman\Worker;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class WorkermanCommand extends Command
 {
@@ -55,6 +56,39 @@ class WorkermanCommand extends Command
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
         $worker = new Worker('websocket://0.0.0.0:8081');
 
+        $worker->onConnect = function($connection)
+        {
+            $connection->onWebSocketConnect = function($connection , $http_header)
+            {
+                // 可以在这里判断连接来源是否合法，不合法就关掉连接
+                // $_SERVER['HTTP_ORIGIN']标识来自哪个站点的页面发起的websocket连接
+//                if($_SERVER['HTTP_ORIGIN'] != 'http://chat.workerman.net')
+//                {
+//                    $connection->close();
+//                }
+                 if(empty($_GET['srvkey'])){
+                     $respond = json_encode(['code'=>500,'msg'=>'srvkey错误','data'=>null],JSON_UNESCAPED_UNICODE);
+                     $connection->send($respond);
+//                     $connection->close();
+                     return;
+                 }
+                 $exists = DB::table('place')->where('key',$_GET['srvkey'])->exists();
+                 if(!$exists){
+                     $respond = json_encode(['code'=>500,'msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
+                     $connection->send($respond);
+//                     $connection->close();
+                     return;
+                 }
+                $connection->uid = $_GET['srvkey'];
+                global $worker;
+                $worker->uidConnections[$connection->uid] = $connection;
+                $respond = json_encode(['code'=>200,'msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                $connection->send($respond);
+                return;
+
+            };
+        };
+
         $worker->count = 1;
         $worker->uidConnections = [];
 
@@ -82,19 +116,15 @@ class WorkermanCommand extends Command
             $data = json_decode($data,true);
 
             global $worker;
-            if(!empty($data['srvkey'])){
-                $connection->uid = $data['srvkey'];
-                $worker->uidConnections[$connection->uid] = $connection;
-                $respond = json_encode(['code'=>200,'msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
-                $connection->send($respond);
-                return;
-            }
+
             if(!isset($connection->uid)){
                 // 没验证的话把第一个包当做uid（这里为了方便演示，没做真正的验证）
-                $respond = json_encode(['code'=>200,'msg'=>'没有授权','data'=>null],JSON_UNESCAPED_UNICODE);
+                $respond = json_encode(['code'=>500,'msg'=>'没有授权','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
                 return;
             }
+            $respond = json_encode(['code'=>200,'msg'=>'接收成功','data'=>$data],JSON_UNESCAPED_UNICODE);
+            $connection->send($respond);
         };
 
         $worker->onClose = function ($connection){
