@@ -82,7 +82,7 @@ class WorkermanCommand extends Command
                 $connection->uid = $_GET['srvkey'];
                 global $worker;
                 $worker->uidConnections[$connection->uid] = $connection;
-                $respond = json_encode(['code'=>200,'msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                $respond = json_encode(['code'=>200,'func'=>'connect','msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
                 return;
 
@@ -112,7 +112,7 @@ class WorkermanCommand extends Command
 
 // 当有客户端发来消息时执行的回调函数, 客户端需要表明自己是哪个uid
         $worker->onMessage = function ($connection, $data){
-            Log::info($data.PHP_EOL);
+//            Log::info($data.PHP_EOL);
             $data = json_decode($data,true);
 
             global $worker;
@@ -124,8 +124,50 @@ class WorkermanCommand extends Command
                 $connection->close();
                 return;
             }
-            $respond = json_encode(['code'=>200,'msg'=>'接收成功','data'=>$data],JSON_UNESCAPED_UNICODE);
+            //"func":"confirm_order",
+            if(!empty($data['func']) && $data['func'] == 'confirm_order'){
+                if(empty($data['order_id'])){
+                    $respond = json_encode(['code'=>500,'msg'=>'订单不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+                $exists = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->exists();
+                if(!$exists){
+                    $respond = json_encode(['code'=>500,'msg'=>'订单不存在','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+                $result = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->update(['confirm_order'=>1]);
+                if($result){
+                    $respond = json_encode(['code'=>200,'msg'=>'请求成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+
+            }
+
+            //"func":"query_order",
+            if(!empty($data['func']) && $data['func'] == 'query_order'){
+                if(empty($data['srvkey_id'])){
+                    $respond = json_encode(['code'=>500,'msg'=>'srvkey不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+                $exists = DB::table('place')->where('key',$data['srvkey_id'])->exists();
+                if(!$exists){
+                    $respond = json_encode(['code'=>500,'msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+                $data = DB::table('ordersn')->where(['key'=>$data['srvkey_id'],'order_status'=>1,'confirm_order'=>0])->select('KtvBoxid','pay_time','leshua_order_id','amount')->get();
+                $respond = json_encode(['func'=>'query_order_result','data'=>$data],JSON_UNESCAPED_UNICODE);
+                $connection->send($respond);
+                return;
+            }
+
+        $respond = json_encode(['code'=>500,'msg'=>'请求失败,格式错误','data'=>$data],JSON_UNESCAPED_UNICODE);
             $connection->send($respond);
+            return;
         };
 
         $worker->onClose = function ($connection){
