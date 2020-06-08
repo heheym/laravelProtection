@@ -127,7 +127,7 @@ class WorkermanCommand extends Command
             //"func":"confirm_order",
             if(!empty($data['func']) && $data['func'] == 'confirm_order'){
                 if(empty($data['order_id'])){
-                    $respond = json_encode(['code'=>500,'msg'=>'订单不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $respond = json_encode(['code'=>500,'msg'=>'订单号不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
                     return;
                 }
@@ -140,6 +140,10 @@ class WorkermanCommand extends Command
                 $result = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->update(['confirm_order'=>1]);
                 if($result){
                     $respond = json_encode(['code'=>200,'msg'=>'请求成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }else{
+                    $respond = json_encode(['code'=>200,'msg'=>'请求成功,订单已处理','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
                     return;
                 }
