@@ -36,7 +36,12 @@ class WorkermanController extends Controller
                 Log::info('修改send_message失败,'.',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
             }
         }else{
-            Log::info('推送失败,msg:'.fread($client, 8192).',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
+            if(empty($arr)){
+                Log::info('推送失败,msg:'.fread($client, 8192).',arr:'.json_encode($data,JSON_UNESCAPED_UNICODE).PHP_EOL);
+            }else{
+                Log::info('推送失败,msg:'.fread($client, 8192).',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
+            }
+
         }
 
         fclose($client);
