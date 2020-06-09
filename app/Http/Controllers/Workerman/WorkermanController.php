@@ -45,7 +45,11 @@ class WorkermanController extends Controller
 
         }*/
         $abc = fread($client, 8192);
-        var_dump($abc);
+        if($abc=='success'){
+            echo 1;
+        }else{
+            echo 2;
+        }
 
         fclose($client);
     }
