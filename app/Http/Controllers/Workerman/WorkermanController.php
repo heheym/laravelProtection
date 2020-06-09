@@ -32,7 +32,7 @@ class WorkermanController extends Controller
         if(fread($client, 8192)=='success'){
             DB::table('order_sn')->where('leshua_order_id',$arr['leshua_order_id'])->update(['send_message'=>1]);
         }else{
-            Log::info('推送失败,arr:'.$arr.PHP_EOL);
+            Log::info('推送失败,arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
         }
 
         fclose($client);
