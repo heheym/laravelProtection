@@ -44,7 +44,8 @@ class WorkermanController extends Controller
             }
 
         }*/
-        echo fread($client, 8192);
+        $abc = fread($client, 8192);
+        var_dump($abc);
 
         fclose($client);
     }
