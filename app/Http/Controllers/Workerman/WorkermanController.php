@@ -47,10 +47,10 @@ class WorkermanController extends Controller
         $abc = trim(fread($client, 8192));
         if($abc=="success"){
             echo 1;
-            var_dump($abc); ;
+            var_dump($abc.'1'); ;
         }else{
             echo 2;
-            var_dump($abc); ;
+            var_dump($abc.'2'); ;
         }
 
         fclose($client);
