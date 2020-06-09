@@ -30,7 +30,10 @@ class WorkermanController extends Controller
         fwrite($client, json_encode($arr,JSON_UNESCAPED_UNICODE)."\n");
 // 读取推送结果
         if(fread($client, 8192)=='success'){
-            DB::table('order_sn')->where('leshua_order_id',$arr['leshua_order_id'])->update(['send_message'=>1]);
+            $result = DB::table('order_sn')->where('leshua_order_id',$arr['leshua_order_id'])->update(['send_message'=>1]);
+            if(!$result){
+                Log::info('修改send_message失败,'.',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
+            }
         }else{
             Log::info('推送失败,msg:'.fread($client, 8192).',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
         }
