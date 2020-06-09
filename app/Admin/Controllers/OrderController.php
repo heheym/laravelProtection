@@ -56,6 +56,16 @@ class OrderController extends AdminController
             }
         });
         $grid->column('note', __('备注'));
+        $grid->column('send_message', __('已发送信息'))->display(function($send_message){
+            if(isset($send_message)){
+                return ['0'=>'未发送','1'=>'已发送'][$send_message];
+            }
+        });
+        $grid->column('confirm_order', __('已处理信息'))->display(function($confirm_order){
+            if(isset($confirm_order)){
+                return ['0'=>'未处理','1'=>'已处理'][$confirm_order];
+            }
+        });
 
         return $grid;
     }
