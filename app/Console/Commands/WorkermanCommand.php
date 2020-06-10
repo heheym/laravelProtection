@@ -108,6 +108,7 @@ Log::info('连接成功,srvkey:'.$_GET['srvkey'].PHP_EOL);
 
 // 当有客户端发来消息时执行的回调函数, 客户端需要表明自己是哪个uid
         $worker->onMessage = function ($connection, $data){
+Log::getMonolog()->popHandler();
 Log::useDailyFiles(storage_path('logs/WkOnMessage.log'));
 
             $data = json_decode($data,true);
@@ -182,6 +183,7 @@ Log::info('请求失败,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
 
         $worker->onClose = function ($connection){
             global $worker;
+            Log::getMonolog()->popHandler();
             Log::useDailyFiles(storage_path('logs/WkOnClose.log'));
             if(isset($connection->uid)){
                 unset($worker->uidConnections[$connection->uid]);
