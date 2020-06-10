@@ -50,8 +50,8 @@ class WorkermanCommand extends Command
 
     private function start()
     {
-        Log::getMonolog()->popHandler();
-        Log::useDailyFiles(storage_path('logs/worker.log'));
+Log::getMonolog()->popHandler();
+
 //        Log::info('123'.PHP_EOL);
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
         $worker = new Worker('websocket://0.0.0.0:8081');
@@ -60,23 +60,19 @@ class WorkermanCommand extends Command
         {
             $connection->onWebSocketConnect = function($connection , $http_header)
             {
+Log::useDailyFiles(storage_path('logs/WkOnConnect.log'));
                 // 可以在这里判断连接来源是否合法，不合法就关掉连接
-                // $_SERVER['HTTP_ORIGIN']标识来自哪个站点的页面发起的websocket连接
-//                if($_SERVER['HTTP_ORIGIN'] != 'http://chat.workerman.net')
-//                {
-//                    $connection->close();
-//                }
                  if(empty($_GET['srvkey'])){
                      $respond = json_encode(['code'=>500,'msg'=>'srvkey错误','data'=>null],JSON_UNESCAPED_UNICODE);
                      $connection->send($respond);
-//                     $connection->close();
+Log::info('连接失败,srvkey错误'.PHP_EOL);
                      return;
                  }
                  $exists = DB::table('place')->where('key',$_GET['srvkey'])->exists();
                  if(!$exists){
                      $respond = json_encode(['code'=>500,'msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
                      $connection->send($respond);
-//                     $connection->close();
+Log::info('连接失败,srvkey不存在'.PHP_EOL);
                      return;
                  }
                 $connection->uid = $_GET['srvkey'];
@@ -84,9 +80,8 @@ class WorkermanCommand extends Command
                 $worker->uidConnections[$connection->uid] = $connection;
                 $respond = json_encode(['code'=>200,'func'=>'connect','msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
-                Log::info('连接成功,srvkey:'.$_GET['srvkey'].PHP_EOL);
+Log::info('连接成功,srvkey:'.$_GET['srvkey'].PHP_EOL);
                 return;
-
             };
         };
 
@@ -113,6 +108,7 @@ class WorkermanCommand extends Command
 
 // 当有客户端发来消息时执行的回调函数, 客户端需要表明自己是哪个uid
         $worker->onMessage = function ($connection, $data){
+Log::useDailyFiles(storage_path('logs/WkOnMessage.log'));
 
             $data = json_decode($data,true);
 
@@ -122,6 +118,7 @@ class WorkermanCommand extends Command
                 // 没验证的话把第一个包当做uid（这里为了方便演示，没做真正的验证）
                 $respond = json_encode(['code'=>500,'msg'=>'没有授权,断开连接','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
+Log::info('授权失败,没有授权,断开连接'.PHP_EOL);
                 $connection->close();
                 return;
             }
@@ -130,25 +127,26 @@ class WorkermanCommand extends Command
                 if(empty($data['order_id'])){
                     $respond = json_encode(['code'=>500,'msg'=>'订单号不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
-Log::info('处理失败:srvkey'.$connection->uid.',leshua_order_id:'.$data['order_id'].',msg:订单号不能为空'.PHP_EOL);
+Log::info('处理失败,订单号不能为空,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }
                 $exists = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->exists();
                 if(!$exists){
                     $respond = json_encode(['code'=>500,'msg'=>'订单不存在','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
-Log::info('处理失败:srvkey'.$connection->uid.',leshua_order_id:'.$data['order_id'].',msg:订单不存在'.PHP_EOL);
+Log::info('处理失败,订单不存在,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }
                 $result = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->update(['confirm_order'=>1]);
                 if($result){
                     $respond = json_encode(['code'=>200,'msg'=>'请求成功','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
+Log::info('处理成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }else{
                     $respond = json_encode(['code'=>200,'msg'=>'请求成功,订单已处理','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
-Log::info('处理失败:srvkey'.$connection->uid.',leshua_order_id:'.$data['order_id'].PHP_EOL);
+Log::info('处理成功,订单已处理,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }
 
@@ -159,32 +157,35 @@ Log::info('处理失败:srvkey'.$connection->uid.',leshua_order_id:'.$data['orde
                 if(empty($data['srvkey_id'])){
                     $respond = json_encode(['code'=>500,'msg'=>'srvkey不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
-Log::info('查询失败:srvkey'.$connection->uid.PHP_EOL.',msg:srvkey不能为空');
+Log::info('查询失败,srvkey不能为空,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }
                 $exists = DB::table('place')->where('key',$data['srvkey_id'])->exists();
                 if(!$exists){
                     $respond = json_encode(['code'=>500,'msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
-Log::info('查询失败:srvkey'.$connection->uid.PHP_EOL.',msg:srvkey不存在');
+Log::info('查询失败,srvkey不存在,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }
                 $data = DB::table('ordersn')->where(['key'=>$data['srvkey_id'],'order_status'=>1,'confirm_order'=>0])->select('KtvBoxid','pay_time','leshua_order_id','amount')->get();
                 $respond = json_encode(['func'=>'query_order_result','data'=>$data],JSON_UNESCAPED_UNICODE);
+Log::info('查询成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                 $connection->send($respond);
                 return;
             }
 
         $respond = json_encode(['code'=>500,'msg'=>'请求失败,格式错误','data'=>$data],JSON_UNESCAPED_UNICODE);
         $connection->send($respond);
-Log::info('查询失败:srvkey'.$connection->uid.PHP_EOL.',msg:请求失败,格式错误');
+Log::info('请求失败,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
         return;
         };
 
         $worker->onClose = function ($connection){
             global $worker;
+            Log::useDailyFiles(storage_path('logs/WkOnClose.log'));
             if(isset($connection->uid)){
                 unset($worker->uidConnections[$connection->uid]);
+                Log::info('断开连接,srvkey:'.$connection->uid);
             }
         };
 
