@@ -50,7 +50,7 @@ class WorkermanCommand extends Command
 
     private function start()
     {
-Log::getMonolog()->popHandler();
+
 
 //        Log::info('123'.PHP_EOL);
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
@@ -60,6 +60,7 @@ Log::getMonolog()->popHandler();
         {
             $connection->onWebSocketConnect = function($connection , $http_header)
             {
+Log::getMonolog()->popHandler();
 Log::useDailyFiles(storage_path('logs/WkOnConnect.log'));
                 // 可以在这里判断连接来源是否合法，不合法就关掉连接
                  if(empty($_GET['srvkey'])){
