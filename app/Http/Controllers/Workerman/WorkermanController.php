@@ -31,7 +31,7 @@ class WorkermanController extends Controller
         fwrite($client, json_encode($arr,JSON_UNESCAPED_UNICODE)."\n");
 
 // 读取推送结果
-        $abc = trim(fread($client, 99999));
+        $abc = trim(fread($client, 8192));
 
         if($abc=='success'){
             $result = DB::table('ordersn')->where('leshua_order_id',$arr['leshua_order_id'])->update(['send_message'=>1]);
