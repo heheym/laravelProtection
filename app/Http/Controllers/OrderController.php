@@ -175,6 +175,10 @@ class OrderController extends Controller
                 $re_obj = simplexml_load_string($post,'SimpleXMLElement',LIBXML_NOCDATA );
                 Log::info($post);
                 if(isset($re_obj->status) && $re_obj->status==2){
+                    $exists = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->exists();
+                    if(!$exists){
+                        return '000000';
+                    }
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time,'pay_way'=>$re_obj->pay_way]);
                     $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->first();
                     if($result){
