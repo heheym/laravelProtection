@@ -188,7 +188,7 @@ class OrderController extends Controller
                         $worker->index($data);
                         return '000000';
                     }else{
-                        Log::info('修改订单状态已修改,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);
+                        Log::info('订单状态已修改,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);
                     }
 
                 }
