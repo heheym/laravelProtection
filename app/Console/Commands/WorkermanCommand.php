@@ -214,10 +214,10 @@ Log::info('请求失败,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
             if(isset($worker->uidConnections[$uid])){
                 $connection = $worker->uidConnections[$uid];
                 $connection->send($message);
-                Log::info('推送成功,srvkey:'.$uid.',data:'.json_encode($message));
+                Log::info('推送成功,srvkey:'.$uid.',data:'.json_encode($message).PHP_EOL);
                 return true;
             }else{
-                Log::info('推送失败,场所没有建立连接,srvkey:'.$uid.',data:'.json_encode($message));
+                Log::info('推送失败,场所没有建立连接,srvkey:'.$uid.',data:'.json_encode($message).PHP_EOL);
                 return false;
             }
 
