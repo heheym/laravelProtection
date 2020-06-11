@@ -77,6 +77,10 @@ Log::info('连接失败,srvkey不存在'.PHP_EOL);
                  }
                 $connection->uid = $_GET['srvkey'];
                 global $worker;
+                if(isset($worker->uidConnections[$connection->uid])){
+                    unset($worker->uidConnections[$connection->uid]); //销毁已存在的connect，重新建立连接
+                    Log::info('销毁已存在的连接,srvkey:'.$connection->uid.PHP_EOL);
+                }
                 $worker->uidConnections[$connection->uid] = $connection;
                 $respond = json_encode(['code'=>200,'func'=>'connect','msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
@@ -187,7 +191,7 @@ Log::info('请求失败,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
             Log::useDailyFiles(storage_path('logs/WkOnClose.log'));
             if(isset($connection->uid)){
                 unset($worker->uidConnections[$connection->uid]);
-                Log::info('断开连接,srvkey:'.$connection->uid);
+                Log::info('断开连接,srvkey:'.$connection->uid.PHP_EOL);
             }
         };
 
