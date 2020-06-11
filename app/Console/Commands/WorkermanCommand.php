@@ -51,7 +51,6 @@ class WorkermanCommand extends Command
     private function start()
     {
 
-
 //        Log::info('123'.PHP_EOL);
         // 初始化一个worker容器, 监听19999端口, 用于接收浏览器websocket请求
         $worker = new Worker('websocket://0.0.0.0:8081');
@@ -205,13 +204,19 @@ Log::info('请求失败,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
 
 // 向客户端某一个uid推送数据
         function sendMessageByUid($uid, $message){
+            Log::getMonolog()->popHandler();
+            Log::useDailyFiles(storage_path('logs/sendMessageByUid.log'));
             global $worker;
             if(isset($worker->uidConnections[$uid])){
                 $connection = $worker->uidConnections[$uid];
                 $connection->send($message);
+                Log::info('推送成功,srvkey:'.$uid);
                 return true;
+            }else{
+                Log::info('推送失败,场所没有建立连接,srvkey:'.$uid);
+                return false;
             }
-            return false;
+
         }
         Worker::runAll();
     }
