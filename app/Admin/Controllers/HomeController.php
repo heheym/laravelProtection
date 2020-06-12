@@ -20,7 +20,7 @@ class HomeController extends Controller
 
 
                 $row->column(4, function (Column $column) {
-                    $column->append($_SERVER['SERVER_ADDR']);
+                    $column->append($_SERVER['HTTP_HOST']);
                 });
 
 //                $row->column(4, function (Column $column) {
