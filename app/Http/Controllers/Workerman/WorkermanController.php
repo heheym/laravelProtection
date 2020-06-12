@@ -23,9 +23,12 @@ class WorkermanController extends Controller
 //        return;
         Log::getMonolog()->popHandler();
         Log::useDailyFiles(storage_path('logs/WkSendMessage.log'));
+        $externalContent = file_get_contents('http://checkip.dyndns.com/');
+        preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $externalContent, $m);
+        $externalIp = $m[1];
 
         /// 建立socket连接到内部推送端口
-        $client = stream_socket_client('tcp://'.$_SERVER['SERVER_ADDR'].':82', $errno, $errmsg, 1);
+        $client = stream_socket_client('tcp://'.$externalIp.':82', $errno, $errmsg, 1);
 //        $client = stream_socket_client('tcp://127.0.0.1:82', $errno, $errmsg, 1);
 
         fwrite($client, json_encode($arr,JSON_UNESCAPED_UNICODE)."\n");
