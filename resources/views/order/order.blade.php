@@ -166,15 +166,15 @@
         }
     });
 
-    $('#butt').click(function() {
-        var sel =$("#sel option:selected").val();
-        var selvalue = $("#selvalue").val();
-        $('#selhidden').remove();
-        $('#target').append("<input type='hidden' id='selhidden' name='"+sel+"' value='"+selvalue+"'>");
-        var url = new URL(location);
-        var order_key = url.searchParams.get('order_key');
-
-        $('#order_key').remove();
-        $('#target').append("<input type='hidden' id='order_key' name='"+order_key+"' value='"+order_key+"'>");
-    });
+    // $('#butt').click(function() {
+    //     var sel =$("#sel option:selected").val();
+    //     var selvalue = $("#selvalue").val();
+    //     $('#selhidden').remove();
+    //     $('#target').append("<input type='hidden' id='selhidden' name='"+sel+"' value='"+selvalue+"'>");
+    //     var url = new URL(location);
+    //     var order_key = url.searchParams.get('order_key');
+    //
+    //     $('#order_key').remove();
+    //     $('#target').append("<input type='hidden' id='order_key' name='"+order_key+"' value='"+order_key+"'>");
+    // });
 </script>
