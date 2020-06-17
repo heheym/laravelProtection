@@ -299,7 +299,6 @@ class ReceivableController extends Controller
             }
         });
 
-
         return $grid;
     }
 

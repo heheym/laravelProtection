@@ -42,7 +42,7 @@ class OrderController extends AdminController
 
 //        Admin1::disablePjax();
 //        Admin::js('js/hide.js');
-        Admin::script('receivable();');
+        Admin::script('order();');
         $grid = new Grid(new Place);
         $grid->setName('place');
         $grid->setView('order.place');
@@ -125,6 +125,7 @@ class OrderController extends AdminController
     protected function orderIndex()
     {
         $grid = new Grid(new Ordersn);
+        $grid->setName('order');
         $grid->setView('order.order');
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -135,10 +136,16 @@ class OrderController extends AdminController
             $filter->like('leshua_order_id','乐刷订单号');
             $filter->equal('order_status','状态')->select([0=>'未支付',1=>'已支付']);
         });
+        if(!app('request')->get('order_key')){  //默认不显示应收纪录
+            $grid->model()->where('key', '');
+        }
 
 //        $grid->column('id', __('Id'));
         $grid->model()->orderBy('id', 'desc');
-        $grid->column('key', __('Key'));
+//        $grid->column('key', __('Key'));
+        $grid->column('key', __('场所名称'))->display(function($key){
+            return DB::table('place')->where('key',$key)->value('placename');
+        });
         $grid->column('KtvBoxid', __('机器码'));
 //        $grid->column('order_sn', __('Order sn'));
         $grid->column('order_sn_submit', __('订单号'));
