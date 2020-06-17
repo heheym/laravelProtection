@@ -125,6 +125,7 @@ class OrderController extends AdminController
     protected function orderIndex()
     {
         $grid = new Grid(new Ordersn);
+        $grid->disableCreateButton();
         $grid->setName('order');
         $grid->setView('order.order');
         $grid->filter(function($filter){
@@ -136,9 +137,9 @@ class OrderController extends AdminController
             $filter->like('leshua_order_id','乐刷订单号');
             $filter->equal('order_status','状态')->select([0=>'未支付',1=>'已支付']);
         });
-        if(!app('request')->get('order_key')){  //默认不显示应收纪录
-            $grid->model()->where('key', '');
-        }
+//        if(!app('request')->get('order_key')){  //默认不显示应收纪录
+//            $grid->model()->where('key', '');
+//        }
 
 //        $grid->column('id', __('Id'));
         $grid->model()->orderBy('id', 'desc');
