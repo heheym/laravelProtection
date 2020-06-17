@@ -143,8 +143,8 @@ class OrderController extends AdminController
 //        $grid->column('id', __('Id'));
         $grid->model()->orderBy('id', 'desc');
 //        $grid->column('key', __('Key'));
-        $grid->column('key', __('场所名称'))->display(function($key){
-            return DB::table('place')->where('key',$key)->value('placename');
+        $grid->column('key1', __('场所名称'))->display(function(){
+            return DB::table('place')->where('key',$this->key)->value('placename');
         });
         $grid->column('KtvBoxid', __('机器码'));
 //        $grid->column('order_sn', __('Order sn'));
