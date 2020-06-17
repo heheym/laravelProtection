@@ -20,9 +20,9 @@
                         <option value="KtvBoxid">
                             机器码
                         </option>
-                        <option value="key">
-                            key
-                        </option>
+{{--                        <option value="key">--}}
+{{--                            key--}}
+{{--                        </option>--}}
 {{--                        <option value="contacts">--}}
 {{--                            联系人--}}
 {{--                        </option>--}}
@@ -171,6 +171,7 @@
         var selvalue = $("#selvalue").val();
         $('#selhidden').remove();
         $('#target').append("<input type='hidden' id='selhidden' name='"+sel+"' value='"+selvalue+"'>");
+        var url = new URL(location);
         var order_key = url.searchParams.get('order_key');
         alert(order_key);
         return;
