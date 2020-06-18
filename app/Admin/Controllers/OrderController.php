@@ -132,10 +132,10 @@ class OrderController extends AdminController
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             // 在这里添加字段过滤器
-            $filter->like('key','key');
-            $filter->like('KtvBoxid','机器码');
-            $filter->like('leshua_order_id','乐刷订单号');
-            $filter->equal('order_status','状态')->select([0=>'未支付',1=>'已支付']);
+//            $filter->like('key','key');
+            $filter->like('KtvBoxid','KtvBoxid');
+            $filter->like('leshua_order_id','leshua_order_id');
+            $filter->equal('order_status','order_status')->select([0=>'未支付',1=>'已支付']);
         });
 //        if(!app('request')->get('order_key')){  //默认不显示应收纪录
 //            $grid->model()->where('key', '');

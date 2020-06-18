@@ -14,7 +14,7 @@
             <form class="form-inline" id="target"  action="" method="get" style="display: inline-block;" >
                 <div class="form-group">
                     <label for="exampleInputName2">乐刷订单号</label>
-                    <input type="text" class="form-control" id="leshua_order_id" placeholder="" name="leshua_order_id" style="width:120px">
+                    <input type="text" class="form-control" id="leshua_order_id" placeholder="" name="order_leshua_order_id" style="width:120px">
                     &nbsp;&nbsp;&nbsp;
                     <select  id="sel" class="form-control">
                         <option value="KtvBoxid">
@@ -34,7 +34,7 @@
                     <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
 
                     <label for="" style="margin-left:10px">状态:</label>
-                    <select  id="order_status" class="form-control" name="order_status">
+                    <select  id="order_status" class="form-control" name="order_order_status">
                         <option value="">
                             所有
                         </option>
