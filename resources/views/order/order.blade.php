@@ -11,13 +11,13 @@
     @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
 
         <div class="box-header with-border">
-            <form class="form-inline" id="target"  action="" method="get" style="display: inline-block;" >
+            <form class="form-inline" id="orderTarget"  action="" method="get" style="display: inline-block;" >
                 <div class="form-group">
                     <label for="exampleInputName2">乐刷订单号</label>
-                    <input type="text" class="form-control" id="leshua_order_id" placeholder="" name="order_leshua_order_id" style="width:120px">
+                    <input type="text" class="form-control" id="ordersn_leshua_order_id" placeholder="" name="ordersn_leshua_order_id" style="width:120px">
                     &nbsp;&nbsp;&nbsp;
-                    <select  id="sel" class="form-control">
-                        <option value="KtvBoxid">
+                    <select  id="orderSel" class="form-control" name="">
+                        <option value="ordersn_KtvBoxid">
                             机器码
                         </option>
 {{--                        <option value="key">--}}
@@ -31,10 +31,10 @@
 {{--                        </option>--}}
                     </select>
 
-                    <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
+                    <input type="text" class="form-control" id="orderSelValue" placeholder="" style="width:120px">
 
                     <label for="" style="margin-left:10px">状态:</label>
-                    <select  id="order_status" class="form-control" name="order_order_status">
+                    <select  id="ordersn_order_status" class="form-control" name="ordersn_order_status">
                         <option value="">
                             所有
                         </option>
@@ -125,22 +125,23 @@
         $('#distpicker').distpicker('destroy');
 
         var url = new URL(location);
-        var leshua_order_id = url.searchParams.get('leshua_order_id');
+        var ordersn_leshua_order_id = url.searchParams.get('ordersn_leshua_order_id');
 
-        $('#leshua_order_id').val(leshua_order_id);
+        $('#ordersn_leshua_order_id').val(ordersn_leshua_order_id);
 
-        // var placename = url.searchParams.get('placename');
+        var ordersn_KtvBoxid = url.searchParams.get('ordersn_KtvBoxid');
         // var contacts = url.searchParams.get('contacts');
         // var phone = url.searchParams.get('phone');
-        var KtvBoxid = url.searchParams.get('KtvBoxid');
-        var key = url.searchParams.get('key');
-        if(KtvBoxid!==null){
-            $("#sel option[value=KtvBoxid]").prop('selected',true);
-            $("#selvalue").val(KtvBoxid);
-        }else if(key!==null){
-            $("#sel option[value=key]").prop('selected',true);
-            $("#selvalue").val(key);
+        // var KtvBoxid = url.searchParams.get('KtvBoxid');
+        // var key = url.searchParams.get('key');
+        if(ordersn_KtvBoxid!==null){
+            $("#orderSel option[value=ordersn_KtvBoxid]").prop('selected',true);
+            $("#orderSelValue").val(ordersn_KtvBoxid);
         }
+            // else if(key!==null){
+        //     $("#sel option[value=key]").prop('selected',true);
+        //     $("#selvalue").val(key);
+        // }
         // if(contacts!==null){
         //     $("#sel option[value=contacts]").prop('selected',true);
         //     $("#selvalue").val(contacts);
@@ -159,22 +160,27 @@
         //     city: city,
         // });
 
-        var order_status = url.searchParams.get('order_status');
-        if(order_status!==null && order_status.length>0){
-            $("#order_status option[value="+order_status+"]").prop('selected',true);
+        var ordersn_order_status = url.searchParams.get('ordersn_order_status');
+        // alert(ordersn_order_status);
+        if(ordersn_order_status!==null && ordersn_order_status.length>0){
+            $("#ordersn_order_status option[value="+ordersn_order_status+"]").prop('selected',true);
+            $("#sel option[value=placename]").prop('selected',true);
 
         }
     });
 
-    // $('#butt').click(function() {
-    //     var sel =$("#sel option:selected").val();
-    //     var selvalue = $("#selvalue").val();
-    //     $('#selhidden').remove();
-    //     $('#target').append("<input type='hidden' id='selhidden' name='"+sel+"' value='"+selvalue+"'>");
-    //     var url = new URL(location);
-    //     var order_key = url.searchParams.get('order_key');
-    //
-    //     $('#order_key').remove();
-    //     $('#target').append("<input type='hidden' id='order_key' name='"+order_key+"' value='"+order_key+"'>");
-    // });
+    $('#orderTarget').click(function() {
+        // alert(12);
+        var sel =$("#orderSel option:selected").val();
+        var selvalue = $("#orderSelValue").val();
+        $('#orderSelhidden').remove();
+        $('#orderTarget').append("<input type='hidden' id='orderSelhidden' name='"+sel+"' value='"+selvalue+"'>");
+        // alert(123);
+        // return false;
+        // var url = new URL(location);
+        // var order_key = url.searchParams.get('order_key');
+
+        // $('#order_key').remove();
+        // $('#orderTarget').append("<input type='hidden' id='order_key' name='"+order_key+"' value='"+order_key+"'>");
+    });
 </script>

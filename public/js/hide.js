@@ -113,7 +113,7 @@ function order() {
     tabSwitch($elem,function (index) {
         var url = new URL(location);
 
-        url.searchParams.set('order_key',index);
+        url.searchParams.set('ordersn_key',index);
 
         $.pjax({container:'#pjax-container', url: url.toString()});
         //分页数据

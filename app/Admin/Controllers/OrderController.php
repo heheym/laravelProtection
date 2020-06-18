@@ -126,15 +126,19 @@ class OrderController extends AdminController
     {
         $grid = new Grid(new Ordersn);
         $grid->disableCreateButton();
-        $grid->setName('order');
+        $grid->disableColumnSelector();
+        $grid->disableExport();
+        $grid->setName('ordersn');
         $grid->setView('order.order');
+//        $grid->disableFilter(false);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             // 在这里添加字段过滤器
-//            $filter->like('key','key');
-            $filter->like('KtvBoxid','KtvBoxid');
             $filter->like('leshua_order_id','leshua_order_id');
+            $filter->like('key','key');
+            $filter->like('KtvBoxid','KtvBoxid');
+
             $filter->equal('order_status','order_status')->select([0=>'未支付',1=>'已支付']);
         });
 //        if(!app('request')->get('order_key')){  //默认不显示应收纪录
