@@ -17,6 +17,9 @@
                     <input type="text" class="form-control" id="ordersn_leshua_order_id" placeholder="" name="ordersn_leshua_order_id" style="width:120px">
                     &nbsp;&nbsp;&nbsp;
                     <select  id="orderSel" class="form-control" name="">
+                        <option value="ordersn_roomno">
+                            房号
+                        </option>
                         <option value="ordersn_KtvBoxid">
                             机器码
                         </option>
@@ -130,18 +133,17 @@
         $('#ordersn_leshua_order_id').val(ordersn_leshua_order_id);
 
         var ordersn_KtvBoxid = url.searchParams.get('ordersn_KtvBoxid');
-        // var contacts = url.searchParams.get('contacts');
+        var ordersn_roomno = url.searchParams.get('ordersn_roomno');
         // var phone = url.searchParams.get('phone');
         // var KtvBoxid = url.searchParams.get('KtvBoxid');
         // var key = url.searchParams.get('key');
         if(ordersn_KtvBoxid!==null){
             $("#orderSel option[value=ordersn_KtvBoxid]").prop('selected',true);
             $("#orderSelValue").val(ordersn_KtvBoxid);
+        }else if(ordersn_roomno!==null){
+            $("#orderSel option[value=ordersn_roomno]").prop('selected',true);
+            $("#orderSelValue").val(ordersn_roomno);
         }
-            // else if(key!==null){
-        //     $("#sel option[value=key]").prop('selected',true);
-        //     $("#selvalue").val(key);
-        // }
         // if(contacts!==null){
         //     $("#sel option[value=contacts]").prop('selected',true);
         //     $("#selvalue").val(contacts);

@@ -130,6 +130,15 @@ class OrderController extends AdminController
         $grid->disableExport();
         $grid->setName('ordersn');
         $grid->setView('order.order');
+
+        $where = [];
+        if(!empty(request('ordersn_roomno'))){
+            $ordersn_roomno =request('ordersn_roomno');
+            $where[] = ['roomno','like','%'.$ordersn_roomno.'%'];
+        }
+        $grid->model()->whereHas('settopbox', function ($query) use($where){
+            $query->where($where);
+        });
 //        $grid->disableFilter(false);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -150,6 +159,9 @@ class OrderController extends AdminController
 //        $grid->column('key', __('Key'));
         $grid->column('key1', __('场所名称'))->display(function(){
             return DB::table('place')->where('key',$this->key)->value('placename');
+        });
+        $grid->column('roomno', __('房号'))->display(function(){
+            return DB::table('settopbox')->where('key',$this->key)->value('roomno');
         });
         $grid->column('KtvBoxid', __('机器码'));
 //        $grid->column('order_sn', __('Order sn'));

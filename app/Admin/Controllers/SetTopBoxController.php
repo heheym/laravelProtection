@@ -104,15 +104,7 @@ class SetTopBoxController extends Controller
             $city =request('city');
             $where[] = ['city','like','%'.$city.'%'];
         }
-//        if(!empty(request('KtvBoxid'))){
-//            $KtvBoxid =request('KtvBoxid');
-//            $where[] = ['KtvBoxid','like','%'.$KtvBoxid.'%'];
-//        }
-//        if(!empty(request('machineCode'))){
-//            $machineCode =request('machineCode');
-//            $where[] = ['machineCode','like','%'.$machineCode.'%'];
-//        }
-//        $grid->model()->place()->where('placename','快唱办公室');
+
         $grid->model()->whereHas('place', function ($query) use($where){
             $query->where($where);
         });
