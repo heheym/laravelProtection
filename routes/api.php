@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::post('/songs/service/rcompany', 'Api\SongController@rcompany');  //机顶盒预登记接口
 
+    Route::post('/songs/service/urgentDelsong', 'Api\SongController@urgentDelsong');  //歌曲紧急下架接口
+
 });
 
 //url，需要加一个api，如：192.168.10.227:81/api/login
@@ -74,6 +76,8 @@ Route::post('/fees/getQrCodeUrl', 'OrderController@getQrCodeUrl');  //生成接�
 
 
 Route::post('/songs/companyWarning', 'Api\PlaceController@companyWarning');  //唱片公司异常接口
+
+Route::post('/songs/urgentDelsong', 'Api\PlaceController@urgentDelsong');  //紧急下架歌曲
 
 
 

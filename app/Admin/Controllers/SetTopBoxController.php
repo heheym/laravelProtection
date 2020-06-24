@@ -215,12 +215,12 @@ class SetTopBoxController extends Controller
         $form->hidden('Opening2_price');
         $form->hidden('Effective2_time');
 
-        $form->hidden('Place_Royalty');
-        $form->hidden('Place_Settlement');
-        $form->hidden('Agent_Royalty');
-        $form->hidden('Agent_Settlement');
-        $form->hidden('Obligee_Royalty');
-        $form->hidden('Obligee_Settlement');
+//        $form->hidden('Place_Royalty');
+//        $form->hidden('Place_Settlement');
+//        $form->hidden('Agent_Royalty');
+//        $form->hidden('Agent_Settlement');
+//        $form->hidden('Obligee_Royalty');
+//        $form->hidden('Obligee_Settlement');
 
         $form->text('key', 'Key')->required()->rules(function ($form) {
             return 'exists:place,key';
@@ -296,42 +296,42 @@ class SetTopBoxController extends Controller
             </div>
 ','*开房时段二');
 
-        $form->html('
-        <div class="form-inline feesmode">
-               <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*场所分成结算方式：
-                <select style="width:100px;height:30px" name="Place_Settlement">
-                    <option value="1" '.($Place_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Place_Settlement==2?"selected":"").'>按季结算</option>
-                    <option value="3" '.($Place_Settlement==3?"selected":"").'>按年结算</option>
-                    </select>
-                </label>
-            </div>
-','*场所分成比例');
-        $form->html('
-        <div class="form-inline feesmode">
-               <input type="text" name="Agent_Royalty" value="'.$Agent_Royalty.'" class="form-control Agent_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*代理商分成结算方式：
-                <select style="width:100px;height:30px" name="Agent_Settlement">
-                    <option value="1" '.($Agent_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Agent_Settlement==2?"selected":"").'>按季结算</option>
-                    <option value="3" '.($Agent_Settlement==3?"selected":"").'>按年结算</option>
-                    </select>
-                </label>
-            </div>
-','*代理商分成比例');
-        $form->html('
-        <div class="form-inline feesmode">
-               <input type="text" name="Obligee_Royalty" value="'.$Obligee_Royalty.'" class="form-control Obligee_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*权利人分成结算方式：
-                <select style="width:100px;height:30px" name="Obligee_Settlement">
-                    <option value="1" '.($Obligee_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Obligee_Settlement==2?"selected":"").'>按季结算</option>
-                    <option value="3" '.($Obligee_Settlement==3?"selected":"").'>按年结算</option>
-                    </select>
-                </label>
-            </div>
-','*权利人分成比例');
+//        $form->html('
+//        <div class="form-inline feesmode">
+//               <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
+//                <label class="form-inline" style="margin-left:10px">*场所分成结算方式：
+//                <select style="width:100px;height:30px" name="Place_Settlement">
+//                    <option value="1" '.($Place_Settlement==1?"selected":"").'>按月结算</option>
+//                    <option value="2" '.($Place_Settlement==2?"selected":"").'>按季结算</option>
+//                    <option value="3" '.($Place_Settlement==3?"selected":"").'>按年结算</option>
+//                    </select>
+//                </label>
+//            </div>
+//','*场所分成比例');
+//        $form->html('
+//        <div class="form-inline feesmode">
+//               <input type="text" name="Agent_Royalty" value="'.$Agent_Royalty.'" class="form-control Agent_Royalty" style="width: 60px" required>
+//                <label class="form-inline" style="margin-left:10px">*代理商分成结算方式：
+//                <select style="width:100px;height:30px" name="Agent_Settlement">
+//                    <option value="1" '.($Agent_Settlement==1?"selected":"").'>按月结算</option>
+//                    <option value="2" '.($Agent_Settlement==2?"selected":"").'>按季结算</option>
+//                    <option value="3" '.($Agent_Settlement==3?"selected":"").'>按年结算</option>
+//                    </select>
+//                </label>
+//            </div>
+//','*代理商分成比例');
+//        $form->html('
+//        <div class="form-inline feesmode">
+//               <input type="text" name="Obligee_Royalty" value="'.$Obligee_Royalty.'" class="form-control Obligee_Royalty" style="width: 60px" required>
+//                <label class="form-inline" style="margin-left:10px">*权利人分成结算方式：
+//                <select style="width:100px;height:30px" name="Obligee_Settlement">
+//                    <option value="1" '.($Obligee_Settlement==1?"selected":"").'>按月结算</option>
+//                    <option value="2" '.($Obligee_Settlement==2?"selected":"").'>按季结算</option>
+//                    <option value="3" '.($Obligee_Settlement==3?"selected":"").'>按年结算</option>
+//                    </select>
+//                </label>
+//            </div>
+//','*权利人分成比例');
 
         $form->hidden('mark', '备注')->rules(function ($form) {
         // 如果不是编辑状态，则添加字段唯一验证

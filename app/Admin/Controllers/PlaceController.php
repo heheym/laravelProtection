@@ -14,6 +14,7 @@ use Encore\Admin\Facades\Admin;
 
 use Field\Interaction\FieldTriggerTrait;
 use Field\Interaction\FieldSubscriberTrait;
+use function foo\func;
 
 class PlaceController extends Controller
 {
@@ -241,7 +242,8 @@ class PlaceController extends Controller
         $form->number('warningRoomcount', '房间预警数量')->default(8);
         $form->number('warningCutsongcount', '切歌预警数量')->default(6);
         $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
-//        $form->timeRange('Opening1_time', 'Opening1_time', '开房时段一');
+//        var_dump(DB::table('Merchanttable')->select('id','merchantName')->get()->toArray());
+
         $id = request()->route()->parameters('id');
         $time1 = '00:00';
         $time2 = '00:00';
@@ -294,7 +296,7 @@ class PlaceController extends Controller
             </div>
 ','*开房时段二');
 
-        $form->html('
+/*        $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
                 <label class="form-inline" style="margin-left:10px">*场所分成结算方式：
@@ -329,7 +331,17 @@ class PlaceController extends Controller
                     </select>
                 </label>
             </div>
-','*权利人分成比例');
+','*权利人分成比例');*/
+
+        //商户
+        $merchanttable = DB::table('Merchanttable')->select('merchantId','merchantName')->get();
+        foreach($merchanttable as $k=>$v){
+            $merchantOption[$v->merchantId] = $v->merchantName;
+        }
+        $form->table('merchant','商户', function ($table) use ($merchantOption){
+            $table->select('merchantId','商户名')->options($merchantOption);
+            $table->text('shareproportion','分成比例');
+        });
 
         //地址邮箱。。
         $form->html('

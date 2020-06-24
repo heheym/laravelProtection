@@ -523,4 +523,24 @@ class SongController extends Controller
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
+    //紧急下架歌曲
+    public function urgentDelsong()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(empty($post['musicdbpk']) || empty($post['SoftsongDbVer'])){
+            return response()->json(['code'=>500,'msg'=>'musicdbpk或SoftsongDbVer错误','data'=>null]);
+        }
+        $exists = DB::table('urgentDelsong')->where(['musicdbpk'=>$post['musicdbpk'],'SoftsongDbVer'=>$post['SoftsongDbVer']])->exists();
+        if($exists){
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }
+
+        $result = DB::table('urgentDelsong')->insert($post);
+        if($result){
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+        }
+        return response()->json(['code'=>500,'msg'=>'请求失败','data'=>null]);
+    }
+
+
 }

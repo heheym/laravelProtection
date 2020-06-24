@@ -42,7 +42,7 @@ return [
     'description'           => '简介',
     'back'                  => '返回',
     'back_to_list'          => '返回列表',
-    'submit'                => '提交',
+    'submit'                => '保存',
     'menu'                  => '菜单',
     'input'                 => '输入',
     'succeeded'             => '成功',

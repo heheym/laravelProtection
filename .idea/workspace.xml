@@ -76,17 +76,17 @@
     <property name="settings.editor.selected.configurable" value="inlay.hints.PHP" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\onedrive\web\laravelProtection\resources\views" />
-      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receipt" />
-      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receivable" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\onedrive\web\laravelProtection\resources\views\order" />
       <recent name="F:\onedrive\web\laravelProtection\app\Http\Controllers\workerman" />
       <recent name="F:\onedrive\web\laravelProtection\resources\views\boxregister" />
       <recent name="F:\onedrive\web\laravelProtection\app\Http\Controllers" />
       <recent name="F:\onedrive\web\laravelProtection\resources\views\songdownload" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\laravelProtection\resources\views" />
+      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receipt" />
+      <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receivable" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -174,10 +174,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="471" y="196" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1591946120817" />
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1592376812823">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1592807954020">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1592376812823" />
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1592807954020" />
     <state x="496" y="109" key="FileChooserDialogImpl" timestamp="1589525841226">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -202,13 +202,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="623" height="498" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1589707117096" />
-    <state x="469" y="130" width="762" height="646" key="find.popup" timestamp="1589270022595">
+    <state x="287" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1592813589112">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="469" y="130" width="762" height="646" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1589270022595" />
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1592468547880">
+    <state x="287" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1592813589112" />
+    <state x="469" y="114" width="762" height="710" key="find.popup" timestamp="1592900011848">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1592468547880" />
+    <state x="469" y="114" width="762" height="710" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1592900011848" />
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1592989385619">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1592989385619" />
   </component>
 </project>

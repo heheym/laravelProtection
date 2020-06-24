@@ -60,6 +60,9 @@ Route::group([
 
     $router->resource('ordersn', OrderController::class); //订单列表
 
+    $router->resource('merchanttable', MerchanttableController::class); //商户号管理
+
+
 
 
 });
