@@ -62,6 +62,8 @@ Route::group([
 
     $router->resource('merchanttable', MerchanttableController::class); //商户号管理
 
+    $router->resource('merchantset', MerchantSetController::class); //场所分成管理
+
 
 
 
