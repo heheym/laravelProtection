@@ -216,8 +216,8 @@ class MerchantSetController extends Controller
                 $merchantOption[$v->merchantId] = $v->merchantName;
             }
             $form->table('merchant', '', function ($table) use ($merchantOption) {
-                $table->select('merchantId', '商户名')->options($merchantOption)->rules('between:1,100');
-                $table->text('shareproportion', '分成比例(%)')->required();
+                $table->select('merchantId', '商户名')->options($merchantOption)->required();
+                $table->text('shareproportion', '分成比例(%)')->rules('between:1,100');
             });
         });
 
