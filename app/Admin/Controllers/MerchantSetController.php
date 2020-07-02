@@ -215,9 +215,13 @@ class MerchantSetController extends Controller
             foreach ($merchanttable as $k => $v) {
                 $merchantOption[$v->merchantId] = $v->merchantName;
             }
-            $form->table('merchant', '', function ($table) use ($merchantOption) {
-                $table->select('merchantId', '商户名')->options($merchantOption)->required();
-                $table->number('shareproportion', '分成比例(%)')->required()->rules('numeric|between:1,100');
+            $form->table('merchantfirst', '主体商户', function ($table) use ($merchantOption) {
+                $table->select('merchantId', '商户名')->options($merchantOption);
+                $table->number('shareproportion', '分成比例(%)')->default(10)->rules('numeric|between:1,100');
+            });
+            $form->table('merchant', '商户', function ($table) use ($merchantOption) {
+                $table->select('merchantId', '商户名')->options($merchantOption);
+                $table->number('shareproportion', '分成比例(%)')->default(10)->rules('numeric|between:1,100');
             });
         });
 

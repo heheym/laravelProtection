@@ -334,14 +334,14 @@ class PlaceController extends Controller
 ','*权利人分成比例');*/
 
         //商户
-        $merchanttable = DB::table('Merchanttable')->select('merchantId','merchantName')->get();
+       /* $merchanttable = DB::table('Merchanttable')->select('merchantId','merchantName')->get();
         foreach($merchanttable as $k=>$v){
             $merchantOption[$v->merchantId] = $v->merchantName;
         }
         $form->table('merchant','商户', function ($table) use ($merchantOption){
             $table->select('merchantId','商户名')->options($merchantOption);
             $table->text('shareproportion','分成比例');
-        });
+        });*/
 
         //地址邮箱。。
         $form->html('

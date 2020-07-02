@@ -149,10 +149,10 @@ class PromoteController extends Controller
         });
 
         $form->table('song','歌曲', function ($table) {
-            $table->text('singername','歌星')->required();
-            $table->text('songname','歌名')->required();
-            $table->text('lan','语种')->required();
-            $table->text('album','专辑')->required();
+            $table->text('singername','歌星');
+            $table->text('songname','歌名');
+            $table->text('lan','语种');
+            $table->text('album','专辑');
         });
 
         $form->saving(function (Form $form) {
