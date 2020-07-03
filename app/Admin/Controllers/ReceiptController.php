@@ -328,7 +328,7 @@ class ReceiptController extends Controller
             $table->text('item_no','单号');
             $table->text('hedging_money','对冲金额');
             $table->text('item_date','应收日期');
-        }) ->disableCreate()->disableDelete();;
+        }) ->disableCreate()->disableDelete();
 
         return $form;
     }

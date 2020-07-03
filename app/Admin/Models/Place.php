@@ -33,8 +33,13 @@ class Place extends Model
                 ->limit(1)
                 ->get()
                 ->map(function ($value) {return (array)$value;})->toArray();
-
+            if(empty($merchant)){
+                $merchant = [[
+      'svrkey' => $this->key,
+      'shareproportion' => '10']];
+            }
             return $merchant;
+
         }
     }
 
