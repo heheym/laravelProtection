@@ -14,16 +14,16 @@
             <form class="form-inline" id="target"  action="" method="get" style="display: inline-block;" >
                 <div class="form-group">
                     <label for="exampleInputName2">key</label>
-                    <input type="text" class="form-control" id="key" placeholder="" name="key" style="width:120px">
+                    <input type="text" class="form-control" id="place_key" placeholder="" name="place_key" style="width:120px">
                     &nbsp;&nbsp;&nbsp;
                     <select  id="sel" class="form-control">
-                        <option value="placename">
+                        <option value="place_placename">
                             场所名称
                         </option>
-                        <option value="contacts">
+                        <option value="place_contacts">
                             联系人
                         </option>
-                        <option value="phone">
+                        <option value="place_phone">
                             手机号
                         </option>
                     </select>
@@ -32,12 +32,12 @@
 
                     <label for="" style="margin-left:10px">地址:</label>
                     <div data-toggle="distpicker" data-value-type="code" class="form-control" id="distpicker">
-                        <select name="province" data-province="" style="border: none;outline: none;width:100px"></select>
-                        <select name="city" data-city="" style="border: none;outline: none;"></select>
+                        <select name="place_province" data-province="" style="border: none;outline: none;width:100px"></select>
+                        <select name="place_city" data-city="" style="border: none;outline: none;"></select>
                     </div>
 
                     <label for="" style="margin-left:10px">状态:</label>
-                    <select  id="status" class="form-control" name="status">
+                    <select  id="place_status" class="form-control" name="place_status">
                         <option value="">
                             所有
                         </option>
@@ -128,34 +128,34 @@
         $('#distpicker').distpicker('destroy');
 
         var url = new URL(location);
-        var key = url.searchParams.get('key');
+        var place_key = url.searchParams.get('place_key');
 
-        $('#key').val(key);
+        $('#place_key').val(place_key);
 
-        var placename = url.searchParams.get('placename');
-        var contacts = url.searchParams.get('contacts');
-        var phone = url.searchParams.get('phone');
-        if(contacts!==null){
-            $("#sel option[value=contacts]").prop('selected',true);
-            $("#selvalue").val(contacts);
-        }else if(placename!==null){
-            $("#sel option[value=placename]").prop('selected',true);
-            $("#selvalue").val(placename);
-        }else if(phone!==null){
-            $("#sel option[value=phone]").prop('selected',true);
-            $("#selvalue").val(phone);
+        var place_placename = url.searchParams.get('place_placename');
+        var place_contacts = url.searchParams.get('place_contacts');
+        var place_phone = url.searchParams.get('place_phone');
+        if(place_contacts!==null){
+            $("#sel option[value=place_contacts]").prop('selected',true);
+            $("#selvalue").val(place_contacts);
+        }else if(place_placename!==null){
+            $("#sel option[value=place_placename]").prop('selected',true);
+            $("#selvalue").val(place_placename);
+        }else if(place_phone!==null){
+            $("#sel option[value=place_phone]").prop('selected',true);
+            $("#selvalue").val(place_phone);
         }
 
-        var province = url.searchParams.get('province');
-        var city = url.searchParams.get('city');
+        var province = url.searchParams.get('place_province');
+        var city = url.searchParams.get('place_city');
         $('#distpicker').distpicker({
             province: province,
             city: city,
         });
 
-        var status = url.searchParams.get('status');
-        if(status!==null && status.length>0){
-            $("#status option[value="+status+"]").prop('selected',true);
+        var place_status = url.searchParams.get('place_status');
+        if(place_status!==null && place_status.length>0){
+            $("#place_status option[value="+place_status+"]").prop('selected',true);
 
         }
     });

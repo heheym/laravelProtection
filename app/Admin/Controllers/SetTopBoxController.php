@@ -82,7 +82,7 @@ class SetTopBoxController extends Controller
      *
      * @return Grid
      */
-    protected function grid()
+    public function grid()
     {
         $grid = new Grid(new SetTopBox);
         $grid->setView('settopbox.index');
@@ -222,14 +222,17 @@ class SetTopBoxController extends Controller
 //        $form->hidden('Obligee_Royalty');
 //        $form->hidden('Obligee_Settlement');
 
-        $form->text('key', 'Key')->required()->rules(function ($form) {
-            return 'exists:place,key';
-            // 如果不是编辑状态，则添加字段唯一验证
-            if (!$id = $form->model()->id) {
+        $settopbox_key = !empty($_GET['settopbox_key'])?$_GET['settopbox_key']:'';
 
-            }
-
-        });
+//        $form->text('key', 'Key')->required()->rules(function ($form) {
+//            return 'exists:place,key';
+//            // 如果不是编辑状态，则添加字段唯一验证
+//            if (!$id = $form->model()->id) {
+//
+//            }
+//
+//        });
+        $form->text('key','key')->default($settopbox_key)->readonly()->required();
 
 //        $form->text('KtvBoxid', '机顶盒MAC')->required();
 
@@ -344,6 +347,7 @@ class SetTopBoxController extends Controller
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
+            $tools->disableList();
         });
 
         $form->saving(function (Form $form) {
@@ -400,6 +404,9 @@ EOT;
         });
         $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
 
+        $form->saved(function (Form $form) {
+            return redirect('/place');
+        });
         return $form;
     }
 }

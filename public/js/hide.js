@@ -120,8 +120,30 @@ function order() {
         $.pjax({container:'#pjax-container', url: url.toString()});
         //分页数据
     });
+}
 
+//place
+function place() {
+    var tabSwitch = function (element, fn) {
+        $(element).click(function () {
+            var index = $.trim($(this).find('.column-key').html());
+            $(this).addClass("active").siblings().removeClass("active");
+            if (typeof fn === "function") {
+                fn(index);
+            }
+        });
+    };
 
+    $elem = $(".column-key").parent("tr");
+
+    tabSwitch($elem,function (index) {
+        var url = new URL(location);
+
+        url.searchParams.set('settopbox_key',index);
+
+        $.pjax({container:'#pjax-container', url: url.toString()});
+        //分页数据
+    });
 }
 
 

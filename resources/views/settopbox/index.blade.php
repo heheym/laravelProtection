@@ -11,36 +11,36 @@
     @if ( $grid->showTools() || $grid->showExportBtn() || $grid->showCreateBtn() )
 
         <div class="box-header with-border">
-            <form class="form-inline" id="target" action="" method="get" style="display: inline-block;">
+            <form class="form-inline" id="settopboxTarget" action="" method="get" style="display: inline-block;">
                 <div class="form-group">
                     <label for="exampleInputName2">key</label>
-                    <input type="text" class="form-control" id="key" placeholder="" name="key" style="width:120px">
+                    <input type="text" class="form-control" id="settopbox_key" placeholder="" name="settopbox_key" style="width:120px">
                     &nbsp;&nbsp;&nbsp;
-                    <select  id="sel" class="form-control">
-                        <option value="placename">
+                    <select  id="settopboxSel" class="form-control">
+                        <option value="settopbox_placename">
                             场所名称
                         </option>
-                        <option value="KtvBoxid">
+                        <option value="settopbox_KtvBoxid">
                             机器码
                         </option>
-                        <option value="machineCode">
+                        <option value="settopbox_machineCode">
                             机顶盒MAC
                         </option>
-                        <option value="contacts">
+                        <option value="settopbox_contacts">
                             联系人
                         </option>
                     </select>
 
-                    <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
+                    <input type="text" class="form-control" id="settopboxSelvalue" placeholder="" style="width:120px">
 
-                    <label for="" style="margin-left:10px">地址:</label>
-                    <div data-toggle="distpicker" data-value-type="code" class="form-control" id="distpicker">
-                        <select name="province" data-province="" style="border: none;outline: none;width:100px"></select>
-                        <select name="city" data-city="" style="border: none;outline: none;"></select>
-                    </div>
+{{--                    <label for="" style="margin-left:10px">地址:</label>--}}
+{{--                    <div data-toggle="distpicker" data-value-type="code" class="form-control" id="distpicker">--}}
+{{--                        <select name="settopbox_province" data-province="" style="border: none;outline: none;width:100px"></select>--}}
+{{--                        <select name="settopbox_city" data-city="" style="border: none;outline: none;"></select>--}}
+{{--                    </div>--}}
 
                     <label for="" style="margin-left:10px">状态:</label>
-                    <select  id="KtvBoxState" class="form-control" name="KtvBoxState">
+                    <select  id="settopbox_KtvBoxState" class="form-control" name="settopbox_KtvBoxState">
                         <option value="">
                             所有
                         </option>
@@ -140,49 +140,49 @@
         $('#distpicker').distpicker('destroy');
 
         var url = new URL(location);
-        var key = url.searchParams.get('key');
+        var settopbox_key = url.searchParams.get('settopbox_key');
 
-        $('#key').val(key);
+        $('#settopbox_key').val(settopbox_key);
 
-        var placename = url.searchParams.get('placename');
-        var contacts = url.searchParams.get('contacts');
-        var phone = url.searchParams.get('phone');
-        var KtvBoxid = url.searchParams.get('KtvBoxid');
-        var machineCode = url.searchParams.get('machineCode');
-        if(contacts!==null){
-            $("#sel option[value=contacts]").prop('selected',true);
-            $("#selvalue").val(contacts);
-        }else if(placename!==null){
-            $("#sel option[value=placename]").prop('selected',true);
-            $("#selvalue").val(placename);
-        }else if(phone!==null){
-            $("#sel option[value=phone]").prop('selected',true);
-            $("#selvalue").val(phone);
-        }else if(KtvBoxid!==null){
-            $("#sel option[value=KtvBoxid]").prop('selected',true);
-            $("#selvalue").val(KtvBoxid);
-        }else if(machineCode!==null){
-            $("#sel option[value=machineCode]").prop('selected',true);
-            $("#selvalue").val(machineCode);
+        var settopbox_placename = url.searchParams.get('settopbox_placename');
+        var settopbox_contacts = url.searchParams.get('settopbox_contacts');
+        var settopbox_phone = url.searchParams.get('settopbox_phone');
+        var settopbox_KtvBoxid = url.searchParams.get('settopbox_KtvBoxid');
+        var settopbox_machineCode = url.searchParams.get('settopbox_machineCode');
+        if(settopbox_contacts!==null){
+            $("#settopboxSel option[value=settopbox_contacts]").prop('selected',true);
+            $("#settopboxSelvalue").val(settopbox_contacts);
+        }else if(settopbox_placename!==null){
+            $("#settopboxSel option[value=settopbox_placename]").prop('selected',true);
+            $("#settopboxSelvalue").val(settopbox_placename);
+        }else if(settopbox_phone!==null){
+            $("#settopboxSel option[value=settopbox_phone]").prop('selected',true);
+            $("#settopboxSelvalue").val(settopbox_phone);
+        }else if(settopbox_KtvBoxid!==null){
+            $("#settopboxSel option[value=settopbox_KtvBoxid]").prop('selected',true);
+            $("#settopboxSelvalue").val(settopbox_KtvBoxid);
+        }else if(settopbox_machineCode!==null){
+            $("#settopboxSel option[value=settopbox_machineCode]").prop('selected',true);
+            $("#settopboxSelvalue").val(settopbox_machineCode);
         }
 
-        var province = url.searchParams.get('province');
-        var city = url.searchParams.get('city');
+        var settopbox_province = url.searchParams.get('settopbox_province');
+        var settopbox_city = url.searchParams.get('settopbox_city');
         $('#distpicker').distpicker({
-            province: province,
-            city: city,
+            province: settopbox_province,
+            city: settopbox_city,
         });
 
-        var KtvBoxState = url.searchParams.get('KtvBoxState');
-        if(KtvBoxState!==null &&KtvBoxState.length>0){
-            $("#KtvBoxState option[value="+KtvBoxState+"]").prop('selected',true);
+        var settopbox_KtvBoxState = url.searchParams.get('settopbox_KtvBoxState');
+        if(settopbox_KtvBoxState!==null && settopbox_KtvBoxState.length>0){
+            $("#settopbox_KtvBoxState option[value="+settopbox_KtvBoxState+"]").prop('selected',true);
         }
     });
 
-    $('#target').click(function() {
-        var sel =$("#sel option:selected").val();
-        var selvalue = $("#selvalue").val();
-        $('#selhidden').remove();
-        $('#target').append("<input type='hidden' id='selhidden' name='"+sel+"' value='"+selvalue+"'>");
+    $('#settopboxTarget').click(function() {
+        var settopboxSel =$("#settopboxSel option:selected").val();
+        var settopboxSelvalue = $("#settopboxSelvalue").val();
+        $('#settopboxSelhidden').remove();
+        $('#settopboxTarget').append("<input type='hidden' id='settopboxSelhidden' name='"+settopboxSel+"' value='"+settopboxSelvalue+"'>");
     });
 </script>

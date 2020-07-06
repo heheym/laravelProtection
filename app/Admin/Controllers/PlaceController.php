@@ -11,10 +11,17 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 use Encore\Admin\Facades\Admin;
+use App\Admin\Models\SetTopBox;
 
 use Field\Interaction\FieldTriggerTrait;
 use Field\Interaction\FieldSubscriberTrait;
 use function foo\func;
+
+use App\Admin\Controllers\SetTopBoxController;
+use App\Admin\Actions\SetTopBox\BatchChange;
+
+use App\Admin\Extensions\Place\CreateSettopbox;
+
 
 class PlaceController extends Controller
 {
@@ -31,7 +38,8 @@ class PlaceController extends Controller
         return $content
 //            ->header('Index')
 //            ->description('description')
-            ->body($this->grid());
+            ->body($this->place())
+            ->body($this->settopbox());
     }
 
     /**
@@ -58,10 +66,12 @@ class PlaceController extends Controller
      */
     public function edit($id, Content $content)
     {
+//        $settopbox = new SetTopBoxController();
         return $content
 //            ->header('Edit')
 //            ->description('description')
             ->body($this->form()->edit($id));
+//            ->body($settopbox->form()->edit($id));
     }
 
     /**
@@ -76,6 +86,7 @@ class PlaceController extends Controller
 //            ->header('Create')
 //            ->description('description')
             ->body($this->form());
+
     }
 
     /**
@@ -83,10 +94,11 @@ class PlaceController extends Controller
      *
      * @return Grid
      */
-    protected function grid()
+    protected function place()
     {
         $grid = new Grid(new Place);
         $grid->setView('place.index');
+        $grid->setName('place');
 
 //        $grid->disableColumnSelector();
         $grid->disableExport();
@@ -176,6 +188,118 @@ class PlaceController extends Controller
 
         return $grid;
     }
+
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    public function settopbox()
+    {
+
+        Admin::script('place();');
+        $grid = new Grid(new SetTopBox);
+        $grid->setView('settopbox.index');
+        $grid->setName('settopbox');
+        $grid->disableCreateButton();
+
+        $query = http_build_query(['settopbox_key' => app('request')->get('settopbox_key'),]);
+        //新增其它费项
+        $grid->tools(function ($tools)use($grid, $query){
+            $tools->append(new CreateSettopbox($grid, $query));
+        });
+
+        $where = [];
+        if(!empty(request('placename'))){
+            $placename =request('placename');
+            $where[] = ['placename','like','%'.$placename.'%'];
+        }
+        if(!empty(request('contacts'))){
+            $contacts =request('contacts');
+            $where[] = ['contacts','like','%'.$contacts.'%'];
+        }
+        if(!empty(request('province'))){
+            $province =request('province');
+            $where[] = ['province','like','%'.$province.'%'];
+        }
+        if(!empty(request('city'))){
+            $city =request('city');
+            $where[] = ['city','like','%'.$city.'%'];
+        }
+
+        $grid->model()->whereHas('place', function ($query) use($where){
+            $query->where($where);
+        });
+
+//        $grid->disableFilter(false);
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+            $filter->like('key', 'key');
+            $filter->like('KtvBoxid', 'KtvBoxid');
+            $filter->like('machineCode', 'machineCode');
+            $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
+        });
+
+//        $grid->id('Id');
+        $grid->key('Key');
+        $grid->KtvBoxid('机器码');
+        $grid->machineCode('机顶盒MAC');
+        $grid->roomno('房号');
+
+        $grid->KtvBoxState('状态')->display(function ($KtvBoxState) {
+            if(!is_null($KtvBoxState)){
+                $arra = [0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废'];
+                return $arra[$KtvBoxState];
+            }
+        });
+        $grid->created_date('启用日期');
+
+        // 添加不存在的字段
+        $grid->place('场所')->display(function () {
+            return DB::table('place')->where('key',$this->key )->value('placename');
+        });
+        $grid->contact('联系人')->display(function () {
+            return DB::table('place')->where('key',$this->key )->value('contacts');
+        });
+        $grid->address('省市')->display(function () {
+            $province = DB::table('place')->where('key',$this->key )->value('province');
+            if(!is_null($province)){
+                $province =  DB::table('china_area')->where('code',$province)->value('name');
+            }
+            $city = DB::table('place')->where('key',$this->key )->value('city');
+            if(!is_null($province)){
+                $city =  DB::table('china_area')->where('code',$city)->value('name');
+            }
+            return $province.$city;
+        });
+
+
+        $grid->mark('备注');
+
+//        $grid->batchActions(function ($batch) {
+//            $batch->add(new BatchChange(1));
+//        });
+
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new BatchChange());
+        });
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('机顶盒删除')) {
+                $actions->disableDelete();
+            }
+        });
+
+        if (!Admin::user()->can('机顶盒添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
+
+        return $grid;
+    }
+
+
 
     /**
      * Make a show builder.

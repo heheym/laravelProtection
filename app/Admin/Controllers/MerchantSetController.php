@@ -218,7 +218,7 @@ class MerchantSetController extends Controller
             $form->table('merchantfirst', '主体商户', function ($table) use ($merchantOption) {
                 $table->select('merchantId', '商户名')->options($merchantOption)->required();
                 $table->number('shareproportion', '分成比例(%)')->default(10)->rules('numeric|between:1,100');
-       
+
             })->disableCreate()->disableDelete();
             $form->table('merchant', '商户', function ($table) use ($merchantOption) {
                 $table->select('merchantId', '商户名')->options($merchantOption);
