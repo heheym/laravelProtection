@@ -214,7 +214,7 @@ class PlaceController extends Controller
         }
 
         $post = json_decode(file_get_contents("php://input"), true);
-        file_put_contents('1.txt',file_get_contents("php://input"));
+//        file_put_contents('1.txt',file_get_contents("php://input"));
         if(!is_array( $post )){
             return response()->json(['code' => 500, 'msg' => '数据出错', 'data' => $post]);
         }
