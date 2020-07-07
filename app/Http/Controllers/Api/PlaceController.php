@@ -204,6 +204,7 @@ class PlaceController extends Controller
     public function songWarning(Request $request)
     {
         $srvkey = \Request::header('srvkey');
+
         if(empty($srvkey)){
             return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
         }
@@ -213,6 +214,7 @@ class PlaceController extends Controller
         }
 
         $post = json_decode(file_get_contents("php://input"), true);
+        file_put_contents('1.txt',file_get_contents("php://input"));
         if(!is_array( $post )){
             return response()->json(['code' => 500, 'msg' => '数据出错', 'data' => $post]);
         }
