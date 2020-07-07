@@ -461,9 +461,9 @@ class Builder
             return;
         }
 
-        if (Str::contains($previous, url($this->getResource()))) {
+//        if (Str::contains($previous, url($this->getResource()))) {
             $this->addHiddenField((new Hidden(static::PREVIOUS_URL_KEY))->value($previous));
-        }
+//        }
     }
 
     /**
