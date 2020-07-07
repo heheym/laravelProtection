@@ -221,6 +221,9 @@ class PlaceController extends Controller
             if(empty($v['KtvBoxid'])||empty($v['musicdbpk'])){
                 return response()->json(['code' => 500, 'msg' => '机器码或歌曲主键不能为空', 'data' => null]);
             }
+            if(empty($v['playtime'])||empty($v['State'])){
+                return response()->json(['code' => 500, 'msg' => '时间或预警类型不能为空', 'data' => null]);
+            }
             $temp[$k]['srvkey'] = $srvkey;
             $temp[$k]['KtvBoxid'] = trim($v['KtvBoxid']);
             $temp[$k]['musicdbpk'] = trim($v['musicdbpk']);
