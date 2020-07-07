@@ -216,27 +216,20 @@ class PlaceController extends Controller
         if(!is_array( $post )){
             return response()->json(['code' => 500, 'msg' => '数据出错', 'data' => $post]);
         }
+        $temp = [];
         foreach($post as $k=>$v){
             if(empty($v['KtvBoxid'])||empty($v['musicdbpk'])){
                 return response()->json(['code' => 500, 'msg' => '机器码或歌曲主键不能为空', 'data' => null]);
             }
-            $post[$k]['srvkey'] = $srvkey;
-            $post[$k]['KtvBoxid'] = trim($v['KtvBoxid']);
-            $post[$k]['UploadDate'] = date('Y-m-d H:i:s');
-//            $post[$k]['State'] = 0;
-//
-//            $song = DB::table('song')->where('musicdbpk',$v['musicdbpk'])->first();
-//            if(empty($song)){
-//                return response()->json(['code' => 500, 'msg' => 'musicdbpk不存在', 'data' => null]);
-//            }
-//            $exists = DB::table('song')->where(['Singer'=>$song->Singer,'Songname'=>$song->Songname,'LangType'=>$song->LangType,'IsAverSong'=>1])->exists();
-//            if($exists){
-//                $post[$k]['State'] = 1;
-//            }
+            $temp[$k]['srvkey'] = $srvkey;
+            $temp[$k]['KtvBoxid'] = trim($v['KtvBoxid']);
+            $temp[$k]['musicdbpk'] = trim($v['musicdbpk']);
+            $temp[$k]['UploadDate'] = $v['playtime'];
+            $temp[$k]['State'] = $v['State'];
         }
 
         try{
-            $result = DB::table('users_songs')->insert($post);
+            $result = DB::table('users_songs')->insert($temp);
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => $e->getMessage()]);
         }
