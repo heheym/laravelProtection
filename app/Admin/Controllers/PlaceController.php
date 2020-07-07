@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Place\SettopboxDelete;
 use App\Admin\Models\Place;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -21,6 +22,7 @@ use App\Admin\Controllers\SetTopBoxController;
 use App\Admin\Actions\SetTopBox\BatchChange;
 
 use App\Admin\Extensions\Place\CreateSettopbox;
+use App\Admin\Extensions\Place\SettopboxEdit;
 
 
 class PlaceController extends Controller
@@ -243,7 +245,7 @@ class PlaceController extends Controller
         });
 
 //        $grid->id('Id');
-        $grid->key('Key');
+//        $grid->hidden('Key');
         $grid->KtvBoxid('机器码');
         $grid->machineCode('机顶盒MAC');
         $grid->roomno('房号');
@@ -287,6 +289,10 @@ class PlaceController extends Controller
         });
         $grid->actions(function ($actions) {
             $actions->disableView();
+            $actions->disableEdit();
+            $actions->disableDelete();
+            $actions->append(new SettopboxEdit($actions->getKey()));
+            $actions->append(new SettopboxDelete($actions->getKey()));
             if (!Admin::user()->can('机顶盒删除')) {
                 $actions->disableDelete();
             }

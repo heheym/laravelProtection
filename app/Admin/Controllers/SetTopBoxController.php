@@ -404,9 +404,9 @@ EOT;
         });
         $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
 
-        $form->saved(function (Form $form) {
-            return redirect('/place');
-        });
+//        $form->saved(function (Form $form) {
+//            redirect()->back();
+//        });
         return $form;
     }
 }
