@@ -144,6 +144,7 @@ class UserSongController extends Controller
     {
         $grid = new Grid(new UserSong);
         $grid->setView('usersong.index');
+        $grid->disableCreateButton();
 
         $where = [];
         if(!empty(request('placename'))){
@@ -188,7 +189,11 @@ class UserSongController extends Controller
         });
         $grid->UploadDate('上传时间');
         $grid->State('状态')->display(function($State){
-            return [0=>"正常",1=>'维权'][$State];
+            if($State==0){
+                return [0=>"正常",1=>'预警中'][$State];
+            }else{
+                return [0=>"正常",$State=>'预警中'][$State];
+            }
         });
 /*
         $grid->singerType('歌星类型')->display(function($singerType){
