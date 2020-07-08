@@ -20,9 +20,19 @@
                         <option value="placename">
                             场所名称
                         </option>
-                        <option value="contacts">
-                            联系人
+                        <option value="KtvBoxid">
+                            机器码
                         </option>
+                        <option value="roomno">
+                            房号
+                        </option>
+                        <option value="musicdbpk">
+                            musicdbpk
+                        </option>
+                        <option value="RecordCompany">
+                            唱片公司
+                        </option>
+
                     </select>
                     <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
 
@@ -109,13 +119,25 @@
         $('#srvkey').val(srvkey);
 
         var placename = url.searchParams.get('placename');
-        var contacts = url.searchParams.get('contacts');
-        if(contacts!==null){
-            $("#sel option[value=contacts]").prop('selected',true);
-            $("#selvalue").val(contacts);
-        }else if(placename!==null){
+        var KtvBoxid = url.searchParams.get('KtvBoxid');
+        var roomno = url.searchParams.get('roomno');
+        var musicdbpk = url.searchParams.get('musicdbpk');
+        var RecordCompany = url.searchParams.get('RecordCompany');
+        if(placename!==null){
             $("#sel option[value=placename]").prop('selected',true);
             $("#selvalue").val(placename);
+        }else if(KtvBoxid!==null){
+            $("#sel option[value=KtvBoxid]").prop('selected',true);
+            $("#selvalue").val(KtvBoxid);
+        }else if(roomno!==null){
+            $("#sel option[value=roomno]").prop('selected',true);
+            $("#selvalue").val(roomno);
+        }else if(musicdbpk!==null){
+            $("#sel option[value=musicdbpk]").prop('selected',true);
+            $("#selvalue").val(musicdbpk);
+        }else if(RecordCompany!==null){
+            $("#sel option[value=RecordCompany]").prop('selected',true);
+            $("#selvalue").val(RecordCompany);
         }
 
     });

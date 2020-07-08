@@ -342,12 +342,12 @@ class PlaceController extends Controller
         $form->hidden('Opening2_price');
         $form->hidden('Effective2_time');
 
-        $form->hidden('Place_Royalty');
-        $form->hidden('Place_Settlement');
-        $form->hidden('Agent_Royalty');
-        $form->hidden('Agent_Settlement');
-        $form->hidden('Obligee_Royalty');
-        $form->hidden('Obligee_Settlement');
+//        $form->hidden('Place_Royalty');
+//        $form->hidden('Place_Settlement');
+//        $form->hidden('Agent_Royalty');
+//        $form->hidden('Agent_Settlement');
+//        $form->hidden('Obligee_Royalty');
+//        $form->hidden('Obligee_Settlement');
 //        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
         $form->hidden('placeaddress');
         $form->hidden('mailbox');

@@ -165,28 +165,43 @@ class UserSongController extends Controller
             $filter->disableIdFilter();
             $filter->like('srvkey','srvkey');
             $filter->where(function ($query) {
+                $query->whereHas('settopbox', function ($query) {
+                    $query->where('KtvBoxid', 'like', "%{$this->input}%");
+                });
+            }, '机器码');
+            $filter->where(function ($query) {
                 $query->whereHas('place', function ($query) {
                     $query->where('placename', 'like', "%{$this->input}%");
                 });
             }, '场所名');
-            $filter->where(function ($query) {
-                $query->whereHas('place', function ($query) {
-                    $query->where('contacts', 'like', "%{$this->input}%");
-                });
-            }, '联系人');
+
+
         });
 
         $grid->model()->orderby('UploadDate','desc');
 
         $grid->srvkey('srvkey');
+        $grid->column('place.placename','场所名称');
         $grid->KtvBoxid('机器码');
+//        $grid->roomno('房号')->display(function(){
+//            return DB::table('settopbox')->where('KtvBoxid',$this->KtvBoxid)->value('roomno');
+//        });
+        $grid->column('settopbox.roomno','房号');
+
         $grid->musicdbpk('musicdbpk');
-        $grid->placename('场所名称')->display(function(){
-            return DB::table('place')->where('key',$this->srvkey)->value('placename');
-        });
-        $grid->contacts('联系人')->display(function(){
-            return DB::table('place')->where('key',$this->srvkey)->value('contacts');
-        });
+//        $grid->Songname('歌名')->display(function(){
+//            return DB::table('song')->where('musicdbpk',$this->musicdbpk)->value('Songname');
+//        });
+        $grid->column('song.Songname','歌名');
+        $grid->column('song.Singer','歌星');
+        $grid->column('song.RecordCompany','唱片公司');
+
+//        $grid->Songname('歌星')->display(function(){
+//            return DB::table('song')->where('musicdbpk',$this->musicdbpk)->value('Singer');
+//        });
+
+
+
         $grid->UploadDate('上传时间');
         $grid->State('状态')->display(function($State){
             if($State==0){
