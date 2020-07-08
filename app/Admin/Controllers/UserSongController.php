@@ -151,12 +151,38 @@ class UserSongController extends Controller
             $placename =request('placename');
             $where[] = ['placename','like','%'.$placename.'%'];
         }
-        if(!empty(request('contacts'))){
-            $contacts =request('contacts');
-            $where[] = ['contacts','like','%'.$contacts.'%'];
-        }
         $grid->model()->whereHas('place', function ($query) use($where){
             $query->where($where);
+        });
+
+        $settopbox = [];
+        if(!empty(request('KtvBoxid'))){
+            $KtvBoxid =request('KtvBoxid');
+            $settopbox[] = ['KtvBoxid','like','%'.$KtvBoxid.'%'];
+        }
+        if(!empty(request('roomno'))){
+            $roomno =request('roomno');
+            $settopbox[] = ['roomno','like','%'.$roomno.'%'];
+        }
+        if(!empty(request('musicdbpk'))){
+            $musicdbpk =request('musicdbpk');
+            $settopbox[] = ['musicdbpk','like','%'.$musicdbpk.'%'];
+        }
+        $grid->model()->whereHas('settopbox', function ($query) use($settopbox){
+            $query->where($settopbox);
+        });
+
+        $song = [];
+        if(!empty(request('musicdbpk'))){
+            $musicdbpk =request('musicdbpk');
+            $song[] = ['musicdbpk','like','%'.$musicdbpk.'%'];
+        }
+        if(!empty(request('RecordCompany'))){
+            $RecordCompany =request('RecordCompany');
+            $song[] = ['RecordCompany','like','%'.$RecordCompany.'%'];
+        }
+        $grid->model()->whereHas('song', function ($query) use($song){
+            $query->where($song);
         });
 
 //        $grid->disableFilter(false);
@@ -164,18 +190,6 @@ class UserSongController extends Controller
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('srvkey','srvkey');
-            $filter->where(function ($query) {
-                $query->whereHas('settopbox', function ($query) {
-                    $query->where('KtvBoxid', 'like', "%{$this->input}%");
-                });
-            }, '机器码');
-            $filter->where(function ($query) {
-                $query->whereHas('place', function ($query) {
-                    $query->where('placename', 'like', "%{$this->input}%");
-                });
-            }, '场所名');
-
-
         });
 
         $grid->model()->orderby('UploadDate','desc');
