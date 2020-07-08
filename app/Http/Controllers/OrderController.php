@@ -246,7 +246,10 @@ class OrderController extends Controller
   padding-top:130px;
   fill:#6eb700;">
   <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
-</div>';
+</div>
+<a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NzAwMjM2MA==&scene=110#wechat_redirect">公众号</a>';
+
+//        <iframe  src="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NzAwMjM2MA==&scene=110#wechat_redirect" class="iframe" scrolling="no" security="restricted" sandbox="allow-scripts allow-same-origin allow-popups" width="100%" height="5000"></iframe>
 
 //        if(!isset($_GET['sn'])){
 //            return response()->json(['code' => 500, 'msg' => '订单号错误1', 'data' => null]);

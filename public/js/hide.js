@@ -122,10 +122,18 @@ function order() {
     });
 }
 
+
 //place
 function place() {
+    $(function () {
+        var url = new URL(location);
+        var settopbox_key = url.searchParams.get('settopbox_key');
+        if(settopbox_key!==null){
+        $(".column-key:contains('"+settopbox_key+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
     var tabSwitch = function (element, fn) {
-        $(element).click(function () {
+        $(element).dblclick(function () {
             var index = $.trim($(this).find('.column-key').html());
             $(this).addClass("active").siblings().removeClass("active");
             if (typeof fn === "function") {
