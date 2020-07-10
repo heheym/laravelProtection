@@ -247,8 +247,11 @@ class OrderController extends Controller
   fill:#6eb700;">
   <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
 </div>
-<p>
-<a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NzAwMjM2MA==&scene=110#wechat_redirect">公众号</a></p>';
+
+<div style="text-align: center;margin-top:200px">
+    <img alt="" src="/123.jfif" style="margin: 0 auto;width:700px;height:700px" />
+</div>
+';
 
 
 //        <iframe  src="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=Mzg2NzAwMjM2MA==&scene=123&uin=MTE3OTk0MDcyMQ==&key=6cbe8a29ffaf79ebacbdad6238d3e88e979fcaf3dc74f548eaca0edc47937c518811e1aead86e30cc1377264ede22bb195afbd20aefb536dff6ef226bac8e41ac468a91a480122394db34e5c82a1f57c&devicetype=Windows" class="iframe" scrolling="no" security="restricted" sandbox="allow-scripts allow-same-origin allow-popups" width="100%" height="5000"></iframe>
