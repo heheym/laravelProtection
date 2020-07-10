@@ -224,7 +224,12 @@ class OrderController extends Controller
   padding-top:130px;
   fill:#6eb700;">
   <img src="/img/yes.jpg" width=200 height=200 style="display:block;margin:auto"/>
-</div>';
+</div>
+
+<div style="text-align: center;margin-top:200px">
+    <img alt="" src="/123.jfif" style="margin: 0 auto;width:700px;height:700px" />
+</div>
+';
             }else {
                 return '<div class="info" style="padding: 30px;
     background: #ff9326;
@@ -234,7 +239,12 @@ class OrderController extends Controller
   padding-top:130px;
   fill:#6eb700;">
   <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
-</div>';
+</div>
+
+<div style="text-align: center;margin-top:200px">
+    <img alt="" src="/123.jfif" style="margin: 0 auto;width:700px;height:700px" />
+</div>
+';
             }
         }
 
