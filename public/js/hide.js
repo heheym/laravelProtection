@@ -1,3 +1,4 @@
+
 //系统参数设置显示密码
 function show() {
     $(".fa-eye-slash").parent('span').css({"cursor":"pointer"});
@@ -19,8 +20,17 @@ function show() {
 }
 
 function receivable() {
+    $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
+        var url = new URL(location);
+        var receivable_svrkey = url.searchParams.get('receivable_svrkey');
+        if(receivable_svrkey!==null){
+            $(".column-key:contains('"+receivable_svrkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
+
     var tabSwitch = function (element, fn) {
-        $(element).click(function () {
+        $(element).dblclick(function () {
             var index = $.trim($(this).find('.column-key').html());
             $(this).addClass("active").siblings().removeClass("active");
             if (typeof fn === "function") {
@@ -42,8 +52,18 @@ function receivable() {
 }
 
 function receipt() {
+    $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
+
+        var url = new URL(location);
+        var receipt_svrkey = url.searchParams.get('receipt_svrkey');
+        if(receipt_svrkey!==null){
+            $(".column-key:contains('"+receipt_svrkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
+
     var tabSwitch = function (element, fn) {
-        $(element).click(function () {
+        $(element).dblclick(function () {
             var index = $.trim($(this).find('.column-key').html());
             $(this).addClass("active").siblings().removeClass("active");
             if (typeof fn === "function") {
@@ -100,8 +120,18 @@ function openingTime(){
 
 //订单
 function order() {
+    $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
+
+        var url = new URL(location);
+        var ordersn_key = url.searchParams.get('ordersn_key');
+        if(ordersn_key!==null){
+            $(".column-key:contains('"+ordersn_key+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
+
     var tabSwitch = function (element, fn) {
-        $(element).click(function () {
+        $(element).dblclick(function () {
             var index = $.trim($(this).find('.column-key').html());
             $(this).addClass("active").siblings().removeClass("active");
             if (typeof fn === "function") {
@@ -126,6 +156,7 @@ function order() {
 //place
 function place() {
     $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
         var url = new URL(location);
         var settopbox_key = url.searchParams.get('settopbox_key');
         if(settopbox_key!==null){

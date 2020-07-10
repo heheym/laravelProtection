@@ -12,7 +12,7 @@ class UserSong extends Model
     public function place(){
         return $this->belongsTo(Place::class, 'srvkey' , 'key');
     }
-
+//
     public function settopbox()
     {
         return $this->belongsTo(SetTopBox::class, 'KtvBoxid' , 'KtvBoxid');

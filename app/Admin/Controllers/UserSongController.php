@@ -156,21 +156,15 @@ class UserSongController extends Controller
         });
 
         $settopbox = [];
-        if(!empty(request('KtvBoxid'))){
-            $KtvBoxid =request('KtvBoxid');
-            $settopbox[] = ['KtvBoxid','like','%'.$KtvBoxid.'%'];
-        }
         if(!empty(request('roomno'))){
             $roomno =request('roomno');
             $settopbox[] = ['roomno','like','%'.$roomno.'%'];
         }
-        if(!empty(request('musicdbpk'))){
-            $musicdbpk =request('musicdbpk');
-            $settopbox[] = ['musicdbpk','like','%'.$musicdbpk.'%'];
+        if(!empty(request('roomno'))){
+            $grid->model()->whereHas('settopbox', function ($query) use($settopbox){
+                $query->where($settopbox);
+            });
         }
-        $grid->model()->whereHas('settopbox', function ($query) use($settopbox){
-            $query->where($settopbox);
-        });
 
         $song = [];
         if(!empty(request('musicdbpk'))){
@@ -190,6 +184,8 @@ class UserSongController extends Controller
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('srvkey','srvkey');
+            $filter->like('KtvBoxid','KtvBoxid');
+            $filter->like('musicdbpk','musicdbpk');
         });
 
         $grid->model()->orderby('UploadDate','desc');
@@ -197,24 +193,12 @@ class UserSongController extends Controller
         $grid->srvkey('srvkey');
         $grid->column('place.placename','场所名称');
         $grid->KtvBoxid('机器码');
-//        $grid->roomno('房号')->display(function(){
-//            return DB::table('settopbox')->where('KtvBoxid',$this->KtvBoxid)->value('roomno');
-//        });
         $grid->column('settopbox.roomno','房号');
 
         $grid->musicdbpk('musicdbpk');
-//        $grid->Songname('歌名')->display(function(){
-//            return DB::table('song')->where('musicdbpk',$this->musicdbpk)->value('Songname');
-//        });
         $grid->column('song.Songname','歌名');
         $grid->column('song.Singer','歌星');
         $grid->column('song.RecordCompany','唱片公司');
-
-//        $grid->Songname('歌星')->display(function(){
-//            return DB::table('song')->where('musicdbpk',$this->musicdbpk)->value('Singer');
-//        });
-
-
 
         $grid->UploadDate('上传时间');
         $grid->State('状态')->display(function($State){
@@ -224,95 +208,10 @@ class UserSongController extends Controller
                 return [0=>"正常",$State=>'预警中'][$State];
             }
         });
-/*
-        $grid->singerType('歌星类型')->display(function($singerType){
-            $singerTypeArray = [1=>'男',2=>'女',3=>'合唱',4=>'组合',5=>'群星'];
-            return $singerTypeArray[$singerType];
-        });
-        $grid->location('地区')->display(function($location){
-            $locationArray = [1=>'大陆',2=>'香港',3=>'台湾',4=>'欧美',5=>'日本',6=>'韩国',7=>'其它'];
-            return $locationArray[$location];
-        });
-        $grid->namePingYin('歌曲拼音');
-        $grid->nameFullPingYing('歌曲全拼');
-        $grid->nameCharacts('歌曲笔画');
-        $grid->nameWordLenght('歌曲字数');
-        $grid->nameCharactsCount('歌曲的首字笔画数');
-        $grid->singerNameFirst('歌手的首字笔画数');
-        $grid->singerPingYin('歌手拼音');
-        $grid->singerFullPingYing('歌手全拼');
-        $grid->singerLocation('歌手别名');
-        $grid->singerCharacts('歌星笔画');
-        $grid->chineseName('歌曲别名');
-        $grid->size('文件大小');
-        $grid->language('语种')->display(function($language){
-            $languageArray = [0=>'国语',1=>'粤语',2=>'英语',3=>'台语',4=>'日语',5=>'韩语',6=>'其它'];
-            return $languageArray[$language];
-        });
-        $grid->videoClass('视频类型')->display(function($videoClass){
-            $videoClassArray = [7=>'HD高清',5=>'DVD 16:9',2=>'DVD 4:3',1=>'DVD 4:3单'];
-            return $videoClassArray[$videoClass];
-        });;
-        $grid->recordCompany('唱片公司');
-        $grid->album('专辑');
-        $grid->copyRight('是否有授权')->display(function($copyRight){
-            return $copyRight?'授权':'非授权';
-        });
-        $grid->category('歌曲类别')->display(function($category){
-            $categoryArray = [1=>'流行歌曲', 2=>'男女对唱',3=>'军旅红歌',4=>'戏曲',5=>'儿童歌曲',6=>'舞曲',7=>'节日祝福',8=>'迪士高',9=>'民歌'];
-            return $categoryArray[$category];
-        });
-        $grid->type('音乐类型')->display(function($type){
-            $typeArray = [1=>'普通歌曲',2=>'新歌推荐',4=>'替换歌曲',5=>'网络歌曲'];
-            return $typeArray[$type];
-        });
-        $grid->format('版本格式')->display(function($format){
-            $formatArray = [1=>'MTV',2=>'演唱会',3=>'影视剧情',4=>'人物',5=>'风景',6=>'动画',7=>'其他'];
-            return $formatArray[$format];
-        });
-        $grid->uploadDateStr('发布时间');
-        $grid->audioClass('音频格式')->display(function($audioClass){
-            return $audioClass==1?'原版伴奏':'消音伴奏';
-        });
-        $grid->isTaste('是否体验')->display(function($isTaste){
-            return $isTaste==1?'是':'是否热补';
-        });
-        $grid->isApp('发布类型')->display(function($isApp){
-            $isAppArray = [0=>'新歌', 1=>'补歌', 2=>'又是新歌又是补歌'];
-            return $isAppArray[$isApp];
-        });
-        $grid->sedName('专区名一');
-        $grid->thiName('专区名二');
-        $grid->localPath('文件路径');
-        $grid->bugeId('补歌网id');
-        $grid->isRealCopy('曲库类型')->display(function($isRealCopy){
-            $isRealCopyArray = [0=>'新歌曲库',1=>'有版权曲库',2=>'无版权曲库',3=>'经典歌曲',4=>'公播新歌'];
-            return $isRealCopyArray[$isRealCopy];
-        });
-        $grid->searchName1('查询名称1');
-        $grid->searchName2('查询名称2');
-        $grid->word('歌词');
-        $grid->introduce('制作类型');
-        $grid->hasLogo('是否加标')->display(function($hasLogo){
-            return $hasLogo?'是':'否';
-        });
-        $grid->ranking('排行');
-        $grid->musicMid('歌曲mid');
-        $grid->bscoin('宝声币');
-        $grid->ispf('是否评分')->display(function($ispf){
-            return $ispf?'是':'否';
-        });
-        $grid->isbsHide('是否隐藏')->display(function($isbsHide){
-            return $isbsHide?'是':'否';
-        });
-        $grid->variety('综艺专辑');
-        $grid->isbver('是否B版')->display(function($isbver){
-            return $isbver?'是':'否';
-        });
-        $grid->songnum('歌曲编号');
-*/
+
         $grid->actions(function ($actions) {
             $actions->disableView();
+            $actions->disableEdit();
             if (!Admin::user()->can('预警歌曲删除')) {
                 $actions->disableDelete();
             }
