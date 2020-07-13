@@ -29,8 +29,7 @@ class Place extends Model
         if($this->merchantset){
             $key = $this->key;  //子表id
             $merchant = DB::table('MerchantSet')
-                ->where('svrkey','=',$key)
-                ->limit(1)
+                ->where(['svrkey'=>$key,'isMain'=>1])
                 ->get()
                 ->map(function ($value) {return (array)$value;})->toArray();
             if(empty($merchant)){
@@ -54,6 +53,7 @@ class Place extends Model
             $key = $this->key;  //子表id
             foreach($extra as $k=>$v){
                 $extra[$k]['svrkey'] = $this->key;
+                $extra[$k]['isMain'] = 1;
             }
             DB::table('MerchantSet')->where('svrkey',$key)->delete();
             DB::table('MerchantSet')->insert($extra);
