@@ -185,4 +185,36 @@ function place() {
     });
 }
 
+//merchantset
+function merchantset() {
+    $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
+        var url = new URL(location);
+        var merchantset_svrkey = url.searchParams.get('merchantset_svrkey');
+        if(merchantset_svrkey!==null){
+            $(".column-key:contains('"+merchantset_svrkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
+    var tabSwitch = function (element, fn) {
+        $(element).dblclick(function () {
+            var index = $.trim($(this).find('.column-key').html());
+            $(this).addClass("active").siblings().removeClass("active");
+            if (typeof fn === "function") {
+                fn(index);
+            }
+        });
+    };
+
+    $elem = $(".column-key").parent("tr");
+
+    tabSwitch($elem,function (index) {
+        var url = new URL(location);
+
+        url.searchParams.set('merchantset_svrkey',index);
+
+        $.pjax({container:'#pjax-container', url: url.toString()});
+        //分页数据
+    });
+}
+
 

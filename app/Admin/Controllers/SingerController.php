@@ -97,6 +97,7 @@ class SingerController extends Controller
                 $filter->like('Company', '唱片公司');
                 $filter->equal('AreaType', '歌星地区')->select([1=>'大陆',2=>'香港',3=>'台湾',4=>'欧美',5=>'日本',6=>'韩国',7=>'其它']);
             });
+            $filter->between('UpdateDate', '最后更新时间')->datetime();
 
         });
 

@@ -146,6 +146,7 @@ class UserSongController extends Controller
         $grid->setView('usersong.index');
         $grid->disableCreateButton();
 
+
         $where = [];
         if(!empty(request('placename'))){
             $placename =request('placename');
@@ -186,6 +187,7 @@ class UserSongController extends Controller
             $filter->like('srvkey','srvkey');
             $filter->like('KtvBoxid','KtvBoxid');
             $filter->like('musicdbpk','musicdbpk');
+            $filter->between('UploadDate', '上传时间')->datetime();;
         });
 
         $grid->model()->orderby('UploadDate','desc');

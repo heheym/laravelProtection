@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Models\MerchantSet;
 use App\Admin\Models\Place;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -31,7 +32,8 @@ class MerchantSetController extends Controller
         return $content
 //            ->header('Index')
 //            ->description('description')
-            ->body($this->grid());
+            ->body($this->grid())
+            ->body($this->merchantset());
     }
 
     /**
@@ -85,8 +87,10 @@ class MerchantSetController extends Controller
      */
     protected function grid()
     {
+        Admin::script('merchantset();');
         $grid = new Grid(new Place);
         $grid->setView('place.index');
+        $grid->setName('place');
 
         $grid->disableColumnSelector();
         $grid->disableExport();
@@ -178,6 +182,56 @@ class MerchantSetController extends Controller
         return $grid;
     }
 
+    protected function merchantset(){
+        $grid = new Grid(new MerchantSet());
+        $grid->disableColumnSelector();
+        $grid->disableExport();
+        $grid->disableCreateButton();
+        $grid->disableBatchActions();
+        $grid->setName('merchantset');
+
+        $grid->filter(function ($filter){
+            $filter->like('svrkey','svrkey');
+        });
+        if(!app('request')->get('merchantset_svrkey')){  //默认不显示应收纪录
+            $grid->model()->where('svrkey', '');
+        }
+
+        $grid->svrkey('key');
+        $grid->merchantId('商户编号');
+        $grid->shareproportion('分成比例')->display(function ($shareproportion) {
+            if(!is_null($shareproportion)){
+                if($this->isMain==0){
+                    return $shareproportion;
+                }elseif($this->isMain==1){
+                    return '';
+                }
+
+            }
+        });
+        $grid->createDate('创建日期');
+        $grid->isMain('主体商户')->display(function ($isMain) {
+            if(!is_null($isMain)){
+                $arra = [0=>'否',1=>'是'];
+                return $arra[$isMain];
+            }
+        });
+
+        $grid->actions(function($actions){
+            $actions->disableView();
+//            $actions->disableDelete();
+            $actions->disableEdit();
+        });
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        return $grid;
+
+    }
+
     /**
      * Make a show builder.
      *
@@ -228,16 +282,16 @@ class MerchantSetController extends Controller
         return $form;
     }
 
-    public function destroy($id)
-    {
-        $key = DB::table('place')->where('id',$id)->value('key');
-        $exists = DB::table('settopbox')->where('key',$key)->exists();
-        if($exists){
-            return response()->json([
-                'status'  => false,
-                'message' => '场所下有机顶盒,不能删除',
-            ]);
-        }
-        return $this->form()->destroy($id);
-    }
+//    public function destroy($id)
+//    {
+//        $key = DB::table('place')->where('id',$id)->value('key');
+//        $exists = DB::table('settopbox')->where('key',$key)->exists();
+//        if($exists){
+//            return response()->json([
+//                'status'  => false,
+//                'message' => '场所下有机顶盒,不能删除',
+//            ]);
+//        }
+//        return $this->form()->destroy($id);
+//    }
 }

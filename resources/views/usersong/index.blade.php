@@ -36,6 +36,21 @@
                     </select>
                     <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
 
+{{--                    <div class="form-group">--}}
+                        <label style="margin-left:10px">上传时间</label>
+{{--                        <div class="col-sm-8" style="">--}}
+{{--                            <div class="input-group input-group-sm">--}}
+{{--                                <div class="input-group-addon">--}}
+{{--                                    <i class="fa fa-calendar"></i>--}}
+{{--                                </div>--}}
+                                <input type="text" class="form-control" id="UploadDate_start" placeholder="上传时间" name="UploadDate[start]" value="">
+{{--                                <span class="input-group-addon" style="border-left: 0; border-right: 0;">-</span>--}}
+                    -
+                                <input type="text" class="form-control" id="UploadDate_end" placeholder="上传时间" name="UploadDate[end]" value="">
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
                 </div>
                 <button type="submit" class="btn btn-default" id="butt">搜索</button>
             </form>
@@ -138,6 +153,15 @@
         }else if(RecordCompany!==null){
             $("#sel option[value=RecordCompany]").prop('selected',true);
             $("#selvalue").val(RecordCompany);
+        }
+
+        var UploadDate_start = url.searchParams.get('UploadDate[start]');
+        var UploadDate_end = url.searchParams.get('UploadDate[end]');
+        if(UploadDate_start!==null){
+            $('#UploadDate_start').val(UploadDate_start);
+        }
+        if(UploadDate_end!==null){
+            $('#UploadDate_end').val(UploadDate_end);
         }
 
     });
