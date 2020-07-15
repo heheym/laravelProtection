@@ -24,7 +24,7 @@ function receivable() {
         $(".column-key").parents('tbody').css('cursor','pointer');
         var url = new URL(location);
         var receivable_svrkey = url.searchParams.get('receivable_svrkey');
-        if(receivable_svrkey!==null){
+        if(receivable_svrkey!==null && receivable_svrkey.length>0){
             $(".column-key:contains('"+receivable_svrkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
         }
     })
@@ -57,7 +57,7 @@ function receipt() {
 
         var url = new URL(location);
         var receipt_svrkey = url.searchParams.get('receipt_svrkey');
-        if(receipt_svrkey!==null){
+        if(receipt_svrkey!==null && receipt_svrkey.length>0){
             $(".column-key:contains('"+receipt_svrkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
         }
     })
@@ -125,7 +125,7 @@ function order() {
 
         var url = new URL(location);
         var ordersn_key = url.searchParams.get('ordersn_key');
-        if(ordersn_key!==null){
+        if(ordersn_key!==null && ordersn_key.length>0){
             $(".column-key:contains('"+ordersn_key+"')").parent("tr").css('background','rgb(255, 255, 213)');
         }
     })
@@ -159,7 +159,8 @@ function place() {
         $(".column-key").parents('tbody').css('cursor','pointer');
         var url = new URL(location);
         var settopbox_key = url.searchParams.get('settopbox_key');
-        if(settopbox_key!==null){
+
+        if(settopbox_key!==null && settopbox_key.length>0){
         $(".column-key:contains('"+settopbox_key+"')").parent("tr").css('background','rgb(255, 255, 213)');
         }
     })
@@ -191,7 +192,7 @@ function merchantset() {
         $(".column-key").parents('tbody').css('cursor','pointer');
         var url = new URL(location);
         var merchantset_svrkey = url.searchParams.get('merchantset_svrkey');
-        if(merchantset_svrkey!==null){
+        if(merchantset_svrkey!==null && merchantset_svrkey.length>0){
             $(".column-key:contains('"+merchantset_svrkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
         }
     })

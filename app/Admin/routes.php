@@ -65,6 +65,9 @@ Route::group([
     $router->resource('merchantset', MerchantSetController::class); //场所分成管理
 
 
+    $router->resource('warningcompany', WarningCompanyController::class);//唱片公司异常
+
+
 
 
 });

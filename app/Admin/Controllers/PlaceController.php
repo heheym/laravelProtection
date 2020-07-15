@@ -341,19 +341,52 @@ class PlaceController extends Controller
         $form->hidden('Opening2_time');
         $form->hidden('Opening2_price');
         $form->hidden('Effective2_time');
-
-//        $form->hidden('Place_Royalty');
-//        $form->hidden('Place_Settlement');
-//        $form->hidden('Agent_Royalty');
-//        $form->hidden('Agent_Settlement');
-//        $form->hidden('Obligee_Royalty');
-//        $form->hidden('Obligee_Settlement');
-//        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
         $form->hidden('placeaddress');
         $form->hidden('mailbox');
         $form->hidden('phone');
         $form->hidden('contacts');
         $form->hidden('tel');
+        $form->hidden('warningRoomtime');
+        $form->hidden('warningCutsongtime');
+        $form->hidden('warningRoomcount');
+        $form->hidden('warningCutsongcount');
+
+        $id = request()->route()->parameters('id');
+        $time1 = '00:00';
+        $time2 = '00:00';
+        $time3 = '00:00';
+        $time4 = '00:00';
+        $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
+        $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
+        $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
+        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
+        $warningRoomtime = $warningCutsongtime = 30;
+        $warningRoomcount = 8;
+        $warningCutsongcount = 6;
+
+        if(!empty($id)){
+            $place = DB::table('place')->where('id',$id)->first();
+            $time1 = explode('-',$place->Opening1_time)[0];
+            $time2 = explode('-',$place->Opening1_time)[1];
+            $time3 = explode('-',$place->Opening2_time)[0];
+            $time4 = explode('-',$place->Opening2_time)[1];
+            $Opening1_price = $place->Opening1_price;
+            $Effective1_time = $place->Effective1_time;
+            $Opening2_price = $place->Opening2_price;
+            $Effective2_time = $place->Effective2_time;
+
+            $placeaddress = $place->placeaddress;
+            $mailbox = $place->mailbox;
+            $phone = $place->phone;
+            $contacts = $place->contacts;
+            $tel = $place->tel;
+            $warningRoomtime = $place->warningRoomtime;
+            $warningCutsongtime = $place->warningCutsongtime;
+            $warningRoomcount = $place->warningRoomcount;
+            $warningCutsongcount = $place->warningCutsongcount;
+        }
+
+
 
         $form->text('userno', '场所编号')->placeholder('自动生成')->readOnly();
         $form->text('key', 'key')->placeholder('自动生成')->readOnly();
@@ -368,46 +401,34 @@ class PlaceController extends Controller
         $form->number('boxPass', '机顶盒设置密码')->default('888888')->rules('required|regex:/^\d+$/',['regex' => '必须全部为数字']);
 
         $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
-//        $form->select('wangMode', '预警模式')->options($wangMode);
-        $form->number('warningRoomcount', '房间预警数量')->default(8);
-        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
+
+//        $form->number('warningRoomcount', '房间预警数量')->default(8);
+        $form->html('
+        <div class="form-inline">
+               <div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-primary">-</button></span><input style="width: 100px; text-align: center;" type="text" id="warningRoomcount" name="warningRoomcount" value="'.$warningRoomcount.'" class="form-control warningRoomcount initialized" placeholder="输入 房间预警数量"><span class="input-group-btn"><button type="button" class="btn btn-success">+</button></span></div>
+               &nbsp;&nbsp;
+                <label class="form-inline" style="margin-left:5px">统计时长(分钟)：
+                <input type="text" name="warningRoomtime" value="'.$warningRoomtime.'" class="form-control phone" style="width: 90px" >
+                </label>
+        </div>
+','房间预警数量');
+        $form->html('
+        <div class="form-inline">
+               <div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-primary">-</button></span><input style="width: 100px; text-align: center;" type="text" id="warningCutsongcount" name="warningCutsongcount" value="'.$warningCutsongcount.'" class="form-control warningCutsongcount initialized" placeholder="输入 切歌预警数量"><span class="input-group-btn"><button type="button" class="btn btn-success">+</button></span></div>
+               &nbsp;&nbsp;
+                <label class="form-inline" style="margin-left:5px">统计时长(分钟)：
+                <input type="text" name="warningCutsongtime" value="'.$warningCutsongtime.'" class="form-control phone" style="width: 90px" >
+                </label>
+        </div>
+','切歌预警数量');
+
+
+
+
+//        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
+
+
         $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
-//        var_dump(DB::table('Merchanttable')->select('id','merchantName')->get()->toArray());
-
-        $id = request()->route()->parameters('id');
-        $time1 = '00:00';
-        $time2 = '00:00';
-        $time3 = '00:00';
-        $time4 = '00:00';
-        $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
-        $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
-        $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
-        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
-        if(!empty($id)){
-            $place = DB::table('place')->where('id',$id)->first();
-            $time1 = explode('-',$place->Opening1_time)[0];
-            $time2 = explode('-',$place->Opening1_time)[1];
-            $time3 = explode('-',$place->Opening2_time)[0];
-            $time4 = explode('-',$place->Opening2_time)[1];
-            $Opening1_price = $place->Opening1_price;
-            $Effective1_time = $place->Effective1_time;
-            $Opening2_price = $place->Opening2_price;
-            $Effective2_time = $place->Effective2_time;
-
-            $Place_Royalty = $place->Place_Royalty;
-            $Place_Settlement = $place->Place_Settlement;
-            $Agent_Royalty = $place->Agent_Royalty;
-            $Agent_Settlement = $place->Agent_Settlement;
-            $Obligee_Royalty = $place->Obligee_Royalty;
-            $Obligee_Settlement = $place->Obligee_Settlement;
- //        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
-            $placeaddress = $place->placeaddress;
-            $mailbox = $place->mailbox;
-            $phone = $place->phone;
-            $contacts = $place->contacts;
-            $tel = $place->tel;
-        }
-
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
@@ -425,53 +446,6 @@ class PlaceController extends Controller
                 <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective2_time" required value="'.$Effective2_time.'" /></label>
             </div>
 ','*开房时段二');
-
-/*        $form->html('
-        <div class="form-inline feesmode">
-               <input type="text" name="Place_Royalty" value="'.$Place_Royalty.'" class="form-control Place_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*场所分成结算方式：
-                <select style="width:100px;height:30px" name="Place_Settlement">
-                    <option value="1" '.($Place_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Place_Settlement==2?"selected":"").'>按季结算</option>
-                    <option value="3" '.($Place_Settlement==3?"selected":"").'>按年结算</option>
-                    </select>
-                </label>
-            </div>
-','*场所分成比例');
-        $form->html('
-        <div class="form-inline feesmode">
-               <input type="text" name="Agent_Royalty" value="'.$Agent_Royalty.'" class="form-control Agent_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*代理商分成结算方式：
-                <select style="width:100px;height:30px" name="Agent_Settlement">
-                    <option value="1" '.($Agent_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Agent_Settlement==2?"selected":"").'>按季结算</option>
-                    <option value="3" '.($Agent_Settlement==3?"selected":"").'>按年结算</option>
-                    </select>
-                </label>
-            </div>
-','*代理商分成比例');
-        $form->html('
-        <div class="form-inline feesmode">
-               <input type="text" name="Obligee_Royalty" value="'.$Obligee_Royalty.'" class="form-control Obligee_Royalty" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*权利人分成结算方式：
-                <select style="width:100px;height:30px" name="Obligee_Settlement">
-                    <option value="1" '.($Obligee_Settlement==1?"selected":"").'>按月结算</option>
-                    <option value="2" '.($Obligee_Settlement==2?"selected":"").'>按季结算</option>
-                    <option value="3" '.($Obligee_Settlement==3?"selected":"").'>按年结算</option>
-                    </select>
-                </label>
-            </div>
-','*权利人分成比例');*/
-
-        //商户
-       /* $merchanttable = DB::table('Merchanttable')->select('merchantId','merchantName')->get();
-        foreach($merchanttable as $k=>$v){
-            $merchantOption[$v->merchantId] = $v->merchantName;
-        }
-        $form->table('merchant','商户', function ($table) use ($merchantOption){
-            $table->select('merchantId','商户名')->options($merchantOption);
-            $table->text('shareproportion','分成比例');
-        });*/
 
         //地址邮箱。。
         $form->html('

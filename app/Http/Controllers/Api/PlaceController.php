@@ -170,7 +170,9 @@ class PlaceController extends Controller
             'Opening1_time'=>$result->Opening1_time,'Opening1_price'=>$result->Opening1_price,'Effective1_time'=>$result->Effective1_time,
             'Opening2_time'=>$result->Opening2_time,'Opening2_price'=>$result->Opening2_price,'Effective2_time'=>$result->Effective2_time,
             'warningRoomcount'=>$result->warningRoomcount,
+            'warningRoomtime'=>$result->warningRoomtime,
             'warningCutsongcount'=>$result->warningCutsongcount,
+            'warningCutsongtime'=>$result->warningCutsongtime,
             'data'=>$data]);
     }
 
