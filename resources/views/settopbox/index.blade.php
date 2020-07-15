@@ -137,7 +137,6 @@
 
 <script>
     $(function () {
-        $('#distpicker').distpicker('destroy');
 
         var url = new URL(location);
         var settopbox_key = url.searchParams.get('settopbox_key');

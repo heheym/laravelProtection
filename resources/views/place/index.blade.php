@@ -125,9 +125,17 @@
 
 <script>
     $(function () {
+        var url = new URL(location);
         $('#distpicker').distpicker('destroy');
 
-        var url = new URL(location);
+        var province = url.searchParams.get('place_province');
+        var city = url.searchParams.get('place_city');
+        $('#distpicker').distpicker({
+            province: province,
+            city: city,
+        });
+
+
         var place_key = url.searchParams.get('place_key');
 
         $('#place_key').val(place_key);
@@ -146,17 +154,11 @@
             $("#selvalue").val(place_phone);
         }
 
-        var province = url.searchParams.get('place_province');
-        var city = url.searchParams.get('place_city');
-        $('#distpicker').distpicker({
-            province: province,
-            city: city,
-        });
+
 
         var place_status = url.searchParams.get('place_status');
         if(place_status!==null && place_status.length>0){
             $("#place_status option[value="+place_status+"]").prop('selected',true);
-
         }
     });
 

@@ -27,7 +27,6 @@ class WarningCompanyController extends AdminController
         $grid = new Grid(new WarningCompany);
         $grid->disableCreateButton();
 
-//        $grid->column('id', __('Id'));
         $grid->column('svrkey', __('svrkey'));
         $grid->column('place.placename', __('场所名称'));
         $grid->column('ktvboxid', __('机器码'));

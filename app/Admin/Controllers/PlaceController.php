@@ -98,12 +98,13 @@ class PlaceController extends Controller
      */
     protected function place()
     {
+        Admin::script('place();');
         $grid = new Grid(new Place);
         $grid->setView('place.index');
         $grid->setName('place');
 
-//        $grid->disableColumnSelector();
-        $grid->disableExport();
+        $grid->disableColumnSelector();
+//        $grid->disableExport();
 //        $grid->disableCreateButton();
 
 //        $grid->disableFilter(false);
@@ -200,7 +201,7 @@ class PlaceController extends Controller
     public function settopbox()
     {
 
-        Admin::script('place();');
+
         $grid = new Grid(new SetTopBox);
         $grid->setView('settopbox.index');
         $grid->setName('settopbox');
