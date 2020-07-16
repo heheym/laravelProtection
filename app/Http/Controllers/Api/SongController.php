@@ -542,5 +542,19 @@ class SongController extends Controller
         return response()->json(['code'=>500,'msg'=>'请求失败','data'=>null]);
     }
 
+    //补歌数据查询接口
+    public function busonglist()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        $data = DB::table('song')->limit(1);
+
+        return $data;
+        if($data){
+            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>$data]);
+        }
+        return response()->json(['code'=>500,'msg'=>'请求失败','data'=>null]);
+    }
+
+
 
 }

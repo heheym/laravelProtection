@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::post('/songs/service/urgentDelsong', 'Api\SongController@urgentDelsong');  //歌曲紧急下架接口
 
+    Route::post('/songs/busong/busonglist', 'Api\SongController@busonglist');  //补歌数据查询接口
+
 });
 
 //url，需要加一个api，如：192.168.10.227:81/api/login

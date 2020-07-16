@@ -233,6 +233,7 @@ class PlaceController extends Controller
             $temp[$k]['musicdbpk'] = trim($v['musicdbpk']);
             $temp[$k]['UploadDate'] = $v['playtime'];
             $temp[$k]['State'] = $v['State'];
+            $temp[$k]['Playfile'] = isset($v['Playfile'])?$v['Playfile']:'';
         }
 
         try{
