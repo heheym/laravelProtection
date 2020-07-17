@@ -67,6 +67,8 @@ Route::group([
 
     $router->resource('warningcompany', WarningCompanyController::class);//唱片公司异常
 
+    $router->resource('busong', BuSongController::class);//补歌
+
 
 
 

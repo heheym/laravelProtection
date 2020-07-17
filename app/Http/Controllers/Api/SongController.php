@@ -546,15 +546,41 @@ class SongController extends Controller
     public function busonglist()
     {
         $post = json_decode(file_get_contents("php://input"), true);
-        $data = DB::table('song')->limit(1);
+        $currentPage = isset($post['current_page']) ? $post['current_page'] : 1;
+        $itemPerPage = 10;
 
-        return $data;
-        if($data){
-            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>$data]);
+        $where = [];
+        if(isset($post['bustate'])){
+            $where[] = ['buState','=',$post['bustate']];
         }
+        if(isset($post['startdate'])){
+            $where[] = ['createdate','>=',$post['startdate']];
+        }
+        if(isset($post['enddate'])){
+            $where[] = ['createdate','<=',$post['enddate']];
+        }
+$data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage)->limit($itemPerPage)->get();
+        $count = DB::table('busong')->where($where)->count();
+        $totoalPage = ceil($count/$itemPerPage);
+
+        return response()->json(['code'=>200,'current_page'=>$currentPage,'totoal_page'=>$totoalPage,'data'=>$data]);
+
         return response()->json(['code'=>500,'msg'=>'请求失败','data'=>null]);
     }
 
-
+//补歌状态更新接口
+    public function updateStatus()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post['serialid'])){
+            return response()->json(['code'=>500,'msg'=>'serialid不能为空','data'=>null]);
+        }
+        try{
+            DB::table('busong')->where('serialid',$post['serialid'])->update($post);
+        }catch (\Exception $e){
+            return response()->json(['code'=>500,'msg'=>'数据格式错误','data'=>$e->getMessage()]);
+        }
+        return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+    }
 
 }

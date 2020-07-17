@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('/songs/service/urgentDelsong', 'Api\SongController@urgentDelsong');  //歌曲紧急下架接口
 
     Route::post('/songs/busong/busonglist', 'Api\SongController@busonglist');  //补歌数据查询接口
+    Route::post('/songs/busong/updateStatus', 'Api\SongController@updateStatus');  //补歌状态更新接口
 
 });
 
