@@ -179,6 +179,7 @@ class OrderController extends AdminController
                 return ['WXZF'=>'微信','ZFBZF'=>'支付宝'][$pay_way];
             }
         });
+        $grid->column('openid', __('用户号'));
         $grid->column('note', __('备注'));
         $grid->column('send_message', __('已发送信息'))->display(function($send_message){
             if(isset($send_message)){

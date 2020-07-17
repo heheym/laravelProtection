@@ -205,6 +205,7 @@ class UserSongController extends Controller
 
         $grid->UploadDate('上传时间');
         $grid->column('Playfile','视频文件');
+        $grid->column('song.IsAverSong','是否A版');
         $grid->State('状态')->display(function($State){
             if($State==0){
                 return [0=>"正常",1=>'预警中'][$State];

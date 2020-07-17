@@ -179,7 +179,7 @@ class OrderController extends Controller
                     if(!$exists){
                         return '000000';
                     }
-                    $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time,'pay_way'=>$re_obj->pay_way]);
+                    $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time,'pay_way'=>$re_obj->pay_way,'openid'=>$re_obj->openid]);
                     $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->first();
                     if($result){
                         Log::info('修改订单状态成功,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);

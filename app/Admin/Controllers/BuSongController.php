@@ -31,14 +31,18 @@ class BuSongController extends AdminController
         $grid->column('songname', __('歌名'));
         $grid->column('singer', __('歌星'));
         $grid->column('langtype', __('语种'))->display(function ($langtype){
-
+            return [0=>'国语',1=>'粤语',2=>'英语',3=>'台语',4=>'日语',5=>'韩语',6=>'不详'][$langtype];
         });
-        $grid->column('remarks', __('Remarks'));
-        $grid->column('createdate', __('Createdate'));
-        $grid->column('ischeck', __('Ischeck'));
-        $grid->column('buState', __('BuState'));
-        $grid->column('musicdbpk', __('Musicdbpk'));
-        $grid->column('optionRemarks', __('OptionRemarks'));
+        $grid->column('remarks', __('备注'));
+        $grid->column('createdate', __('创建日期'));
+        $grid->column('ischeck', __('是否检查'))->display(function ($ischeck){
+            return [0=>'否',1=>'是'][$ischeck];
+        });
+        $grid->column('buState', __('状态'))->display(function($buState){
+    return [0=>'新增',1=>'处理中',2=>'完成',3=>'歌曲信息出错',4=>'取消无法处理',5=>'已上传',6=>'彻底删除'][$buState];
+        });
+        $grid->column('musicdbpk', __('musicdbpk'));
+        $grid->column('optionRemarks', __('操作日志'));
 
         return $grid;
     }
@@ -77,17 +81,17 @@ class BuSongController extends AdminController
     {
         $form = new Form(new BuSong);
 
-        $form->number('serialid', __('Serialid'));
-        $form->text('svrkey', __('Svrkey'));
-        $form->text('songname', __('Songname'));
-        $form->text('singer', __('Singer'));
-        $form->switch('langtype', __('Langtype'));
-        $form->text('remarks', __('Remarks'));
-        $form->datetime('createdate', __('Createdate'))->default(date('Y-m-d H:i:s'));
-        $form->switch('ischeck', __('Ischeck'));
-        $form->switch('buState', __('BuState'));
-        $form->number('musicdbpk', __('Musicdbpk'));
-        $form->text('optionRemarks', __('OptionRemarks'));
+//        $form->number('serialid', __('Serialid'));
+        $form->text('svrkey', __('svrkey'));
+        $form->text('songname', __('歌名'));
+        $form->text('singer', __('歌星'));
+        $form->select('langtype', __('语种'))->options([0=>'国语',1=>'粤语',2=>'英语',3=>'台语',4=>'日语',5=>'韩语',6=>'不详']);
+        $form->text('remarks', __('备注'));
+        $form->datetime('createdate', __('创建时间'))->default(date('Y-m-d H:i:s'));
+        $form->select('ischeck', __('是否检查'))->options([0=>'否',1=>'是']);
+        $form->select('buState', __('状态'))->options([0=>'新增',1=>'处理中',2=>'完成',3=>'歌曲信息出错',4=>'取消无法处理',5=>'已上传',6=>'彻底删除']);
+        $form->text('musicdbpk', __('musicdbpk'));
+        $form->text('optionRemarks', __('操作日志'));
 
         return $form;
     }
