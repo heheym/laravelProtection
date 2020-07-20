@@ -115,10 +115,10 @@ class Between extends AbstractFilter
             $('#{$this->id['start']}').datetimepicker($startOptions);
             $('#{$this->id['end']}').datetimepicker($endOptions);
             $("#{$this->id['start']}").on("dp.change", function (e) {
-                $('#{$this->id['end']}').data("DateTimePicker").minDate(e.date);
+//                $('#{$this->id['end']}').data("DateTimePicker").minDate(e.date);
             });
             $("#{$this->id['end']}").on("dp.change", function (e) {
-                $('#{$this->id['start']}').data("DateTimePicker").maxDate(e.date);
+//                $('#{$this->id['start']}').data("DateTimePicker").maxDate(e.date);
             });
 EOT;
 
