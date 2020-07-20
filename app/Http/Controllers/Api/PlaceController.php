@@ -171,10 +171,10 @@ class PlaceController extends Controller
             'FeesMode'=>$result->FeesMode,
             'Opening1_time'=>$result->Opening1_time,'Opening1_price'=>$result->Opening1_price,'Effective1_time'=>$result->Effective1_time,
             'Opening2_time'=>$result->Opening2_time,'Opening2_price'=>$result->Opening2_price,'Effective2_time'=>$result->Effective2_time,
-            'warningRoomcount'=>$result->warningRoomcount,
-            'warningRoomtime'=>$result->warningRoomtime,
             'warningCutsongcount'=>$result->warningCutsongcount,
-            'warningCutsongtime'=>$result->warningCutsongtime,
+            'warningCutsongcounttime'=>$result->warningCutsongcounttime,
+            'warningCutcompanycount'=>$result->warningCutcompanycount,
+            'warningCutcompanycounttime'=>$result->warningCutcompanycounttime,
             'data'=>$data]);
     }
 
@@ -403,9 +403,7 @@ class PlaceController extends Controller
 
 
         return json_encode(['code'=>200,'SoftwareName'=>$result->SoftwareName,'SoftwareVerno'=>$result->SoftwareVerno,'NewSongHttp'=>$result->NewSongHttp,'SpeedLimit'=>$result->SpeedLimit,'LoginName'=>$result->LoginName,
-            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp,'WarningAtoBtime'=>$result->WarningAtoBtime,'WechatPublicHttp'=>$result->WechatPublicHttp],320);
-
-
+            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp,'WarningAtoBtime'=>$result->WarningAtoBtime,'WechatPublicHttp'=>$result->WechatPublicHttp,'ServerTime'=>date('Y-m-d H:i:s')],320);
     }
 
     //获取歌曲下载地址接口

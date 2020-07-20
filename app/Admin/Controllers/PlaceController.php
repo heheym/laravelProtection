@@ -347,10 +347,10 @@ class PlaceController extends Controller
         $form->hidden('phone');
         $form->hidden('contacts');
         $form->hidden('tel');
-        $form->hidden('warningRoomtime');
-        $form->hidden('warningCutsongtime');
-        $form->hidden('warningRoomcount');
         $form->hidden('warningCutsongcount');
+        $form->hidden('warningCutsongcounttime');
+        $form->hidden('warningCutcompanycount');
+        $form->hidden('warningCutcompanycounttime');
 
         $id = request()->route()->parameters('id');
         $time1 = '00:00';
@@ -361,9 +361,10 @@ class PlaceController extends Controller
         $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
         $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
         $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
-        $warningRoomtime = $warningCutsongtime = 30;
-        $warningRoomcount = 8;
-        $warningCutsongcount = 6;
+        $warningCutsongcount = 8;
+        $warningCutsongcounttime = 10;
+        $warningCutcompanycount = 6;
+        $warningCutcompanycounttime = 10;
 
         if(!empty($id)){
             $place = DB::table('place')->where('id',$id)->first();
@@ -381,10 +382,10 @@ class PlaceController extends Controller
             $phone = $place->phone;
             $contacts = $place->contacts;
             $tel = $place->tel;
-            $warningRoomtime = $place->warningRoomtime;
-            $warningCutsongtime = $place->warningCutsongtime;
-            $warningRoomcount = $place->warningRoomcount;
             $warningCutsongcount = $place->warningCutsongcount;
+            $warningCutsongcounttime = $place->warningCutsongcounttime;
+            $warningCutcompanycount = $place->warningCutcompanycount;
+            $warningCutcompanycounttime = $place->warningCutcompanycounttime;
         }
 
 
@@ -406,28 +407,24 @@ class PlaceController extends Controller
 //        $form->number('warningRoomcount', '房间预警数量')->default(8);
         $form->html('
         <div class="form-inline">
-               <div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-primary">-</button></span><input style="width: 100px; text-align: center;" type="text" id="warningRoomcount" name="warningRoomcount" value="'.$warningRoomcount.'" class="form-control warningRoomcount initialized" placeholder="输入 房间预警数量"><span class="input-group-btn"><button type="button" class="btn btn-success">+</button></span></div>
+               <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutsongcount" name="warningCutsongcount" value="'.$warningCutsongcount.'" class="form-control warningCutsongcount initialized" placeholder=""></div>
                &nbsp;&nbsp;
-                <label class="form-inline" style="margin-left:5px">统计时长(分钟)：
-                <input type="text" name="warningRoomtime" value="'.$warningRoomtime.'" class="form-control phone" style="width: 90px" >
+                <label class="form-inline" style="margin-left:5px">房间一段时间内切歌数量&nbsp;&nbsp;
+                <input type="text" name="warningCutsongcounttime" value="'.$warningCutsongcounttime.'" class="form-control phone" style="width: 90px" >
                 </label>
         </div>
-','房间预警数量');
+','房间连续切歌数量');
         $form->html('
         <div class="form-inline">
-               <div class="input-group"><span class="input-group-btn"><button type="button" class="btn btn-primary">-</button></span><input style="width: 100px; text-align: center;" type="text" id="warningCutsongcount" name="warningCutsongcount" value="'.$warningCutsongcount.'" class="form-control warningCutsongcount initialized" placeholder="输入 切歌预警数量"><span class="input-group-btn"><button type="button" class="btn btn-success">+</button></span></div>
+               <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutcompanycount" name="warningCutcompanycount" value="'.$warningCutcompanycount.'" class="form-control warningCutcompanycount initialized" placeholder=""></div>
                &nbsp;&nbsp;
-                <label class="form-inline" style="margin-left:5px">统计时长(分钟)：
-                <input type="text" name="warningCutsongtime" value="'.$warningCutsongtime.'" class="form-control phone" style="width: 90px" >
+                <label class="form-inline" style="margin-left:5px">房间同一唱片公司一段时间内点歌数量&nbsp;&nbsp;
+                <input type="text" name="warningCutcompanycounttime" value="'.$warningCutcompanycounttime.'" class="form-control phone" style="width: 90px" >
                 </label>
         </div>
-','切歌预警数量');
-
-
-
+','房间同一唱片公司连续点歌数量');
 
 //        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
-
 
         $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
         $form->html('
