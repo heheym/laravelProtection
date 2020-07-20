@@ -82,6 +82,10 @@ Route::post('/songs/companyWarning', 'Api\PlaceController@companyWarning');  //�
 
 Route::post('/songs/urgentDelsong', 'Api\PlaceController@urgentDelsong');  //紧急下架歌曲
 
+Route::post('/songs/urgentCompany', 'Api\PlaceController@urgentCompany');  //紧急预警唱片公司
+
+Route::post('/songs/urgentCompanylist', 'Api\PlaceController@urgentCompanylist');  //获取紧急预警唱片公司列表
+
 
 
 

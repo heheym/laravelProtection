@@ -187,7 +187,7 @@ class UserSongController extends Controller
             $filter->like('srvkey','srvkey');
             $filter->like('KtvBoxid','KtvBoxid');
             $filter->like('musicdbpk','musicdbpk');
-            $filter->between('UploadDate', '上传时间')->datetime();;
+            $filter->between('UploadDate', '上传时间')->datetime();
         });
 
         $grid->model()->orderby('UploadDate','desc');

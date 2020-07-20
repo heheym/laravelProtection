@@ -604,5 +604,60 @@ class PlaceController extends Controller
         return response()->json(['code' => 200,'data'=>$data]);
     }
 
+    //紧急预警唱片公司
+    public function urgentCompany()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+        $post = json_decode(file_get_contents("php://input"), true);
+        foreach($post as $k=>$v){
+            if(empty($v['companyid']) || empty($v['occurrencetime'])){
+                return response()->json(['code' => 500, 'msg' => 'companyid或occurrencetime不能为空', 'data' => null]);
+            }
+            $v['srvkey'] = $srvkey;
+            $exist = DB::table('urgentCompany')->where(['companyid'=>$v['companyid']])->exists();
+            if($exist){
+                try{
+                    DB::table('urgentCompany')->where(['companyid'=>$v['companyid']])->update($v);
+                }catch(\Exception $e){
+            return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+                }
+            }
+            else{
+                try{
+                    DB::table('urgentCompany')->insert($v);
+                }catch (\Exception $e){
+            return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+                }
+            }
+        }
+        return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
+    }
+
+//获取紧急预警唱片公司列表
+    public function urgentCompanylist()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+        $post = json_decode(file_get_contents("php://input"), true);
+        $days = isset($post['days']) ? $post['days'] : 2;
+        $time = strtotime('-'.$days.' day', time());
+        $beginTime = date('Y-m-d 00:00:00', $time);
+$data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->select('companyid')->get();
+        return response()->json(['code' => 200,'data' => $data]);
+    }
+
 
 }
