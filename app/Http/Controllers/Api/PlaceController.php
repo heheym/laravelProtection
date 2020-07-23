@@ -175,6 +175,10 @@ class PlaceController extends Controller
             'warningCutsongcounttime'=>$result->warningCutsongcounttime,
             'warningCutcompanycount'=>$result->warningCutcompanycount,
             'warningCutcompanycounttime'=>$result->warningCutcompanycounttime,
+            'warningRoomcount'=>50,
+            'warningRoomtime'=>30,
+            'warningCutsongcount'=>8,
+            'warningCutsongtime'=>30,
             'data'=>$data]);
     }
 

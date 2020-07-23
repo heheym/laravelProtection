@@ -1,14 +1,14 @@
 <?php
-$roleIds = DB::table('admin_role_users')->where('user_id',Admin::user()->id)->pluck('role_id')->toArray();
+$roleIds = DB::table('admin_role_users')->where('user_id',Admin::user()->id)->pluck('role_id')->toArray();//该用户所有的角色id
 
 
-$permissionIds = DB::table('admin_role_permissions')->whereIn('role_id',$roleIds)->pluck('permission_id')->toArray();
+$permissionIds = DB::table('admin_role_permissions')->whereIn('role_id',$roleIds)->pluck('permission_id')->toArray();//该用户所有角色id下所有的权限id
 
-$menuId = DB::table('admin_permissions')->whereIn('id',$permissionIds)->pluck('menu_id')->toArray(); //  最后一级的menu_id
+$parentId = DB::table('admin_permissions')->whereIn('id',$permissionIds)->pluck('parent_id')->toArray(); //权限id的parent_id
+$menuId = DB::table('admin_permissions')->whereIn('id',$parentId)->pluck('menu_id')->toArray(); //parent_id的menu_id
 
-$parentId = DB::table('admin_permissions')->whereIn('id',$permissionIds)->pluck('parent_id')->toArray();
-
-$parentIdMenuId = DB::table('admin_permissions')->whereIn('id',$parentId)->pluck('menu_id')->toArray(); // parent_id的menu_id
+$parentId2 = DB::table('admin_permissions')->whereIn('id',$parentId)->pluck('parent_id')->toArray(); //parent_id的parent_id
+$parentIdMenuId = DB::table('admin_permissions')->whereIn('id',$parentId2)->pluck('menu_id')->toArray(); //parent_id的parent_id的menu_id
 
 
 ?>

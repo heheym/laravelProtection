@@ -70,6 +70,10 @@ Route::group([
     $router->resource('busong', BuSongController::class);//补歌
 
 
+    $router->resource('adminpermissions', AdminPermissonsController::class);//权限表
+
+
+
 
 
 });
