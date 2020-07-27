@@ -661,5 +661,72 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         return response()->json(['code' => 200,'data' => $data]);
     }
 
+//场所新增提交补歌接口
+    public function busongAdd()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+        try{
+            $exists = DB::table('song')->where(['Songname'=>$post['songname'],'Singer'=>$post['singer'],'LangType'=>$post['langtype']])->exists();
+        }catch (\Exception $e){
+            return response()->json(['code' => 500, 'msg' => '格式错误', 'data' => $e->getMessage()]);
+        }
+        if($exists){
+            return response()->json(['code' => 500, 'msg' => '曲库中已存在', 'data' => null]);
+        }
+        try{
+            $buSongExists = DB::table('busong')->where(['songname'=>$post['songname'],'singer'=>$post['singer'],'langtype'=>$post['langtype']])->exists();
+        }catch (\Exception $e){
+            return response()->json(['code' => 500, 'msg' => '格式错误', 'data' => $e->getMessage()]);
+        }
+        if(!$buSongExists){
+            $post['svrkey'] = $srvkey;
+            DB::table('busong')->insert($post);
+        }
+        return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
+
+    }
+
+//补歌数据查询接口
+    public function busongplacelist()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+        $currentPage = isset($post['current_page']) ? $post['current_page'] : 1;
+        $itemPerPage = 10;
+
+        $where = [];
+        $where[] = ['svrkey','=',$srvkey];
+        if(isset($post['startdate'])){
+            $where[] = ['createdate','>=',$post['startdate']];
+        }
+        if(isset($post['enddate'])){
+            $where[] = ['createdate','<=',$post['enddate']." 23:59:59"];
+        }
+        $data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage)->limit($itemPerPage)->get();
+        $count = DB::table('busong')->where($where)->count();
+        $totoalPage = ceil($count/$itemPerPage);
+
+        return response()->json(['code'=>200,'current_page'=>$currentPage,'totoal_page'=>$totoalPage,'data'=>$data]);
+
+    }
+
+
 
 }

@@ -576,7 +576,7 @@ $data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage
             return response()->json(['code'=>500,'msg'=>'serialid不能为空','data'=>null]);
         }
         try{
-            DB::table('busong')->where('serialid',$post['serialid'])->update($post);
+    DB::table('busong')->where('serialid',$post['serialid'])->update([$post['editField']=>$post['editValue']]);
         }catch (\Exception $e){
             return response()->json(['code'=>500,'msg'=>'数据格式错误','data'=>$e->getMessage()]);
         }
