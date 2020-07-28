@@ -146,6 +146,9 @@ class SingerController extends Controller
             if (!Admin::user()->can('歌星删除')) {
                 $actions->disableDelete();
             }
+            if (!Admin::user()->can('歌星修改')) {
+                $actions->disableEdit();
+            }
         });
 
         if (!Admin::user()->can('歌星添加')) {

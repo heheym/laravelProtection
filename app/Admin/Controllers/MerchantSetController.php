@@ -165,12 +165,15 @@ class MerchantSetController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableDelete();
-//            if (!Admin::user()->can('场所删除')) {
-//                $actions->disableDelete();
-//            }
+            if (!Admin::user()->can('场所分成管理删除')) {
+                $actions->disableDelete();
+            }
+            if (!Admin::user()->can('场所分成管理修改')) {
+                $actions->disableEdit();
+            }
         });
-        if (!Admin::user()->can('场所添加')) {
-            $grid->disableCreateButton();  //场所添加的权限
+        if (!Admin::user()->can('场所分成管理添加')) {
+            $grid->disableCreateButton();
         }
 
         $grid->tools(function ($tools) {

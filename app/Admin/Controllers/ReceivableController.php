@@ -297,7 +297,13 @@ class ReceivableController extends Controller
             if (!Admin1::user()->can('应收管理删除')) {
                 $actions->disableDelete();
             }
+            if (!Admin1::user()->can('应收管理修改')) {
+                $actions->disableEdit();
+            }
         });
+        if (!Admin1::user()->can('应收管理添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         return $grid;
     }

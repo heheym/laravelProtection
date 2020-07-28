@@ -42,12 +42,15 @@ class RoleController extends AdminController
             if ($actions->row->slug == 'administrator') {
                 $actions->disableDelete();
             }
-            if (!Admin::user()->can('角色删除')) {
+            if (!Admin::user()->can('用户角色删除')) {
                 $actions->disableDelete();
+            }
+            if (!Admin::user()->can('用户角色修改')) {
+                $actions->disableEdit();
             }
             $actions->disableView();
         });
-        if (!Admin::user()->can('角色添加')) {
+        if (!Admin::user()->can('用户角色添加')) {
             $grid->disableCreateButton();  //角色添加的权限
         }
 

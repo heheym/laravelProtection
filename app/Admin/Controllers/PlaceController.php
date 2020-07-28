@@ -178,6 +178,9 @@ class PlaceController extends Controller
             if (!Admin::user()->can('场所删除')) {
                 $actions->disableDelete();
             }
+            if (!Admin::user()->can('场所修改')) {
+                $actions->disableEdit();
+            }
         });
         if (!Admin::user()->can('场所添加')) {
             $grid->disableCreateButton();  //场所添加的权限

@@ -257,6 +257,7 @@ class ReceiptController extends Controller
             if($exist){
                 $actions->append(new Invalid($actions->getKey()));
             }
+
         });
 
         return $grid;

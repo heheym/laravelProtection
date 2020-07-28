@@ -51,12 +51,14 @@ class BoxRegisterController extends AdminController
 
         $grid->actions(function ($actions) {
             $actions->disableView();
-            if (!Admin::user()->can('预登记删除')) {
+            if (!Admin::user()->can('机顶盒预登记删除')) {
                 $actions->disableDelete();
             }
+            if (!Admin::user()->can('机顶盒预登记修改')) {
+                $actions->disableEdit();
+            }
         });
-
-        if (!Admin::user()->can('预登记添加')) {
+        if (!Admin::user()->can('机顶盒预登记添加')) {
             $grid->disableCreateButton();  //场所添加的权限
         }
 

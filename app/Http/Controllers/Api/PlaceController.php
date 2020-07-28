@@ -682,14 +682,17 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         if($exists){
             return response()->json(['code' => 500, 'msg' => '曲库中已存在', 'data' => null]);
         }
+
         try{
-            $buSongExists = DB::table('busong')->where(['songname'=>$post['songname'],'singer'=>$post['singer'],'langtype'=>$post['langtype']])->exists();
+            $buSongExists = DB::table('busong')->where(['svrkey'=>$srvkey,'songname'=>$post['songname'],'singer'=>$post['singer']])->exists();
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '格式错误', 'data' => $e->getMessage()]);
         }
         if(!$buSongExists){
             $post['svrkey'] = $srvkey;
             DB::table('busong')->insert($post);
+        }else{
+            DB::table('busong')->where(['svrkey'=>$srvkey,'songname'=>$post['songname'],'singer'=>$post['singer']])->update(['createdate'=>date('Y-m-d H:i:s')]);
         }
         return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
 

@@ -29,8 +29,8 @@ class LogController extends AdminController
         $grid->column('user.name', '用户名称');
         $grid->column('method',' 操作')->display(function ($method) {
             $color = Arr::get(OperationLog::$methodColors, $method, 'grey');
-
-            return "<span class=\"badge bg-$color\">$method</span>";
+            $arr = ['GET'=>'查看','PUT'=>'修改','POST'=>'添加','DELETE'=>'删除'];
+            return "<span class=\"badge bg-$color\">$arr[$method]</span>";
         });
         $grid->column('path','路径')->label('info');
         $grid->column('ip')->label('primary');

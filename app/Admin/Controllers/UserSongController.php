@@ -217,13 +217,11 @@ class UserSongController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
-            if (!Admin::user()->can('预警歌曲删除')) {
-                $actions->disableDelete();
-            }
+//            if (!Admin::user()->can('歌曲点播查询删除')) {
+//                $actions->disableDelete();
+//            }
         });
-        if (!Admin::user()->can('预警歌曲添加')) {
-            $grid->disableCreateButton();  //场所添加的权限
-        }
+
 
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {

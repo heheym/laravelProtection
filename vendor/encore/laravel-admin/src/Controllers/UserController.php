@@ -39,13 +39,15 @@ class UserController extends AdminController
             if ($actions->getKey() == 1) {
                 $actions->disableDelete();
             }
-            if (!Admin::user()->can('用户删除')) {
+            if (!Admin::user()->can('用户管理删除')) {
                 $actions->disableDelete();
+            }
+            if (!Admin::user()->can('用户管理修改')) {
+                $actions->disableEdit();
             }
             $actions->disableView();
         });
-
-        if (!Admin::user()->can('用户添加')) {
+        if (!Admin::user()->can('用户管理添加')) {
             $grid->disableCreateButton();  //用户添加的权限
         }
 

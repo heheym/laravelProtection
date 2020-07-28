@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
 
 class MerchanttableController extends AdminController
 {
@@ -84,6 +85,19 @@ class MerchanttableController extends AdminController
         $grid->column('reportConfigId', __('ReportConfigId'));
         $grid->column('notifyAddress', __('NotifyAddress'));
         $grid->column('agreementPic', __('AgreementPic'));*/
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('商户管理删除')) {
+                $actions->disableDelete();
+            }
+            if (!Admin::user()->can('商户管理修改')) {
+                $actions->disableEdit();
+            }
+        });
+        if (!Admin::user()->can('商户管理添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         return $grid;
     }

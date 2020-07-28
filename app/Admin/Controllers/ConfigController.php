@@ -118,7 +118,14 @@ class ConfigController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableDelete();
+            if (!Admin::user()->can('系统配置修改')) {
+                $actions->disableEdit();
+            }
         });
+        if (!Admin::user()->can('系统配置添加')) {
+            $grid->disableCreateButton();  //角色添加的权限
+        }
+
         return $grid;
     }
 

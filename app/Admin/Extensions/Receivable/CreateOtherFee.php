@@ -38,7 +38,7 @@ class CreateOtherFee extends Field
             return <<<EOT
 <div class="btn-group pull-right" style="margin-left: 30px">
     <a href="javascript:void(0)" onclick="alert('请先选中某个场所')" class="btn btn-sm btn-success">
-        <i class="fa fa-plus"></i>&nbsp;&nbsp;套餐
+        <i class="fa fa-plus"></i>&nbsp;&nbsp;其它收费
     </a>
 </div>
 EOT;
@@ -47,7 +47,7 @@ EOT;
 
 <div class="btn-group pull-right" style="margin-left: 30px">
     <a href="{$this->grid->resource()}/create?{$this->queryParams}" class="btn btn-sm btn-success">
-        <i class="fa fa-plus"></i>&nbsp;&nbsp;套餐
+        <i class="fa fa-plus"></i>&nbsp;&nbsp;其它收费
     </a>
 </div>
 

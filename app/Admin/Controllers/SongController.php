@@ -214,6 +214,9 @@ class SongController extends Controller
             if (!Admin::user()->can('歌曲删除')) {
                 $actions->disableDelete();
             }
+            if (!Admin::user()->can('歌曲修改')) {
+                $actions->disableEdit();
+            }
         });
 
         if (!Admin::user()->can('歌曲添加')) {

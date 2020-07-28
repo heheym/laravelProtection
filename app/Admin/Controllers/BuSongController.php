@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
 
 class BuSongController extends AdminController
 {
@@ -26,8 +27,29 @@ class BuSongController extends AdminController
     {
         $grid = new Grid(new BuSong);
 
+        $grid->setView('busong.index');
+
+        $where = [];
+        if(!empty(request('placename'))){
+            $placename =request('placename');
+            $where[] = ['placename','like','%'.$placename.'%'];
+        }
+        $grid->model()->whereHas('place', function ($query) use($where){
+            $query->where($where);
+        });
+
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+            $filter->like('svrkey','svrkey');
+            $filter->like('songname','songname');
+            $filter->like('singer','singer');
+            $filter->between('createdate', '创建日期')->datetime();
+        });
+
 //        $grid->column('serialid', __('Serialid'));
         $grid->column('svrkey', __('svrkey'));
+        $grid->column('place.placename', __('场所名称'));
         $grid->column('songname', __('歌名'));
         $grid->column('singer', __('歌星'));
         $grid->column('langtype', __('语种'))->display(function ($langtype){
@@ -43,6 +65,19 @@ class BuSongController extends AdminController
         });
         $grid->column('musicdbpk', __('musicdbpk'));
         $grid->column('optionRemarks', __('操作日志'));
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('补歌管理删除')) {
+                $actions->disableDelete();
+            }
+            if (!Admin::user()->can('补歌管理修改')) {
+                $actions->disableEdit();
+            }
+        });
+        if (!Admin::user()->can('补歌管理添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
 
         return $grid;
     }

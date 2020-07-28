@@ -13,35 +13,29 @@
         <div class="box-header with-border;" >
             <form class="form-inline" id="target" action="" method="get" style="" >
                 <div class="form-group" style="">
-                    <label for="exampleInputName2">srvkey</label>
-                    <input type="text" class="form-control" id="srvkey" placeholder="" name="srvkey"
+                    <label for="exampleInputName2">svrkey</label>
+                    <input type="text" class="form-control" id="svrkey" placeholder="" name="svrkey"
                            style="width:120px">
                     &nbsp;
                     <select id="sel" class="form-control">
                         <option value="placename">
                             场所名称
                         </option>
-                        <option value="KtvBoxid">
-                            机器码
+                        <option value="songname">
+                            歌名
                         </option>
-                        <option value="roomno">
-                            房号
-                        </option>
-                        <option value="musicdbpk">
-                            musicdbpk
-                        </option>
-                        <option value="RecordCompany">
-                            唱片公司
+                        <option value="singer">
+                            歌星
                         </option>
                     </select>
                     <input type="text" class="form-control" id="selvalue" placeholder="" style="width:120px">
 
-                    <label style="margin-left:10px">上传时间</label>
-                    <input type="text" class="form-control" id="UploadDate_start" placeholder="上传时间"
-                           name="UploadDate[start]" value="">
+                    <label style="margin-left:10px">创建时间</label>
+                    <input type="text" class="form-control" id="createdate_start" placeholder="上传时间"
+                           name="createdate[start]" value="">
                     -
-                    <input type="text" class="form-control" id="UploadDate_end" placeholder="上传时间"
-                           name="UploadDate[end]" value="">
+                    <input type="text" class="form-control" id="createdate_end" placeholder="上传时间"
+                           name="createdate[end]" value="">
                 </div>
                 <button type="submit" class="btn btn-default form-control" id="butt">搜索</button>
             </form>
@@ -119,39 +113,31 @@
 <script>
     $(function () {
         var url = new URL(location);
-        var srvkey = url.searchParams.get('srvkey');
+        var svrkey = url.searchParams.get('svrkey');
 
-        $('#srvkey').val(srvkey);
+        $('#svrkey').val(svrkey);
 
         var placename = url.searchParams.get('placename');
-        var KtvBoxid = url.searchParams.get('KtvBoxid');
-        var roomno = url.searchParams.get('roomno');
-        var musicdbpk = url.searchParams.get('musicdbpk');
-        var RecordCompany = url.searchParams.get('RecordCompany');
+        var songname = url.searchParams.get('songname');
+        var singer = url.searchParams.get('singer');
         if (placename !== null) {
             $("#sel option[value=placename]").prop('selected', true);
             $("#selvalue").val(placename);
-        } else if (KtvBoxid !== null) {
-            $("#sel option[value=KtvBoxid]").prop('selected', true);
-            $("#selvalue").val(KtvBoxid);
-        } else if (roomno !== null) {
-            $("#sel option[value=roomno]").prop('selected', true);
-            $("#selvalue").val(roomno);
-        } else if (musicdbpk !== null) {
-            $("#sel option[value=musicdbpk]").prop('selected', true);
-            $("#selvalue").val(musicdbpk);
-        } else if (RecordCompany !== null) {
-            $("#sel option[value=RecordCompany]").prop('selected', true);
-            $("#selvalue").val(RecordCompany);
-        }
+        } else if (songname !== null) {
+            $("#sel option[value=songname]").prop('selected', true);
+            $("#selvalue").val(songname);
+        } else if (singer !== null) {
+            $("#sel option[value=singer]").prop('selected', true);
+            $("#selvalue").val(singer);
+        } 
 
-        var UploadDate_start = url.searchParams.get('UploadDate[start]');
-        var UploadDate_end = url.searchParams.get('UploadDate[end]');
-        if (UploadDate_start !== null) {
-            $('#UploadDate_start').val(UploadDate_start);
+        var createdate_start = url.searchParams.get('createdate[start]');
+        var createdate_end = url.searchParams.get('createdate[end]');
+        if (createdate_start !== null) {
+            $('#createdate_start').val(createdate_start);
         }
-        if (UploadDate_end !== null) {
-            $('#UploadDate_end').val(UploadDate_end);
+        if (createdate_end !== null) {
+            $('#createdate_end').val(createdate_end);
         }
 
     });
