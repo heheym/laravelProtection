@@ -211,10 +211,12 @@ class PlaceController extends Controller
         $grid->disableCreateButton();
 
         $query = http_build_query(['settopbox_key' => app('request')->get('settopbox_key'),]);
-        //新增其它费项
-        $grid->tools(function ($tools)use($grid, $query){
-            $tools->append(new CreateSettopbox($grid, $query));
-        });
+
+        if (Admin::user()->can('机顶盒添加')) {
+            $grid->tools(function ($tools)use($grid, $query){
+                $tools->append(new CreateSettopbox($grid, $query));
+            });
+        }
 
         $where = [];
         if(!empty(request('placename'))){
@@ -295,16 +297,19 @@ class PlaceController extends Controller
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-            $actions->append(new SettopboxEdit($actions->getKey()));
-            $actions->append(new SettopboxDelete($actions->getKey()));
-            if (!Admin::user()->can('机顶盒删除')) {
-                $actions->disableDelete();
+
+
+            if (Admin::user()->can('机顶盒删除')) {
+                $actions->append(new SettopboxDelete($actions->getKey()));
+//                $actions->disableDelete();
+            }
+            if (Admin::user()->can('机顶盒修改')) {
+//                $actions->disableEdit();
+                $actions->append(new SettopboxEdit($actions->getKey()));
             }
         });
 
-        if (!Admin::user()->can('机顶盒添加')) {
-            $grid->disableCreateButton();  //场所添加的权限
-        }
+
 
         return $grid;
     }

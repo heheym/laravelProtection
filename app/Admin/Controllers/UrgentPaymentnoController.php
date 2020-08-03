@@ -39,6 +39,21 @@ class UrgentPaymentnoController extends AdminController
         $grid->column('paymentno', __('账号'));
         $grid->column('createdate', __('时间'));
 
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('异常用户删除')) {
+                $actions->disableDelete();
+            }
+            if (!Admin::user()->can('异常用户修改')) {
+                $actions->disableEdit();
+            }
+        });
+
+        if (!Admin::user()->can('异常用户添加')) {
+            $grid->disableCreateButton();  //场所添加的权限
+        }
+
         return $grid;
     }
 

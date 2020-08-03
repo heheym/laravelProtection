@@ -39,6 +39,16 @@ class WarningCompanyController extends AdminController
         $grid->column('creatdate', __('创建时间'));
         $grid->column('Clickcount', __('点击量'));
 
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            if (!Admin::user()->can('唱片公司异常删除')) {
+                $actions->disableDelete();  //预警模式删除的权限
+            }
+            if (!Admin::user()->can('唱片公司异常修改')) {
+                $actions->disableEdit();  //预警模式删除的权限
+            }
+        });
+
         return $grid;
     }
 

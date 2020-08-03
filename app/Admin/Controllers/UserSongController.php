@@ -217,9 +217,9 @@ class UserSongController extends Controller
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
-//            if (!Admin::user()->can('歌曲点播查询删除')) {
-//                $actions->disableDelete();
-//            }
+            if (!Admin::user()->can('歌曲点播查询删除')) {
+                $actions->disableDelete();
+            }
         });
 
 

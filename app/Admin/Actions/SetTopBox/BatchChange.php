@@ -14,10 +14,9 @@ class BatchChange extends BatchAction
 
     public function authorize($user, $model)
     {
-        if (!Admin::user()->can('机顶盒修改')) {
-            return false;
-        }
-        return true;
+//        if (Admin::user()->can('机顶盒修改')) {
+            return true;
+//        }
     }
 
     public function handle(Collection $collection, Request $request)

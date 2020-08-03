@@ -219,14 +219,19 @@ class ReceivableController extends Controller
         $query = http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createSetMeal']);
         $query1 = http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createOtherFee']);
 
-        //新增其它费项
-        $grid->tools(function ($tools)use($grid, $query1){
-            $tools->append(new createOtherFee($grid, $query1));
-        });
-        //新增套餐
-        $grid->tools(function ($tools)use($grid, $query){
-            $tools->append(new CreateSetMeal($grid, $query));
-        });
+        if (Admin1::user()->can('应收管理添加')) {
+//            $grid->disableCreateButton();  //场所添加的权限
+            //新增其它费项
+            $grid->tools(function ($tools)use($grid, $query1){
+                $tools->append(new createOtherFee($grid, $query1));
+            });
+            //新增套餐
+            $grid->tools(function ($tools)use($grid, $query){
+                $tools->append(new CreateSetMeal($grid, $query));
+            });
+        }
+
+
         $grid->tools(function (Grid\Tools $tools) {
             $tools->append(new ReceivableForm());
         });
@@ -301,9 +306,7 @@ class ReceivableController extends Controller
                 $actions->disableEdit();
             }
         });
-        if (!Admin1::user()->can('应收管理添加')) {
-            $grid->disableCreateButton();  //场所添加的权限
-        }
+
 
         return $grid;
     }
