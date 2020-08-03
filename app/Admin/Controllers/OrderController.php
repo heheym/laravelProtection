@@ -147,6 +147,7 @@ class OrderController extends AdminController
             $filter->like('leshua_order_id','leshua_order_id');
             $filter->like('key','key');
             $filter->like('KtvBoxid','KtvBoxid');
+            $filter->like('openid','openid');
 
             $filter->equal('order_status','order_status')->select([0=>'未支付',1=>'已支付']);
         });

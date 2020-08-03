@@ -731,5 +731,63 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
     }
 
 
+    //上传异常支付帐号接口
+    public function urgentPaymentno()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post['notype']) || !isset($post['paymentno'])){
+            return response()->json(['code' => 500, 'msg' => '账号类型或支付帐号不能为空', 'data' => null]);
+        }
+        $exists = DB::table('urgentPaymentno')->where(['notype'=>$post['notype'],'paymentno'=>$post['paymentno']])->exists();
+        if($exists){
+            DB::table('urgentPaymentno')->where(['notype'=>$post['notype'],'paymentno'=>$post['paymentno']])->update(['createdate'=>date('Y-m-d H:i:s')]);
+        }else{
+            try{
+                DB::table('urgentPaymentno')->insert($post);
+            }catch (\Exception $e){
+                return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+            }
+        }
+        return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+    }
+
+    //获取异常支付帐号列表
+    public function urgentPaymentlist()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+        $days = isset($post['days']) ? $post['days'] : 30;
+
+        $time = strtotime('-'.$days.' day', time());
+        $beginTime = date('Y-m-d 00:00:00', $time);
+
+        $where[] = ['createdate','>',$beginTime];
+        if(isset($post['notype'])){
+            $where[] = ['notype','=',$post['notype']];
+        }
+        try{
+            $data = DB::table('urgentPaymentno')->where($where)->select('notype','paymentno')->get();
+        }catch (\Exception $e){
+            return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+        }
+        return response()->json(['code'=>200,'data'=>$data]);
+    }
 
 }

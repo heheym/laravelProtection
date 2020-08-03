@@ -412,7 +412,7 @@ class PlaceController extends Controller
         <div class="form-inline">
                <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutsongcount" name="warningCutsongcount" value="'.$warningCutsongcount.'" class="form-control warningCutsongcount initialized" placeholder=""></div>
                &nbsp;&nbsp;
-                <label class="form-inline" style="margin-left:5px">房间一段时间内切歌数量&nbsp;&nbsp;
+                <label class="form-inline" style="margin-left:5px">房间10分钟内切歌数量&nbsp;&nbsp;
                 <input type="text" name="warningCutsongcounttime" value="'.$warningCutsongcounttime.'" class="form-control phone" style="width: 90px" >
                 </label>
         </div>
@@ -421,7 +421,7 @@ class PlaceController extends Controller
         <div class="form-inline">
                <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutcompanycount" name="warningCutcompanycount" value="'.$warningCutcompanycount.'" class="form-control warningCutcompanycount initialized" placeholder=""></div>
                &nbsp;&nbsp;
-                <label class="form-inline" style="margin-left:5px">房间同一唱片公司一段时间内点歌数量&nbsp;&nbsp;
+                <label class="form-inline" style="margin-left:5px">房间同一唱片公司60分钟内点歌数量&nbsp;&nbsp;
                 <input type="text" name="warningCutcompanycounttime" value="'.$warningCutcompanycounttime.'" class="form-control phone" style="width: 90px" >
                 </label>
         </div>

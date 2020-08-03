@@ -6,17 +6,15 @@ use Illuminate\Routing\Router;
 Admin::registerAuthRoutes();
 
 
-Route::get('itemId', 'App\Admin\Controllers\ReceivableController@itemId');  //表单联动
-
-Route::post('receipt/invalid', 'ReceiptController@Invalid'); //收款作废
-Route::get('postertab/address', 'PosterTabController@address'); //
-
-
 Route::group([
     'prefix'        => config('admin.route.prefix'),
     'namespace'     => config('admin.route.namespace'),
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
+    Route::get('itemId', 'App\Admin\Controllers\ReceivableController@itemId');  //表单联动
+
+    Route::post('receipt/invalid', 'ReceiptController@Invalid'); //收款作废
+    Route::get('postertab/address', 'PosterTabController@address'); //
 
     $router->get('/', 'HomeController@index')->name('admin.home');
 //    $router->resource('uploads', UploadController::class);  //upload
@@ -72,7 +70,7 @@ Route::group([
     $router->resource('adminpermissions', AdminPermissonsController::class);//权限表
 
 
-
+    $router->resource('urgentpaymentno', UrgentPaymentnoController::class);//异常用户
 
 
 });

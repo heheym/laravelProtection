@@ -89,6 +89,9 @@ Route::post('/songs/urgentCompanylist', 'Api\PlaceController@urgentCompanylist')
 Route::post('/songs/busong/busongAdd', 'Api\PlaceController@busongAdd');  //场所新增提交补歌接口
 Route::post('/songs/busong/busongplacelist', 'Api\PlaceController@busongplacelist');  //补歌数据查询接口
 
+Route::post('/songs/urgentPaymentno', 'Api\PlaceController@urgentPaymentno');  //上传异常支付帐号接口
+Route::post('/songs/urgentPaymentlist', 'Api\PlaceController@urgentPaymentlist');  //获取异常支付帐号列表
+
 
 
 

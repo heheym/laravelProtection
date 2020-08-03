@@ -13,19 +13,16 @@
         <div class="box-header with-border">
             <form class="form-inline" id="orderTarget"  action="" method="get" style="display: inline-block;" >
                 <div class="form-group">
-                    <label for="exampleInputName2">乐刷订单号</label>
-                    <input type="text" class="form-control" id="ordersn_leshua_order_id" placeholder="" name="ordersn_leshua_order_id" style="width:120px">
+{{--                    <label for="exampleInputName2">乐刷订单号</label>--}}
+{{--                    <input type="text" class="form-control" id="ordersn_leshua_order_id" placeholder="" name="ordersn_leshua_order_id" style="width:120px">--}}
                     &nbsp;&nbsp;&nbsp;
                     <select  id="orderSel" class="form-control" name="">
-                        <option value="ordersn_roomno">
-                            房号
+                        <option value="paymentno">
+                            账号
                         </option>
-                        <option value="ordersn_KtvBoxid">
-                            机器码
-                        </option>
-                        <option value="ordersn_openid">
-                            用户号
-                        </option>
+{{--                        <option value="key">--}}
+{{--                            key--}}
+{{--                        </option>--}}
 {{--                        <option value="contacts">--}}
 {{--                            联系人--}}
 {{--                        </option>--}}
@@ -36,18 +33,18 @@
 
                     <input type="text" class="form-control" id="orderSelValue" placeholder="" style="width:120px">
 
-                    <label for="" style="margin-left:10px">状态:</label>
-                    <select  id="ordersn_order_status" class="form-control" name="ordersn_order_status">
-                        <option value="">
-                            所有
-                        </option>
-                        <option value="0">
-                            未支付
-                        </option>
-                        <option value="1">
-                            已支付
-                        </option>
-                    </select>
+{{--                    <label for="" style="margin-left:10px">状态:</label>--}}
+{{--                    <select  id="ordersn_order_status" class="form-control" name="ordersn_order_status">--}}
+{{--                        <option value="">--}}
+{{--                            所有--}}
+{{--                        </option>--}}
+{{--                        <option value="0">--}}
+{{--                            未支付--}}
+{{--                        </option>--}}
+{{--                        <option value="1">--}}
+{{--                            已支付--}}
+{{--                        </option>--}}
+{{--                    </select>--}}
                 </div>
                 <button type="submit" class="btn btn-default" id="butt">搜索</button>
             </form>
@@ -128,25 +125,23 @@
         $('#distpicker').distpicker('destroy');
 
         var url = new URL(location);
-        var ordersn_leshua_order_id = url.searchParams.get('ordersn_leshua_order_id');
+        // var ordersn_leshua_order_id = url.searchParams.get('ordersn_leshua_order_id');
 
-        $('#ordersn_leshua_order_id').val(ordersn_leshua_order_id);
+        // $('#ordersn_leshua_order_id').val(ordersn_leshua_order_id);
 
-        var ordersn_KtvBoxid = url.searchParams.get('ordersn_KtvBoxid');
-        var ordersn_roomno = url.searchParams.get('ordersn_roomno');
-        var ordersn_openid = url.searchParams.get('ordersn_openid');
+        var paymentno = url.searchParams.get('paymentno');
+        // var ordersn_roomno = url.searchParams.get('ordersn_roomno');
+        // var phone = url.searchParams.get('phone');
         // var KtvBoxid = url.searchParams.get('KtvBoxid');
         // var key = url.searchParams.get('key');
-        if(ordersn_KtvBoxid!==null){
-            $("#orderSel option[value=ordersn_KtvBoxid]").prop('selected',true);
-            $("#orderSelValue").val(ordersn_KtvBoxid);
-        }else if(ordersn_roomno!==null){
-            $("#orderSel option[value=ordersn_roomno]").prop('selected',true);
-            $("#orderSelValue").val(ordersn_roomno);
-        }else if(ordersn_openid!==null){
-            $("#orderSel option[value=ordersn_openid]").prop('selected',true);
-            $("#orderSelValue").val(ordersn_openid);
+        if(paymentno!==null){
+            $("#orderSel option[value=paymentno]").prop('selected',true);
+            $("#orderSelValue").val(paymentno);
         }
+        // else if(ordersn_roomno!==null){
+        //     $("#orderSel option[value=ordersn_roomno]").prop('selected',true);
+        //     $("#orderSelValue").val(ordersn_roomno);
+        // }
         // if(contacts!==null){
         //     $("#sel option[value=contacts]").prop('selected',true);
         //     $("#selvalue").val(contacts);
@@ -165,13 +160,13 @@
         //     city: city,
         // });
 
-        var ordersn_order_status = url.searchParams.get('ordersn_order_status');
-        // alert(ordersn_order_status);
-        if(ordersn_order_status!==null && ordersn_order_status.length>0){
-            $("#ordersn_order_status option[value="+ordersn_order_status+"]").prop('selected',true);
-            $("#sel option[value=placename]").prop('selected',true);
-
-        }
+        // var ordersn_order_status = url.searchParams.get('ordersn_order_status');
+        // // alert(ordersn_order_status);
+        // if(ordersn_order_status!==null && ordersn_order_status.length>0){
+        //     $("#ordersn_order_status option[value="+ordersn_order_status+"]").prop('selected',true);
+        //     $("#sel option[value=placename]").prop('selected',true);
+        //
+        // }
     });
 
     $('#orderTarget').click(function() {
