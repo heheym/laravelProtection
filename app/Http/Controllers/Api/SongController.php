@@ -603,6 +603,7 @@ $data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage
             return response()->json(['code'=>500,'msg'=>'数据格式错误','data'=>$e->getMessage()]);
         }
         return response()->json(['code'=>200,'placename'=>$data->placename,'province'=>$data->province,'city'=>$data->city,'placeaddress'=>$data->placeaddress]);
+
     }
 
 

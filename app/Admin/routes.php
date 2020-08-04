@@ -10,7 +10,14 @@ Admin::registerAuthRoutes();
 //Route::post('/admin/ireceipt/invalid', 'ReceiptController@Invalid'); //收款作废
 //Route::get('/admin/ipostertab/address', 'PosterTabController@address'); //
 
-Route::get('/', 'HomeController@index')->name('admin.home');
+
+Route::group([
+    'prefix'        => config('admin.route.prefix'),
+    'namespace'     => config('admin.route.namespace'),
+],function(Router $router){
+    Route::any('', 'HomeController@index');
+});
+
 Route::group([
     'prefix'        => config('admin.route.prefix'),
     'namespace'     => config('admin.route.namespace'),
