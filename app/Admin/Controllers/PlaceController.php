@@ -290,9 +290,10 @@ class PlaceController extends Controller
 //            $batch->add(new BatchChange(1));
 //        });
 
-        $grid->tools(function (Grid\Tools $tools) {
-            $tools->append(new BatchChange());
-        });
+        //修改状态 按钮
+//        $grid->tools(function (Grid\Tools $tools) {
+//            $tools->append(new BatchChange());
+//        });
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
