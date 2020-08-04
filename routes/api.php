@@ -45,6 +45,11 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('/songs/busong/busonglist', 'Api\SongController@busonglist');  //补歌数据查询接口
     Route::post('/songs/busong/updateStatus', 'Api\SongController@updateStatus');  //补歌状态更新接口
 
+
+    Route::post('/songs/busong/getplace', 'Api\SongController@getplace');  //获取场所信息接口
+
+
+
 });
 
 //url，需要加一个api，如：192.168.10.227:81/api/login

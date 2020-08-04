@@ -583,6 +583,28 @@ $data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
+    //获取场所信息接口
+    public function getplace()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post['svrkey'])){
+            return response()->json(['code'=>500,'msg'=>'svrkey不能为空','data'=>null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$post['svrkey']])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+        try{
+    $data = DB::table('place')->leftJoin('china_area as c1', 'place.province', '=', 'c1.code')
+        ->leftJoin('china_area as c2', 'place.city', '=', 'c2.code')
+        ->where('place.key',$post['svrkey'])
+        ->select('place.placename','c1.name as province','c2.name as city','place.placeaddress')->first();
+        }catch (\Exception $e){
+            return response()->json(['code'=>500,'msg'=>'数据格式错误','data'=>$e->getMessage()]);
+        }
+        return response()->json(['code'=>200,'placename'=>$data->placename,'province'=>$data->province,'city'=>$data->city,'placeaddress'=>$data->placeaddress]);
+    }
+
 
 
 }
