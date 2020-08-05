@@ -43,6 +43,8 @@
                     <input type="text" class="form-control" id="UploadDate_end" placeholder="上传时间"
                            name="UploadDate[end]" value="">
                 </div>
+                <button type="submit" class="btn btn-default form-control" id="butt">历史搜索</button>
+                &nbsp;&nbsp;
                 <button type="submit" class="btn btn-default form-control" id="butt">搜索</button>
             </form>
 
