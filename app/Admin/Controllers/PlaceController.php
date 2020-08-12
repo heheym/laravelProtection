@@ -492,6 +492,7 @@ class PlaceController extends Controller
         $form->select('apkUpdateMode', '机顶盒apk版本更新方式')->options([1=>'不更新',2=>'必须更新'])->default(2);
         $form->select('isclosePingfen', '是否要关闭评分功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
         $form->select('iscloseSound', '是否要关闭录音功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
+        $form->select('iscloseVoice', '关闭语音功能')->options([0=>'不关闭',1=>'关闭'])->default(1);
 
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));

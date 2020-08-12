@@ -62,7 +62,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/urgentpaymentno" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="settings.editor.selected.configurable" value="inlay.hints.PHP" />
   </component>
@@ -177,10 +177,10 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="471" y="196" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595405789339">
+    <state x="471" y="196" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1597217795470">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="471" y="196" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1595405789339" />
+    <state x="471" y="196" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1597217795470" />
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1596424157405">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -189,10 +189,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="421" y="19" key="#db_mysqli.php/0.0.1536.824@0.0.1536.824" timestamp="1595823251221" />
-    <state x="496" y="109" key="FileChooserDialogImpl" timestamp="1595822850379">
+    <state x="496" y="109" key="FileChooserDialogImpl" timestamp="1597197598382">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="496" y="109" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1595822850379" />
+    <state x="496" y="109" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1597197598382" />
     <state x="490" y="84" key="NewPhpClassDialog" timestamp="1595405796919">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -217,10 +217,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="287" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1592813589112" />
-    <state x="470" y="110" width="876" height="710" key="find.popup" timestamp="1596609751244">
+    <state x="470" y="110" width="876" height="710" key="find.popup" timestamp="1597032742875">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="470" y="110" width="876" height="710" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1596609751244" />
+    <state x="470" y="110" width="876" height="710" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1597032742875" />
     <state x="341" y="183" key="run.anything.popup" timestamp="1594885864501">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

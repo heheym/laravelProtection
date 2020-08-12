@@ -168,6 +168,7 @@ class PlaceController extends Controller
             'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'apkUpdateMode'=>$result->apkUpdateMode,
             'isclosePingfen'=>$result->isclosePingfen,
             'iscloseSound'=>$result->iscloseSound,
+            'iscloseVoice' => $result->iscloseVoice,
             'FeesMode'=>$result->FeesMode,
             'Opening1_time'=>$result->Opening1_time,'Opening1_price'=>$result->Opening1_price,'Effective1_time'=>$result->Effective1_time,
             'Opening2_time'=>$result->Opening2_time,'Opening2_price'=>$result->Opening2_price,'Effective2_time'=>$result->Effective2_time,

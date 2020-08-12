@@ -7,5 +7,6 @@
     <orderEntry type="module" module-name="zblog" />
     <orderEntry type="module" module-name="guoshu" />
     <orderEntry type="module" module-name="legal" />
+    <orderEntry type="module" module-name="test" />
   </component>
 </module>

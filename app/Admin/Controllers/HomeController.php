@@ -20,13 +20,13 @@ class HomeController extends Controller
 
 
                 $row->column(4, function (Column $column) {
-                    $externalContent = file_get_contents('http://checkip.dyndns.com/');
-                    preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $externalContent, $m);
-                    $externalIp = $m[1];
-                    $host= gethostname();
-
-                    $ip= gethostbyname($host);
-                    $column->append($ip);
+//                    $externalContent = file_get_contents('http://checkip.dyndns.com/');
+//                    preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $externalContent, $m);
+//                    $externalIp = $m[1];
+//                    $host= gethostname();
+//
+//                    $ip= gethostbyname($host);
+                    $column->append('登录成功');
                 });
 
 //                $row->column(4, function (Column $column) {
