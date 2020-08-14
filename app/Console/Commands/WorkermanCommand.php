@@ -82,7 +82,8 @@ Log::info('连接失败,srvkey不存在'.PHP_EOL);
                     Log::info('销毁已存在的连接,srvkey:'.$connection->uid.PHP_EOL);
                 }
                 $worker->uidConnections[$connection->uid] = $connection;
-                $respond = json_encode(['code'=>200,'func'=>'connect','srvkey'=>$_GET['srvkey'],'msg'=>'连接成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                $data = DB::table('ordersn')->where(['key'=>$_GET['srvkey'],'order_status'=>1,'send_message'=>0])->select('KtvBoxid','pay_time','pay_way','leshua_order_id','amount','openid')->get();
+                $respond = json_encode(['code'=>200,'func'=>'connect','srvkey'=>$_GET['srvkey'],'msg'=>'连接成功','data'=>$data],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
 Log::info('连接成功,srvkey:'.$_GET['srvkey'].PHP_EOL);
                 return;
@@ -175,6 +176,24 @@ Log::info('查询失败,srvkey不存在,srvkey:'.$connection->uid.',data:'.json_
                 $data = DB::table('ordersn')->where(['key'=>$data['srvkey_id'],'order_status'=>1,'confirm_order'=>0])->select('KtvBoxid','pay_time','leshua_order_id','amount')->get();
                 $respond = json_encode(['func'=>'query_order_result','data'=>$data],JSON_UNESCAPED_UNICODE);
 Log::info('查询成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
+                $connection->send($respond);
+                return;
+            }
+
+            //"func":"query_order",
+            if(!empty($data['func']) && $data['func'] == 'query_heartbeat'){
+                if(empty($data['srvkey_id'])){
+                    $respond = json_encode(['code'=>500,'msg'=>'srvkey不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+                $exists = DB::table('place')->where('key',$data['srvkey_id'])->exists();
+                if(!$exists){
+                    $respond = json_encode(['code'=>500,'msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    return;
+                }
+                $respond = json_encode(['code'=>200,'func'=>'query_heartbeat_result','msg'=>'连接正常'],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
                 return;
             }

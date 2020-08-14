@@ -212,8 +212,8 @@ class PlaceController extends Controller
     //机顶盒点播歌曲上传接口
     public function songWarning(Request $request)
     {
-        Log::getMonolog()->popHandler();
-        Log::useDailyFiles(storage_path('logs/usersong.log'));
+//        Log::getMonolog()->popHandler();
+//        Log::useDailyFiles(storage_path('logs/usersong.log'));
 
         $srvkey = \Request::header('srvkey');
 
@@ -224,7 +224,7 @@ class PlaceController extends Controller
         if(!$exists){
             return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
         }
-        Log::info(file_get_contents("php://input").PHP_EOL);
+//        Log::info(file_get_contents("php://input").PHP_EOL);
         $post = json_decode(file_get_contents("php://input"), true);
 
 //        file_put_contents('1.txt',file_get_contents("php://input"));
