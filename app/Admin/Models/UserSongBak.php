@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class UserSong extends Model
+class UserSongBak extends Model
 {
-    protected $table = 'users_songs';
+    protected $table = 'users_songs_bak';
     public $primaryKey = 'id';
     public $timestamps  = false;
 
@@ -26,6 +26,7 @@ class UserSong extends Model
     {
         return $this->belongsTo(Song::class, 'musicdbpk' , 'musicdbpk');
     }
+
 
 
 }

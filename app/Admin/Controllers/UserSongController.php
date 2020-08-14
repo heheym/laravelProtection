@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\UserSong;
+use App\Admin\Models\UserSongBak;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -143,9 +144,14 @@ class UserSongController extends Controller
     protected function grid()
     {
         $grid = new Grid(new UserSong);
+        if(!empty(request('butt')) && request('butt')==2 ){
+            $grid = new Grid(new UserSongBak);
+        }
+
         $grid->setView('usersong.index');
         $grid->disableCreateButton();
 
+//        $grid->paginate(10);
 
         $where = [];
         if(!empty(request('placename'))){

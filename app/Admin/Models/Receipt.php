@@ -38,6 +38,7 @@ class Receipt extends Model
 
     public function paginate()
     {
+
         $perPage = Request::get('receipt_per_page', 10);
         $page = Request::get('receipt_page', 1);
         $receipt_svrkey = Request::get('receipt_svrkey','');
@@ -78,15 +79,6 @@ class Receipt extends Model
         $sql = "select * from ($this->sql) a where a.id=".$id;
         $data = DB::select($sql);
         return static::newFromBuilder($data[0]);
-
-//        $data = DB::table('receipt')->where('id',$id)->first();
-//        if(!empty($data->id)){
-//            return static::newFromBuilder($data);
-//        }else{
-//            $data = DB::table('receiptvoid')->where('id',$id)->first();
-//            return static::newFromBuilder($data);
-//        }
-
     }
 
     // 覆盖`where`来收集筛选的字段和条件
