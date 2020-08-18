@@ -180,16 +180,16 @@ Log::info('查询成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
                 return;
             }
 
-            //"func":"query_order",
+            //"func":"query_heartbeat",心跳
             if(!empty($data['func']) && $data['func'] == 'query_heartbeat'){
                 if(empty($data['srvkey_id'])){
-                    $respond = json_encode(['code'=>500,'msg'=>'srvkey不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $respond = json_encode(['code'=>500,'func'=>'query_heartbeat_result','msg'=>'srvkey不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
                     return;
                 }
                 $exists = DB::table('place')->where('key',$data['srvkey_id'])->exists();
                 if(!$exists){
-                    $respond = json_encode(['code'=>500,'msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $respond = json_encode(['code'=>500,'func'=>'query_heartbeat_result','msg'=>'srvkey不存在','data'=>null],JSON_UNESCAPED_UNICODE);
                     $connection->send($respond);
                     return;
                 }
