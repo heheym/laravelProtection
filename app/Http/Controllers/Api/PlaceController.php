@@ -164,7 +164,9 @@ class PlaceController extends Controller
         }
 //        array_multisort(array_column($data, 'roomno'), SORT_ASC, $data);
 
-        return response()->json(['code' => 200, 'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
+        return response()->json(['code' => 200,
+            'placename'=>$result->placename,'placeaddress'=>$result->placeaddress,'phone'=>$result->phone,
+            'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
             'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'apkUpdateMode'=>$result->apkUpdateMode,
             'isclosePingfen'=>$result->isclosePingfen,
             'iscloseSound'=>$result->iscloseSound,
@@ -807,17 +809,12 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 //            echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
 //            echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
 //            echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"] . "<br>";
-
-            // 判断当前目录下的 upload 目录是否存在该文件
-            // 如果没有 upload 目录，你需要创建它，upload 目录权限为 777
-//            if (file_exists("upload/" . $_FILES["file"]["name"]))
-//            {
-//                echo $_FILES["file"]["name"] . " 文件已经存在。 ";
-//            }
-//            else
-//            {
+            $dir = "../upload/";
+            if (!is_dir($dir)){
+                mkdir($dir, 0777);
+            }
                 // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
-                move_uploaded_file($_FILES["file"]["tmp_name"], "../upload/" . $_FILES["file"]["name"]);
+                move_uploaded_file($_FILES["file"]["tmp_name"], $dir. $_FILES["file"]["name"]);
                 return response()->json(['code' => 200, 'msg' => $_FILES["file"]["name"].'上传成功', 'data' => null]);
 //            }
         }
