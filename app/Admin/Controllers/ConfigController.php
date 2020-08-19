@@ -159,12 +159,12 @@ class ConfigController extends Controller
         $form->text('SoftwareVerno', '软件版本号')->required();
         $form->text('NewSongHttp', '新歌信息页面');
         $form->text('SpeedLimit', '限速(单位K）');
-        $form->text('DomainNameSpace', '歌曲云空间名称');
-        $form->text('Domain', '歌曲云空间域名');
-        $form->text('posterDomainSpace', '广告云空间名称');
-        $form->text('posterDomain', '广告云空间域名');
-        $form->password('SecretKey', '云SecretKey');
-        $form->password('AccessKey', '云AccessKey');
+//        $form->text('DomainNameSpace', '歌曲云空间名称');
+//        $form->text('Domain', '歌曲云空间域名');
+//        $form->text('posterDomainSpace', '广告云空间名称');
+//        $form->text('posterDomain', '广告云空间域名');
+//        $form->password('SecretKey', '云SecretKey');
+//        $form->password('AccessKey', '云AccessKey');
         $form->text('LoginName', '登录信息');
         $form->select('UpdateMode', '软件更新方式')->options([1=>'不更新',2=>'可更新',3=>'必须更新']);
         $form->text('SoftseverVer', '场所服务端升级版本号');

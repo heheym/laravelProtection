@@ -98,6 +98,9 @@ Route::post('/songs/urgentPaymentno', 'Api\PlaceController@urgentPaymentno');  /
 Route::post('/songs/urgentPaymentlist', 'Api\PlaceController@urgentPaymentlist');  //获取异常支付帐号列表
 
 
+Route::post('/uploadfile', 'Api\PlaceController@uploadfile');  //获取异常支付帐号列表
+
+
 
 
 

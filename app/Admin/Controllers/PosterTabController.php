@@ -228,6 +228,7 @@ class PosterTabController extends AdminController
                $uploadMgr = new UploadManager();
                // 调用 UploadManager 的 putFile 方法进行文件的上传。
                list($ret,$err) = $uploadMgr->putFile($token, $clientName, $realPath);
+//               $data = $uploadMgr->putFile($token, $clientName, $realPath);
 
                if ($err !== null) {
                    $error = new MessageBag([
