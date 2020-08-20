@@ -299,14 +299,13 @@ class PlaceController extends Controller
             $actions->disableEdit();
             $actions->disableDelete();
 
-
-            if (Admin::user()->can('机顶盒删除')) {
-                $actions->append(new SettopboxDelete($actions->getKey()));
-//                $actions->disableDelete();
-            }
             if (Admin::user()->can('机顶盒修改')) {
 //                $actions->disableEdit();
                 $actions->append(new SettopboxEdit($actions->getKey()));
+            }
+            if (Admin::user()->can('机顶盒删除')) {
+                $actions->append(new SettopboxDelete($actions->getKey()));
+//                $actions->disableDelete();
             }
         });
 
@@ -435,7 +434,7 @@ class PlaceController extends Controller
 
 //        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
 
-        $form->select('FeesMode', '收费模式')->options([0=>'其它收费模式',1=>'开房收费模式']);
+        $form->select('FeesMode', '收费模式')->options([0=>'非扫码开房收费模式',1=>'扫码开房收费模式']);
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
