@@ -166,6 +166,7 @@ class PlaceController extends Controller
 
         return response()->json(['code' => 200,
             'placename'=>$result->placename,'placeaddress'=>$result->placeaddress,'phone'=>$result->phone,
+            'paytest'=>$result->paytest,
             'roomtotal' => $result->roomtotal, 'expiredata' => $result->expiredata,
             'remainday'=>$t,'placehd'=>$result->placehd,'isenabled'=>$result->status,'boxPass'=>$result->boxPass,'downloadMode'=>$result->downloadMode,'apkUpdateMode'=>$result->apkUpdateMode,
             'isclosePingfen'=>$result->isclosePingfen,
