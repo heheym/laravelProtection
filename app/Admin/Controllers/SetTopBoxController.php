@@ -252,7 +252,8 @@ class SetTopBoxController extends Controller
 
         $form->text('mark', '备注');
 
-        $form->select('FeesMode', '收费模式')->options([0=>'场所收费模式',1=>'开房收费模式']);
+        $form->select('FeesMode', '收费模式')->options([0=>'按场所收费模式为准',1=>'扫码开房收费模式
+']);
         $id = request()->route()->parameters('id');
         $time1 = '00:00';
         $time2 = '00:00';
