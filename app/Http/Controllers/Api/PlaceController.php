@@ -679,7 +679,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 
         $post = json_decode(file_get_contents("php://input"), true);
         try{
-            $exists = DB::table('song')->where(['Songname'=>$post['songname'],'Singer'=>$post['singer'],'LangType'=>$post['langtype']])->exists();
+            $exists = DB::table('song')->where(['Songname'=>$post['songname'],'Singer'=>$post['singer']])->exists();
         }catch (\Exception $e){
             return response()->json(['code' => 500, 'msg' => '格式错误', 'data' => $e->getMessage()]);
         }
