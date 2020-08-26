@@ -84,6 +84,9 @@ Route::group([
     $router->resource('urgentpaymentno', UrgentPaymentnoController::class);//异常用户
 
 
+    $router->resource('ordercount', OrderCountController::class);
+
+
 });
 
 

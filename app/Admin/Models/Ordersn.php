@@ -11,4 +11,7 @@ class Ordersn extends Model
     public function settopbox(){
         return $this->belongsTo(SetTopBox::class, 'KtvBoxid' , 'KtvBoxid');
     }
+    public function place(){
+        return $this->belongsTo(Place::class, 'key' , 'key');
+    }
 }
