@@ -9,5 +9,6 @@
     <orderEntry type="module" module-name="legal" />
     <orderEntry type="module" module-name="test" />
     <orderEntry type="module" module-name="laravelshop" />
+    <orderEntry type="module" module-name="agent" />
   </component>
 </module>

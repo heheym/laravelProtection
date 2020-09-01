@@ -36,7 +36,7 @@ class OrderCountController extends AdminController
         });
 
         $grid->setView('ordercount.index');
-        $grid->model()->orderBy('id', 'desc')->where('order_status',1);
+        $grid->model()->orderBy('pay_time', 'desc')->where('order_status',1);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
