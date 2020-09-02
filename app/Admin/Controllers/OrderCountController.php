@@ -28,7 +28,7 @@ class OrderCountController extends AdminController
         $grid = new Grid(new Ordersn);
         $grid->disableCreateButton();
         $grid->disableColumnSelector();
-        $grid->disableExport(false);
+//        $grid->disableExport(false);
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
