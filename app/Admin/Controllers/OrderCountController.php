@@ -116,12 +116,10 @@ class OrderCountController extends AdminController
             return $html;
         });
 
-
 //        $grid->export(function ($export) {
 //            $export->filename('Filename.csv');
 //            $export->except(['placename']);
 //        });
-
 
         return $grid;
     }
