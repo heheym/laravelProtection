@@ -69,6 +69,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\agent\app\Admin" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Extensions" />
       <recent name="F:\onedrive\web\laravelProtection\resources\views" />
       <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receipt" />
@@ -76,10 +77,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\onedrive\web\agent\resources\lang\zh-CN" />
+      <recent name="F:\onedrive\web\agent\app\Admin\Renderable" />
       <recent name="F:\onedrive\web\laravelProtection\resources\lang\zh-CN" />
       <recent name="F:\onedrive\web\laravelProtection\resources\views\ordercount" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Models" />
-      <recent name="F:\onedrive\web\laravelProtection\resources\views\urgentpaymentno" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Script.db_mysqli.php">
@@ -198,10 +199,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="496" y="109" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598578284361" />
-    <state x="490" y="84" key="NewPhpClassDialog" timestamp="1598586543338">
+    <state x="490" y="84" key="NewPhpClassDialog" timestamp="1599021105769">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="490" y="84" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1598586543338" />
+    <state x="490" y="84" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1599021105769" />
     <state x="207" y="0" key="SettingsEditor" timestamp="1591860663438">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -218,10 +219,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="287" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1592813589112" />
-    <state x="470" y="72" width="876" height="752" key="find.popup" timestamp="1598933257406">
+    <state x="470" y="72" width="876" height="752" key="find.popup" timestamp="1599028748767">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="470" y="72" width="876" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1598933257406" />
+    <state x="470" y="72" width="876" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1599028748767" />
     <state x="341" y="183" key="run.anything.popup" timestamp="1594885864501">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -216,51 +216,30 @@ class OrderController extends Controller
             $leshuaOrderId = $_GET['leshuaOrderId'];
             $result = $_GET['result'];
             if($result==1){
-                return '<div class="info" style="padding: 30px;
-    background: #ff9326;
-    color: #FFF;font-size:50px">您的订单支付成功</div>
-<div class="mark" style="
-  margin:auto;
-  padding-top:130px;
-  fill:#6eb700;">
-  <img src="/img/yes.jpg" width=200 height=200 style="display:block;margin:auto"/>
-</div>
-
-<div style="text-align: center;margin-top:200px">
-    <img alt="" src="/123.jfif" style="margin: 0 auto;width:700px;height:700px" />
-</div>
+                return '
+      <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
+            <p style="font:normal normal 600 4.8em/30px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:20%;f">支付成功!</p>
+            <img src="/img/no.jpg" style="position:absolute;width:19.2%;height:12%;left:42%;top:22%;">
+            <img src="/img/wx.jpg" style="position:absolute;width:44%;height:28%;left:28%;top:62%;">
+        </div>
 ';
             }else {
-                return '<div class="info" style="padding: 30px;
-    background: #ff9326;
-    color: #FFF;font-size:50px">您的订单没有支付</div>
-<div class="mark" style="
-  margin:auto;
-  padding-top:130px;
-  fill:#6eb700;">
-  <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
-</div>
-
-<div style="text-align: center;margin-top:200px">
-    <img alt="" src="/123.jfif" style="margin: 0 auto;width:700px;height:700px" />
-</div>
+                return '     
+    <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
+            <p style="font:normal normal 600 4.8em/30px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:20%;f">支付失败!</p>
+            <img src="/img/no.jpg" style="position:absolute;width:19.2%;height:12%;left:42%;top:22%;">
+            <img src="/img/wx.jpg" style="position:absolute;width:44%;height:28%;left:28%;top:62%;">
+        </div>
 ';
             }
         }
 
-        return '<div class="info" style="padding: 30px;
-    background: #ff9326;
-    color: #FFF;font-size:50px">订单失败</div>
-<div class="mark" style="
-  margin:auto;
-  padding-top:130px;
-  fill:#6eb700;">
-  <img src="/img/no.jpg" width=200 height=200 style="display:block;margin:auto"/>
-</div>
-
-<div style="text-align: center;margin-top:200px">
-    <img alt="" src="/123.jfif" style="margin: 0 auto;width:700px;height:700px" />
-</div>
+        return '
+        <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
+            <p style="font:normal normal 600 4.8em/30px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:20%;f">订单无效</p>
+            <img src="/img/no.jpg" style="position:absolute;width:19.2%;height:12%;left:42%;top:22%;">
+            <img src="/img/wx.jpg" style="position:absolute;width:44%;height:28%;left:28%;top:62%;">
+        </div>
 ';
 
 

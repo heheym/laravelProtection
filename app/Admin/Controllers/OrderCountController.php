@@ -28,7 +28,7 @@ class OrderCountController extends AdminController
         $grid = new Grid(new Ordersn);
         $grid->disableCreateButton();
         $grid->disableColumnSelector();
-        $grid->disableExport();
+        $grid->disableExport(false);
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
@@ -115,6 +115,13 @@ class OrderCountController extends AdminController
             $html .= "<span style='text-align:center;color:red;font-size:20px;margin-left:50px'>总金额 ：".$amount."</span>";
             return $html;
         });
+
+
+//        $grid->export(function ($export) {
+//            $export->filename('Filename.csv');
+//            $export->except(['placename']);
+//        });
+
 
         return $grid;
     }
