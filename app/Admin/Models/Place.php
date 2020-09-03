@@ -94,4 +94,8 @@ class Place extends Model
             DB::table('MerchantSet')->insert($extra);
         }
     }
+
+//    public function province(){
+//        return $this->hasOne(ChinaArea::class , 'code','province');
+//    }
 }

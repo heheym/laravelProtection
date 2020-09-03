@@ -2,12 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Models\Ordersn;
+use App\Admin\Models\OrderCount;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+
+use App\Admin\Extensions\OrderCount\PostsExporter;
+
 
 class OrderCountController extends AdminController
 {
@@ -25,10 +28,10 @@ class OrderCountController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Ordersn);
+        $grid = new Grid(new OrderCount);
         $grid->disableCreateButton();
         $grid->disableColumnSelector();
-//        $grid->disableExport(false);
+        $grid->disableExport(false);
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
@@ -83,13 +86,10 @@ class OrderCountController extends AdminController
             $payTimeEnd = request('pay_time')['end'];
             $html .= "<span style='text-align:center;color:red;font-size:20px;'> 至 ".$payTimeEnd."</span>";
         }
-
         $grid->column('place.placename', __('场所名称'));
         $grid->column('settopbox.roomno', __('房号'));
         $grid->address('省市')->display(function () {
-                $province =  DB::table('china_area')->where('code',$this->place->province)->value('name');
-                $city =  DB::table('china_area')->where('code',$this->place->city)->value('name');
-            return $province.$city;
+            return $this->province[0]->name.$this->city[0]->name;
         });
 //        $grid->column('KtvBoxid', __('机器码'));
 //        $grid->column('order_sn', __('Order sn'));
@@ -116,10 +116,8 @@ class OrderCountController extends AdminController
             return $html;
         });
 
-//        $grid->export(function ($export) {
-//            $export->filename('Filename.csv');
-//            $export->except(['placename']);
-//        });
+        $grid->exporter(new PostsExporter());
+
 
         return $grid;
     }
@@ -161,7 +159,7 @@ class OrderCountController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Ordersn);
+        $form = new Form(new OrderCount);
 
         $form->text('key', __('Key'));
         $form->text('KtvBoxid', __('KtvBoxid'));
