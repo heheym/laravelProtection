@@ -8,13 +8,14 @@
 
 namespace App\Admin\Extensions\OrderCount;
 
+use Encore\Admin\Grid;
 use Encore\Admin\Grid\Exporters\ExcelExporter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Support\Facades\DB;
 
 class PostsExporter extends ExcelExporter implements WithMapping
 {
-    protected $fileName = '文章列表.xlsx';
+    public $fileName = '交易流水查询统计.xlsx';
 
     protected $headings = [ '场所名称', '房号','省市','订单号','订单状态','订单金额(元)','创建时间','支付时间','乐刷订单号','支付方式','用户号','备注' ];
 

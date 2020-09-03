@@ -116,7 +116,10 @@ class OrderCountController extends AdminController
             return $html;
         });
 
-        $grid->exporter(new PostsExporter());
+
+        $postsExporter =  new PostsExporter();
+        $postsExporter->fileName = date('Y-m-d H:i:s').'.xlsx';
+        $grid->exporter($postsExporter);
 
 
         return $grid;
