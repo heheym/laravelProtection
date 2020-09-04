@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\OrderCount\Export;
 use App\Admin\Models\OrderCount;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -10,6 +11,7 @@ use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
 
 use App\Admin\Extensions\OrderCount\PostsExporter;
+use Qiniu\Http\Request;
 
 
 class OrderCountController extends AdminController
@@ -31,7 +33,7 @@ class OrderCountController extends AdminController
         $grid = new Grid(new OrderCount);
         $grid->disableCreateButton();
         $grid->disableColumnSelector();
-        $grid->disableExport(false);
+        $grid->disableExport();
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
@@ -120,6 +122,42 @@ class OrderCountController extends AdminController
         $postsExporter =  new PostsExporter();
         $postsExporter->fileName = date('Y-m-d H:i:s').'.xlsx';
         $grid->exporter($postsExporter);
+
+//        dd(url()->current());
+        $url = url()->current()."?";
+        foreach(request()->all() as $k => $v){
+            if(!isset($v)){
+                continue;
+            }
+            if(is_array($v)){
+                $url .= "&pay_time[start]=".$v['start']."&pay_time[end]=".$v['end'];
+            }else{
+                $url .= "&$k=$v";
+            }
+        }
+        $url .= "&_export_=all";
+
+//        if(!isset(request()->all()['pay_time']['start']) && !isset(request()->all()['pay_time']['end'])){
+//            $grid->tools(function ($tools)use($grid, $url){
+//                $tools->append('<div class="btn-group pull-right" style="margin-left: 30px">
+//    <a href="javascirpt:void(0)" class="btn btn-sm btn-success" onclick=alert("请填写支付时间")>
+//        <i class="fa fa-plus"></i>&nbsp;&nbsp;导出
+//    </a>
+//</div>');
+//            });
+//        }else{
+//            $grid->tools(function ($tools)use($grid, $url){
+//                $tools->append('<div class="btn-group pull-right" style="margin-left: 30px">
+//    <a href="'.$url.'" class="btn btn-sm btn-success" target="_blank">
+//        <i class="fa fa-plus"></i>&nbsp;&nbsp;导出
+//    </a>
+//</div>');
+//            });
+//        }
+
+        $grid->tools(function ($tools)use($grid,$url){
+            $tools->append(new Export($grid,$url));
+        });
 
 
         return $grid;

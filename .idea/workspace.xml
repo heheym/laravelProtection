@@ -62,7 +62,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Admin/Models" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Admin/Extensions/OrderCount" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="inlay.hints.PHP" />
@@ -76,11 +76,11 @@
       <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receivable" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Extensions\OrderCount" />
+      <recent name="F:\onedrive\web\agent\app\Admin\Models" />
+      <recent name="F:\onedrive\web\agent\app\Admin\Renderable" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Models" />
       <recent name="F:\onedrive\web\agent\resources\lang\zh-CN" />
-      <recent name="F:\onedrive\web\agent\app\Admin\Renderable" />
-      <recent name="F:\onedrive\web\laravelProtection\resources\lang\zh-CN" />
-      <recent name="F:\onedrive\web\laravelProtection\resources\views\ordercount" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Script.db_mysqli.php">
@@ -187,10 +187,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="535" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1598845615926" />
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1596424157405">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599205264075">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1596424157405" />
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1599205264075" />
     <state x="421" y="19" key="#db_mysqli.php" timestamp="1595823251221">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -203,10 +203,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="490" y="84" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1599041588121" />
-    <state x="574" y="319" key="NewPhpFileDialog" timestamp="1599102806981">
+    <state x="574" y="319" key="NewPhpFileDialog" timestamp="1599209510033">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="574" y="319" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1599102806981" />
+    <state x="574" y="319" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1599209510033" />
     <state x="207" y="0" key="SettingsEditor" timestamp="1591860663438">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -223,14 +223,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="287" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1592813589112" />
-    <state x="470" y="72" width="876" height="752" key="find.popup" timestamp="1599028748767">
+    <state x="470" y="72" width="972" height="752" key="find.popup" timestamp="1599205158861">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="470" y="72" width="876" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1599028748767" />
-    <state x="341" y="183" key="run.anything.popup" timestamp="1594885864501">
+    <state x="470" y="72" width="972" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1599205158861" />
+    <state x="341" y="183" key="run.anything.popup" timestamp="1599119929137">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="341" y="183" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1594885864501" />
+    <state x="341" y="183" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1599119929137" />
     <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1598933261430">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
