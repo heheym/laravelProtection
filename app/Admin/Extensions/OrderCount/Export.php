@@ -40,18 +40,15 @@ class Export extends Field
     </a>
 </div>
 <script>
-    var url = new URL(location);
-    var pay_time = url.searchParams.get('pay_time[start]');
-
     function bexport(){
-        if(pay_time.length==0){
+        var url = new URL(location);
+        var pay_time = url.searchParams.get('pay_time[start]');
+        if(  pay_time==null || pay_time.length==0){
             alert('请填写支付时间');
         }else{
             window.open("{$this->queryParams}","_blank"); 
         }
-       
     }
-        
 </script>
 EOT;
     }
