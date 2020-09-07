@@ -91,7 +91,9 @@ class OrderCountController extends AdminController
         $grid->column('place.placename', __('场所名称'));
         $grid->column('settopbox.roomno', __('房号'));
         $grid->address('省市')->display(function () {
-            return $this->province[0]->name.$this->city[0]->name;
+            if(isset($this->province[0]->name) && isset($this->city[0]->name)){
+                return $this->province[0]->name.$this->city[0]->name;
+            }
         });
 //        $grid->column('KtvBoxid', __('机器码'));
 //        $grid->column('order_sn', __('Order sn'));
