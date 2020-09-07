@@ -106,6 +106,14 @@ function localMoney() {
 
 //开房时段
 function openingTime(){
+    $('select[name=province]').attr('required','required');
+    $('select[name=city]').attr('required','required');
+    $('select[name=placArea]').attr('required','required');
+
+    // var input = document.getElementById('phone');
+    // input.oninvalid = function(event) { event.target.setCustomValidity('手机号格式不正确'); }
+    // input.onvalid = function(event) { event.target.setCustomValidity(''); }
+
     $(".time1,.time2,.time3,.time4").datetimepicker({"format":"HH:mm","locale":"zh-CN","allowInputToggle":true});
 
     var feesmode =$(".FeesMode option:selected").val();
