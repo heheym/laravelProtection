@@ -27,7 +27,7 @@ class PostsExporter extends ExcelExporter implements WithMapping
             data_get($row, 'settopbox.roomno'),
             DB::table('china_area')->where('code',data_get($row, 'place.province'))->value('name').
             DB::table('china_area')->where('code',data_get($row, 'place.city'))->value('name'),
-            $row->order_sn_submit,
+            $row->order_sn_submit."\t",
             $row->order_status == 1? '已支付':'未支付',
             $row->amount,
             $row->submit_time,
