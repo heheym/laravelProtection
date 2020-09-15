@@ -835,7 +835,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 
         $post = json_decode(file_get_contents("php://input"), true);
         if(!isset($post)){
-            return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+            return response()->json(['code' => 500, 'msg' => '数据为空', 'data' => null]);
         }
 
         try{
