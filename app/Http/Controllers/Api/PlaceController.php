@@ -837,11 +837,19 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         if(!isset($post)){
             return response()->json(['code' => 500, 'msg' => '数据为空', 'data' => null]);
         }
-
-        try{
-            $data = DB::table('users_openclose')->insert($post);
-        }catch (\Exception $e){
-            return response()->json(['code' => 500, 'msg' => '保存错误', 'data' => $e->getMessage()]);
+        
+        foreach($post as $k=>$v){
+            $exists = DB::table('users_openclose')->where(['srvkey'=>$srvkey,'KtvBoxid'=>$v['KtvBoxid'],'opendate'=>$v['opendate']])->exists();
+            if($exists){
+                try{
+                    $data = DB::table('users_openclose')->update($v);
+                }catch (\Exception $e){
+                return response()->json(['code' => 500, 'msg' => '保存错误', 'data' => $e->getMessage()]);
+                }
+            }else{
+                $v['srvkey'] = $srvkey;
+                $data = DB::table('users_openclose')->insert($v);
+            }
         }
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
