@@ -834,11 +834,14 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         }
 
         $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post)){
+            return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+        }
 
         try{
             $data = DB::table('users_openclose')->insert($post);
         }catch (\Exception $e){
-            return response()->json(['code' => 500, 'msg' => '数据错误', 'data' => $e->getMessage()]);
+            return response()->json(['code' => 500, 'msg' => '保存错误', 'data' => $e->getMessage()]);
         }
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
