@@ -8,7 +8,9 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class UserOpencloseController extends AdminController
+use Encore\Admin\Facades\Admin;
+
+class UsersOpencloseController extends AdminController
 {
     /**
      * Title for current resource.
@@ -25,8 +27,44 @@ class UserOpencloseController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new UsersOpenclose);
+        $grid->setView('usersopenclose.index');
 
-//        $grid->column('id', __('Id'));
+        $grid->filter(function ($filter){
+            $filter->disableIdFilter();
+            $filter->like('srvkey','srvkey');
+            $filter->like('KtvBoxid','KtvBoxid');
+            //$filter->between('UploadDate', '上传时间')->datetime();
+        });
+        $grid->disableCreateButton();
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            $actions->disableEdit();
+            if (!Admin::user()->can('歌曲点播查询删除')) {
+                $actions->disableDelete();
+            }
+        });
+        $where = [];
+        if(!empty(request('placename'))){
+            $placename =request('placename');
+            $where[] = ['placename','like','%'.$placename.'%'];
+        }
+        $grid->model()->whereHas('place', function ($query) use($where){
+            $query->where($where);
+        });
+
+        $settopbox = [];
+        if(!empty(request('roomno'))){
+            $roomno =request('roomno');
+            $settopbox[] = ['roomno','like','%'.$roomno.'%'];
+        }
+        if(!empty(request('roomno'))){
+            $grid->model()->whereHas('settopbox', function ($query) use($settopbox){
+                $query->where($settopbox);
+            });
+        }
+
+
+       // $grid->column('id', __('Id'));
         $grid->column('place.placename', __('场所名称'));
         $grid->column('settopbox.roomno', __('房号'));
         $grid->column('srvkey', __('srvkey'));

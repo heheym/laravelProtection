@@ -87,7 +87,7 @@ Route::group([
     $router->resource('ordercount', OrderCountController::class); //订单查询
 
 
-    $router->resource('usersopencloses', UserOpencloseController::class); //开关房记录
+    $router->resource('usersopencloses', UsersOpencloseController::class); //开关房记录
 
 
 

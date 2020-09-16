@@ -151,7 +151,7 @@ class UserSongController extends Controller
         $grid->setView('usersong.index');
         $grid->disableCreateButton();
 
-//        $grid->paginate(10);
+       // $grid->paginate(10);
 
         $where = [];
         if(!empty(request('placename'))){
@@ -186,7 +186,7 @@ class UserSongController extends Controller
             $query->where($song);
         });
 
-//        $grid->disableFilter(false);
+       // $grid->disableFilter(false);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -327,7 +327,7 @@ class UserSongController extends Controller
         $form->text('Filename', 'Filename');
         $form->decimal('FileSize', 'FileSize')->default(0.00);
         $form->number('SongMid', 'SongMid');*/
-//        $form->file('文件');
+       // $form->file('文件');
         return $form;
     }
 
