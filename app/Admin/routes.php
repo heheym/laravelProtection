@@ -84,7 +84,11 @@ Route::group([
     $router->resource('urgentpaymentno', UrgentPaymentnoController::class);//异常用户
 
 
-    $router->resource('ordercount', OrderCountController::class);
+    $router->resource('ordercount', OrderCountController::class); //订单查询
+
+
+    $router->resource('usersopencloses', UserOpencloseController::class); //开关房记录
+
 
 
 });

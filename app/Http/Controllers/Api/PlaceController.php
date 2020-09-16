@@ -842,7 +842,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
             $exists = DB::table('users_openclose')->where(['srvkey'=>$srvkey,'KtvBoxid'=>$v['KtvBoxid'],'opendate'=>$v['opendate']])->exists();
             if($exists){
                 try{
-                    $data = DB::table('users_openclose')->update($v);
+                    $data = DB::table('users_openclose')->where(['srvkey'=>$srvkey,'KtvBoxid'=>$v['KtvBoxid'],'opendate'=>$v['opendate']])->update($v);
                 }catch (\Exception $e){
                 return response()->json(['code' => 500, 'msg' => '保存错误', 'data' => $e->getMessage()]);
                 }
