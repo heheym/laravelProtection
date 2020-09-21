@@ -199,7 +199,7 @@ Log::info('查询成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
             }
 
             if(!empty($data['func']) && $data['func'] == 'handshake'){
-                $respond = json_encode(['func'=>'handshake','currentTime'=>now()],JSON_UNESCAPED_UNICODE);
+                $respond = json_encode(['func'=>'handshake','currentTime'=>date('Y-m-d H:i：s')],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
                 return;
             }
