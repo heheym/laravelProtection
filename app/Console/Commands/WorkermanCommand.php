@@ -158,7 +158,35 @@ Log::info('处理成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
 Log::info('处理成功,订单已处理,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
                     return;
                 }
+            }
 
+            //"func":"second_confirm_order",
+            if(!empty($data['func']) && $data['func'] == 'second_confirm_order'){
+                if(empty($data['order_id'])){
+                    $respond = json_encode(['func'=>'second_confirm_order','code'=>500,'msg'=>'订单号不能为空','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    Log::info('处理失败,订单号不能为空,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
+                    return;
+                }
+                $exists = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->exists();
+                if(!$exists){
+                    $respond = json_encode(['func'=>'second_confirm_order','code'=>500,'msg'=>'订单不存在','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    Log::info('处理失败,订单不存在,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
+                    return;
+                }
+                $result = DB::table('ordersn')->where('leshua_order_id',$data['order_id'])->update(['confirm_order'=>1]);
+                if($result){
+                    $respond = json_encode(['func'=>'second_confirm_order','code'=>200,'msg'=>'请求成功','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    Log::info('处理成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
+                    return;
+                }else{
+                    $respond = json_encode(['func'=>'second_confirm_order','code'=>200,'msg'=>'请求成功,订单已处理','data'=>null],JSON_UNESCAPED_UNICODE);
+                    $connection->send($respond);
+                    Log::info('处理成功,订单已处理,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
+                    return;
+                }
             }
 
             //"func":"query_order",
