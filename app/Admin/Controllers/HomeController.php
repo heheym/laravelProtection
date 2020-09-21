@@ -8,10 +8,13 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 
+use Carbon\Carbon;
+
 class HomeController extends Controller
 {
     public function index(Content $content)
     {
+
         return $content
 //            ->header('Dashboard')
 //            ->description('Description...')
