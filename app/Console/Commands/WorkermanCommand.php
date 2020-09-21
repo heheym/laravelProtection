@@ -198,6 +198,12 @@ Log::info('查询成功,srvkey:'.$connection->uid.',data:'.json_encode($data).PH
                 return;
             }
 
+            if(!empty($data['func']) && $data['func'] == 'handshake'){
+                $respond = json_encode(['func'=>'handshake','currentTime'=>now()],JSON_UNESCAPED_UNICODE);
+                $connection->send($respond);
+                return;
+            }
+
         $respond = json_encode(['code'=>500,'msg'=>'请求失败,格式错误','data'=>$data],JSON_UNESCAPED_UNICODE);
         $connection->send($respond);
 Log::info('请求失败,srvkey:'.$connection->uid.',data:'.json_encode($data).PHP_EOL);
