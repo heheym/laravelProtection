@@ -97,6 +97,7 @@ class SongController extends Controller
                 $filter->like('Songname', '歌名');
                 $filter->equal('LangType', '语种')->select([0=>'国语',1=>'粤语',2=>'英语',3=>'台语', 4=>'日语',5=>'韩语',6=>'其他']);
                 $filter->like('Album', '专辑');
+                $filter->like('Filename', '文件名');
             });
 
             $filter->column(1/2,function($filter){
@@ -105,6 +106,7 @@ class SongController extends Controller
                 $filter->like('RecordCompany', '唱片公司');
                 $filter->like('Obligee', '权利人');
                 $filter->equal('OnlineStatus','上架状态')->select([0=>'下架',1=>'上架']);
+
             });
         });
 
