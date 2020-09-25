@@ -66,58 +66,61 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="{{URL::asset('js/jquery-1.11.1.js')}}"></script>
 <script src="{{URL::asset('layui/src/layui.js')}}"></script>
 <script>
-$(function(){
 
-})
+var isClick = true;
 function sub() {
-    var name = $('input[name="name"]').val();
-    var phone = $('input[name="phone"]').val();
-    var address = $('input[name="address"]').val();
-    var message = $('input[name="message"]').val();
+    if(isClick){
+        $('input[type="button"]').attr('disabled');
+        var name = $('input[name="name"]').val();
+        var phone = $('input[name="phone"]').val();
+        var address = $('input[name="address"]').val();
+        var message = $('input[name="message"]').val();
 
-    var nameval = document.querySelector('input[name="name"]');
-    if (nameval.validity.valueMissing == true) {
-        nameval.setCustomValidity('请填写姓名');
-        nameval.reportValidity();
-        return;
-    }
-    var phoneval = document.querySelector('input[name="phone"]');
-    if (phoneval.validity.valueMissing == true) {
-        phoneval.setCustomValidity('请填写手机号');
-        phoneval.reportValidity();
-        return;
-    }
-    var addressval = document.querySelector('input[name="address"]');
-    if (addressval.validity.valueMissing == true) {
-        addressval.setCustomValidity('请填写地址');
-        addressval.reportValidity();
-        return;
-    }
-
-    $.post('collect/message',{name:name,phone:phone,address:address,message:message},
-       function(data){
-           data = eval("("+data+")") ;
-            if(data.code==200){
-                layui.use('layer', function(){
-                    layer.msg('保存成功', {
-                        time: 2000, //20s后自动关闭,
-                        area: 'auto',
-                        maxWidth:150,
+        var nameval = document.querySelector('input[name="name"]');
+        if (nameval.validity.valueMissing == true) {
+            nameval.setCustomValidity('请填写姓名');
+            nameval.reportValidity();
+            return;
+        }
+        var phoneval = document.querySelector('input[name="phone"]');
+        if (phoneval.validity.valueMissing == true) {
+            phoneval.setCustomValidity('请填写手机号');
+            phoneval.reportValidity();
+            return;
+        }
+        var addressval = document.querySelector('input[name="address"]');
+        if (addressval.validity.valueMissing == true) {
+            addressval.setCustomValidity('请填写地址');
+            addressval.reportValidity();
+            return;
+        }
+        isClick = false;
+        $.post('collect/message',{name:name,phone:phone,address:address,message:message},
+            function(data){
+                data = eval("("+data+")") ;
+                if(data.code==200){
+                    layui.use('layer', function(){
+                        layer.msg('保存成功', {
+                            time: 2000, //20s后自动关闭,
+                            area: 'auto',
+                            maxWidth:150,
+                        });
                     });
-                });
-                setTimeout(function () {
-                    location.reload();
-                },2000)
-            }else{
-                layui.use('layer', function(){
-                    layer.msg('保存失败', {
-                        time: 2000, //20s后自动关闭,
-                        area: 'auto',
-                        maxWidth:150,
+                    setTimeout(function () {
+                        location.reload();
+                    },2000)
+                }else{
+                    layui.use('layer', function(){
+                        layer.msg('保存失败', {
+                            time: 2000, //20s后自动关闭,
+                            area: 'auto',
+                            maxWidth:150,
+                        });
                     });
-                });
+                }
             }
-       }
-    );
+        );
+    }
+
 }
 </script>
