@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return redirect('admin');
 //    return view('welcome');
@@ -31,6 +32,11 @@ Route::get('/queryOrder', 'OrderController@queryOrder');//查询订单
 Route::get('/workerman','Workerman\WorkermanController@index');
 
 Route::get('/test','OrderController@test');
+
+
+Route::get('/collect','Other\CollectController@index');// 收集
+Route::post('/collect/message','Other\CollectController@message');// 收集
+
 
 
 

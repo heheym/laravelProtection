@@ -15,7 +15,8 @@ Route::group([
     'prefix'        => config('admin.route.prefix'),
     'namespace'     => config('admin.route.namespace'),
 ],function(Router $router){
-    Route::any('', 'HomeController@index');
+    // Route::any('', 'HomeController@index');
+    // $router->resource('collect', CollectController::class);  //用户歌曲
 });
 
 Route::group([
@@ -88,6 +89,8 @@ Route::group([
 
 
     $router->resource('usersopencloses', UsersOpencloseController::class); //开关房记录
+
+    $router->resource('collect', CollectController::class);  //信息收集
 
 
 

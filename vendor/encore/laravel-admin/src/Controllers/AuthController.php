@@ -193,6 +193,11 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
+
+        if(Admin::user()->username == 'collect'){
+            return redirect('admin/collect');
+        }
+
         return redirect()->intended($this->redirectPath());
     }
 
