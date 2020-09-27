@@ -30,8 +30,9 @@ use Encore\Admin\Facades\Admin;
 
 Admin::js('js/hide.js');
 Admin::style(
-    'input {autocomplete: off;}'
+    'input {autocomplete:"off";}'
 );
+Admin::script('$("form").attr("autocomplete", "off")');
 
 
 
