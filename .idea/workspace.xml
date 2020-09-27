@@ -14,7 +14,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" doNotAsk="true">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <execution />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -39,6 +39,12 @@
     <dismissed value="$PROJECT_DIR$/public/qiniu/package.json" />
     <dismissed value="$PROJECT_DIR$/public/webuploader/package.json" />
   </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="agent.test" id="6000ce95-911a-47d8-9709-4c462440420a" name="http://agent.test/" />
+    </servers>
+  </component>
+  <component name="PhpXdebugProxy" ide_key="Phpstorm" host="agent.test" port="80" />
   <component name="ProjectId" id="1bCm3nMktVBnOEb3a42sHIFqHIY" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -70,10 +76,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Admin/Extensions/Collect" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../agent/app/NewAdmin/Models" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.PHP" />
+    <property name="settings.editor.selected.configurable" value="settings.php.debug.servers" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -84,11 +90,11 @@
       <recent name="E:\web\laravelProtection\app\Admin\Extensions\Receivable" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\agent\app\NewAdmin\Models" />
+      <recent name="F:\onedrive\web\agent\app\NewAdmin\Renderable" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Extensions\Collect" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Controllers" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Models" />
-      <recent name="F:\onedrive\web\laravelProtection\app\Http\Controllers\Other" />
-      <recent name="F:\onedrive\web\agent\resources\views\newadmin\pages" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Script.db_mysqli.php">
@@ -195,10 +201,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="535" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1600230350898" />
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1601001170408">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1601027102258">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1601001170408" />
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1601027102258" />
     <state x="421" y="19" key="#db_mysqli.php" timestamp="1600936508516">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -207,6 +213,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="496" y="109" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1599725166552" />
+    <state width="1537" height="218" key="GridCell.Tab.0.bottom" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
+    <state width="1537" height="218" key="GridCell.Tab.0.center" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
+    <state width="1537" height="218" key="GridCell.Tab.0.left" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
+    <state width="1537" height="218" key="GridCell.Tab.0.right" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
+    <state width="1537" height="218" key="GridCell.Tab.1.bottom" timestamp="1601017350148">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601017350148" />
+    <state width="1537" height="218" key="GridCell.Tab.1.center" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
+    <state width="1537" height="218" key="GridCell.Tab.1.left" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
+    <state width="1537" height="218" key="GridCell.Tab.1.right" timestamp="1601017350147">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1537" height="218" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1601017350147" />
     <state x="490" y="84" key="NewPhpClassDialog" timestamp="1599041588121">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -215,10 +253,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="574" y="319" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1600934294139" />
-    <state x="146" y="0" key="SettingsEditor" timestamp="1600237157142">
+    <state x="146" y="0" key="SettingsEditor" timestamp="1601015091842">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="146" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1600237157142" />
+    <state x="146" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1601015091842" />
     <state width="314" height="242" key="ShowFilterAction_Filter_Popup" timestamp="1597903887195">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -231,33 +269,21 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="287" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1592813589112" />
-    <state x="348" y="26" width="981" height="752" key="find.popup" timestamp="1601000177513">
+    <state x="214" y="77" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1601018309695">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="348" y="26" width="981" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1601000177513" />
+    <state x="214" y="77" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824@0.0.1536.824" timestamp="1601018309695" />
+    <state x="348" y="26" width="981" height="752" key="find.popup" timestamp="1601028386782">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="348" y="26" width="981" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1601028386782" />
     <state x="341" y="183" key="run.anything.popup" timestamp="1600063708169">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="341" y="183" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1600063708169" />
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1600936601140">
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1601023610284">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1600936601140" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasTimestamps.php</url>
-          <line>13</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/../agent/app/NewAdmin/Controllers/AuthController.php</url>
-          <line>26</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1601023610284" />
   </component>
 </project>

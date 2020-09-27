@@ -94,21 +94,25 @@ function sub() {
             addressval.reportValidity();
             return;
         }
+
         isClick = false;
         $.post('collect/message',{name:name,phone:phone,address:address,message:message},
             function(data){
                 data = eval("("+data+")") ;
                 if(data.code==200){
                     layui.use('layer', function(){
-                        layer.msg('保存成功', {
-                            time: 2000, //20s后自动关闭,
-                            area: 'auto',
-                            maxWidth:150,
+                        layer.open({
+                            type: 1
+                            ,content: '<div style="text-align:center">保存成功</div>'
+                            ,area: '200px'
+                            ,btn: '确定'
+                            ,btnAlign: 'c' //按钮居中
+                            ,shade: 1 //不显示遮罩
+                            ,yes: function(){
+                                location.reload();
+                            }
                         });
                     });
-                    setTimeout(function () {
-                        location.reload();
-                    },2000)
                 }else{
                     layui.use('layer', function(){
                         layer.msg('保存失败', {
@@ -118,6 +122,7 @@ function sub() {
                         });
                     });
                 }
+                isClick = true;
             }
         );
     }
