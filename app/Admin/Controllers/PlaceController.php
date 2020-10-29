@@ -491,6 +491,7 @@ class PlaceController extends Controller
         $form->select('iscloseSound', '是否要关闭录音功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
         $form->select('iscloseVoice', '关闭语音功能')->options([0=>'不关闭',1=>'关闭'])->default(1);
         $form->select('paytest', '是否付费测试版')->options([0=>'否',1=>'是'])->default(0);
+        $form->select('isBuyCopyrightfee', '是否在音集协里购买了版权费')->options([0=>'未购买',1=>'已购买'])->default(0);
 
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));

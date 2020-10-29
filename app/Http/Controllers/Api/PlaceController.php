@@ -183,6 +183,7 @@ class PlaceController extends Controller
             'warningRoomtime'=>30,
 //            'warningCutsongcount'=>8,
             'warningCutsongtime'=>30,
+            'isBuyCopyrightfee'=>$result->isBuyCopyrightfee,
             'data'=>$data]);
     }
 

@@ -23,6 +23,7 @@ class OrderController extends Controller
     //返回二维码链接,生成套餐支付订单返回接口
     public function getQrCodeUrl()
     {
+
         $srvkey = \Request::header('srvkey');
 
         if(empty($srvkey)){
