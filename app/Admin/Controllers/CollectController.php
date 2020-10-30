@@ -35,6 +35,7 @@ class CollectController extends AdminController
         $grid->column('name','姓名');
         $grid->column('phone','手机号');
         $grid->column('address','地址');
+        $grid->column('time','时间');
         $grid->column('message','备注');
 
         $postsExporter =  new ColectExport();

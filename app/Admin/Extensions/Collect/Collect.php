@@ -21,6 +21,7 @@ class Collect extends ExcelExporter
         'name'   => '姓名',
         'phone' => '手机号',
         'address' => '地址',
+        'time' => '时间',
         'message' => '备注',
     ];
 
