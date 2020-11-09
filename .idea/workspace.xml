@@ -76,25 +76,25 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../agent/app/NewAdmin/Models" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../agent/vendor/dcat/laravel-admin/resources/views/partials" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.php.debug.servers" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\onedrive\web\agent\app\NewAdmin\Models" />
-      <recent name="F:\onedrive\web\agent\app\NewAdmin\Renderable" />
-      <recent name="F:\onedrive\web\agent\app\NewAdmin\Repositories" />
-      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\src\Controllers" />
-      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\resources\views\dashboard" />
+      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\resources\views\partials" />
+      <recent name="F:\onedrive\web\agent\app\Providers" />
+      <recent name="F:\onedrive\web\agent\resources\lang\zh-CN" />
+      <recent name="F:\onedrive\web\agent\app\Admin\Controllers" />
+      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\resources\views\filter" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\src\Widgets" />
       <recent name="F:\onedrive\web\agent\app\NewAdmin\Repositories" />
       <recent name="F:\onedrive\web\agent\app\Admin\Api" />
       <recent name="F:\onedrive\web\agent\app\Admin\Models" />
       <recent name="F:\onedrive\web\agent\app\Admin" />
-      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Extensions" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Script.GenerateCode.php">
@@ -209,18 +209,18 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1604044473055" />
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604023267726">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604481901646">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1604023267726" />
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1604481901646" />
     <state x="421" y="19" key="#db_mysqli.php" timestamp="1600936508516">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="421" y="19" key="#db_mysqli.php/0.0.1536.824@0.0.1536.824" timestamp="1600936508516" />
-    <state x="496" y="109" key="FileChooserDialogImpl" timestamp="1599725166552">
+    <state x="496" y="109" key="FileChooserDialogImpl" timestamp="1604396825387">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="496" y="109" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1599725166552" />
+    <state x="496" y="109" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604396825387" />
     <state width="1537" height="218" key="GridCell.Tab.0.bottom" timestamp="1601174680971">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -277,18 +277,18 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="214" y="77" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824@0.0.1536.824" timestamp="1601018309695" />
-    <state x="419" y="72" width="981" height="752" key="find.popup" timestamp="1604045000560">
+    <state x="419" y="72" width="1030" height="752" key="find.popup" timestamp="1604652232908">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="419" y="72" width="981" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604045000560" />
-    <state x="341" y="183" key="run.anything.popup" timestamp="1600063708169">
+    <state x="419" y="72" width="1030" height="752" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1604652232908" />
+    <state x="341" y="183" key="run.anything.popup" timestamp="1604646923075">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="341" y="183" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1600063708169" />
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1604044088203">
+    <state x="341" y="183" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1604646923075" />
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup" timestamp="1604652219865">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1604044088203" />
+    <state x="431" y="145" width="840" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1604652219865" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

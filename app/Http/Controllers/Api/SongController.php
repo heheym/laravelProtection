@@ -610,6 +610,21 @@ $data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage
 
     }
 
+    public function playRecord()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post['id'])){
+            return response()->json(['code'=>500,'msg'=>'id不能为空','data'=>null]);
+        }
+        $current_page = isset($post['current_page'])?$post['current_page']:1;
+        $result = DB::table('users_songs_bak')->where('id','>',$post['id'])->paginate(50,['*'],'page',$current_page)->toArray();
+
+        $data['code'] = 200;
+        $data['current_page'] = $result['current_page'];
+        $data['totoal_page'] = $result['last_page'];
+        $data['data'] = $result['data'];
+        return response()->json($data);
+    }
 
 
 }

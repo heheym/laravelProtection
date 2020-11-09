@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::post('/songs/busong/getplace', 'Api\SongController@getplace');  //获取场所信息接口
 
+    Route::post('/songs/service/playRecord', 'Api\SongController@playRecord');  //获取点播记录接口
+
 
 
 });
