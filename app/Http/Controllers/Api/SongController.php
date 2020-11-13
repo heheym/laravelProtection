@@ -626,5 +626,20 @@ $data = DB::table('busong')->where($where)->offset(($currentPage-1)*$itemPerPage
         return response()->json($data);
     }
 
+    public function hotspotUpload()
+    {
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post['musicdbpk']) || !isset($post['SoftsongDbVer'])){
+            return response()->json(['code'=>500,'msg'=>'musicdbpk或SoftsongDbVer不能为空','data'=>null]);
+        }
+        $exist= DB::table('hotspotsong')->where('musicdbpk',$post['musicdbpk'])->exists();
+        if(!$exist){
+            DB::table('hotspotsong')->insert(['musicdbpk'=>$post['musicdbpk'],'SoftsongDbVer'=>$post['SoftsongDbVer']]);
+        }else{
+            DB::table('hotspotsong')->where('musicdbpk',$post['musicdbpk'])->update(['SoftsongDbVer'=>$post['SoftsongDbVer'],'UpdateTime'=>now()]);
+        }
+        return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
+    }
+
 
 }

@@ -859,6 +859,24 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
+    //热点歌曲可预先下载列表
+    public function hotspotsong()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
 
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(!isset($post['SoftsongDbVer'])){
+            return response()->json(['code' => 500, 'msg' => 'SoftsongDbVer不能为空1', 'data' => null]);
+        }
+        $data = DB::table('hotspotsong')->where('SoftsongDbVer',$post['SoftsongDbVer'])->select('musicdbpk')->get();
+        return response()->json(['code' => 200,'data' => $data]);
+    }
 
 }
