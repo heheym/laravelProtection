@@ -423,7 +423,6 @@ class SongController extends Controller
                 if(isset($post['updateVerMemo'])){
                     $array['SoftseverMemo'] = $post['updateVerMemo'];
                 }
-                DB::table('parameterset')->update($array);
             }elseif($post['updateType'] ==2){
                 if(isset($post['updateVerNo'])){
                     $array['SoftboxVer'] = $post['updateVerNo'];
@@ -434,7 +433,6 @@ class SongController extends Controller
                 if(isset($post['updateVerMemo'])){
                     $array['SoftboxMemo'] = $post['updateVerMemo'];
                 }
-                DB::table('parameterset')->update($array);
             }elseif($post['updateType'] ==3){
                 if(isset($post['updateVerNo'])){
                     $array['SoftsongDbVer'] = $post['updateVerNo'];
@@ -442,14 +440,10 @@ class SongController extends Controller
                 if(isset($post['updateVerHttp'])){
                     $array['SoftsongDbHttp'] = $post['updateVerHttp'];
                 }
-                DB::table('parameterset')->update($array);
-            }else{
-                return response()->json(['code'=>500,'msg'=>'updateType不存在','data'=>null]);
             }
-            return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
-        }else{
-            return response()->json(['code'=>500,'msg'=>'updateType不存在','data'=>null]);
         }
+        DB::table('parameterset')->update($array);
+        return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
     //15.机顶盒预登记接口
