@@ -412,7 +412,7 @@ class PlaceController extends Controller
 
 
         return json_encode(['code'=>200,'SoftwareName'=>$result->SoftwareName,'SoftwareVerno'=>$result->SoftwareVerno,'NewSongHttp'=>$result->NewSongHttp,'SpeedLimit'=>$result->SpeedLimit,'LoginName'=>$result->LoginName,
-            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp,'WarningAtoBtime'=>$result->WarningAtoBtime,'WechatPublicHttp'=>$result->WechatPublicHttp,'ServerTime'=>date('Y-m-d H:i:s')],320);
+            'UpdateMode'=>$result->UpdateMode,'SoftseverVer'=>$result->SoftseverVer,'SoftseverHttp'=>$result->SoftseverHttp,'SoftseverMemo'=>$result->SoftseverMemo,'SoftboxVer'=>$result->SoftboxVer,'SoftboxHttp'=>$result->SoftboxHttp,'SoftboxMemo'=>$result->SoftboxMemo,'SoftsongDbVer'=>$result->SoftsongDbVer,'SoftsongDbHttp'=>$result->SoftsongDbHttp,'SoftsongSqlFile'=>$result->SoftsongSqlFile,'SingerPicHttp'=>$result->SingerPicHttp,'SongNmelHttp'=>$result->SongNmelHttp,'SongPicHttp'=>$result->SongPicHttp,'AppPicHttp'=>$result->AppPicHttp,'WarningAtoBtime'=>$result->WarningAtoBtime,'WechatPublicHttp'=>$result->WechatPublicHttp,'ServerTime'=>date('Y-m-d H:i:s')],320);
     }
 
     //获取歌曲下载地址接口
@@ -873,7 +873,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 
         $post = json_decode(file_get_contents("php://input"), true);
         if(!isset($post['SoftsongDbVer'])){
-            return response()->json(['code' => 500, 'msg' => 'SoftsongDbVer不能为空1', 'data' => null]);
+            return response()->json(['code' => 500, 'msg' => 'SoftsongDbVer不能为空', 'data' => null]);
         }
         $data = DB::table('hotspotsong')->where('SoftsongDbVer',$post['SoftsongDbVer'])->select('musicdbpk')->get();
         return response()->json(['code' => 200,'data' => $data]);

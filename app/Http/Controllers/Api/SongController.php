@@ -408,8 +408,11 @@ class SongController extends Controller
     public function serviceUpdateVer(Request $request)
     {
         $post = json_decode(file_get_contents("php://input"), true);
+        $array = [];
+        if(isset($post['updateVerSqlFile'])){
+            $array['SoftsongSqlFile'] = $post['updateVerSqlFile'];
+        }
         if(!empty($post['updateType'])){
-            $array = [];
             if($post['updateType'] ==1){
                 if(isset($post['updateVerNo'])){
                     $array['SoftseverVer'] = $post['updateVerNo'];
