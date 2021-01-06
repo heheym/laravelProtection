@@ -262,7 +262,6 @@ abstract class ServiceProvider
     public function commands($commands)
     {
         $commands = is_array($commands) ? $commands : func_get_args();
-
         Artisan::starting(function ($artisan) use ($commands) {
             $artisan->resolveCommands($commands);
         });

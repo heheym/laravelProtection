@@ -369,20 +369,22 @@ class SetTopBoxController extends Controller
             $form->Obligee_Royalty = request('Obligee_Royalty');
             $form->Obligee_Settlement = request('Obligee_Settlement');
 
-            $count2 = DB::table('settopbox')->where(['key'=> $form->key])
-                ->where(function ($query) {
-                    $query->where('KtvBoxState',0)
-                        ->orWhere('KtvBoxState', 1);
-                })->count();
+            if($form->isCreating()){
+                $count2 = DB::table('settopbox')->where(['key'=> $form->key])
+                    ->where(function ($query) {
+                        $query->where('KtvBoxState',0)
+                            ->orWhere('KtvBoxState', 1);
+                    })->count();
 
-            $count3 = $count2+1;
-            $roomtotal = DB::table('place')->where(['key'=> $form->key])->value('roomtotal');
-            $error = new MessageBag([
-                'title'   => '提示',
-                'message' => '机顶盒超过有效数量',
-            ]);
-            if($count3>$roomtotal){
-                return back()->with(compact('error'));
+                $count3 = $count2+1;
+                $roomtotal = DB::table('place')->where(['key'=> $form->key])->value('roomtotal');
+                $error = new MessageBag([
+                    'title'   => '提示',
+                    'message' => '机顶盒超过有效数量',
+                ]);
+                if($count3>$roomtotal){
+                    return back()->with(compact('error'));
+                }
             }
         });
 
