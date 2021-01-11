@@ -78,6 +78,15 @@ class OrderController extends Controller
         if(empty($exists->KtvBoxid)){
             return response()->json(['code' => 500, 'msg' => '机器码不存在', 'data' => null]);
         }
+        $ordersn = DB::table('ordersn')->where('order_status',1)
+                    ->where('KtvBoxid',$KtvBoxid)->orderBy('id','desc')->first();
+
+        if(isset($ordersn->pay_time)){
+            $tim = time()-strtotime($ordersn->pay_time);
+            if($tim<300){
+                return response()->json(['code' => 500, 'msg' => '请稍后再试', 'data' => null]);
+            }
+        }
         $insertData = array(
             'key'=>$exists->key,
             'KtvBoxid'=>$exists->KtvBoxid,
