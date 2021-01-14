@@ -184,6 +184,7 @@ class PlaceController extends Controller
 //            'warningCutsongcount'=>8,
             'warningCutsongtime'=>30,
             'isBuyCopyrightfee'=>$result->isBuyCopyrightfee,
+            'shoppingMallId'=>$result->shoppingMallId,
             'data'=>$data]);
     }
 
