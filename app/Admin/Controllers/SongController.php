@@ -28,7 +28,7 @@ class SongController extends Controller
     public function index(Content $content)
     {
         return $content
-//            ->header('Index')
+           ->header('歌曲')
 //            ->description('description')
             ->body($this->grid());
     }

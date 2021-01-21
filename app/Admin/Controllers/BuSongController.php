@@ -16,7 +16,7 @@ class BuSongController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\BuSong';
+    protected $title = '补歌管理';
 
     /**
      * Make a grid builder.

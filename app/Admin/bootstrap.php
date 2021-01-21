@@ -33,7 +33,9 @@ Admin::style(
     'input {autocomplete:"off";}'
 );
 Admin::script('$("form").attr("autocomplete", "off")');
-
+//表格添加线条
+Admin::style('.table td{border-left: 1px solid rgb(220,220,220)!important;border-bottom: 1px solid rgb(215,215,215)!important;height:20px!important}
+');
 
 
 Grid::init(function (Grid $grid) {

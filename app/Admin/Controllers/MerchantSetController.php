@@ -30,7 +30,7 @@ class MerchantSetController extends Controller
     public function index(Content $content)
     {
         return $content
-//            ->header('Index')
+           ->header('场所分成管理')
 //            ->description('description')
             ->body($this->grid())
             ->body($this->merchantset());

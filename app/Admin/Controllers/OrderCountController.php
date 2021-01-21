@@ -21,7 +21,7 @@ class OrderCountController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\Ordersn';
+    protected $title = '交易流水查询统计';
 
     /**
      * Make a grid builder.

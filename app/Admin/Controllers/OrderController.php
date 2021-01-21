@@ -19,7 +19,7 @@ class OrderController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\Ordersn';
+    protected $title = '订单管理';
 
     /**
      * Index interface.
@@ -31,7 +31,7 @@ class OrderController extends AdminController
     public function index(Content $content)
     {
         return $content
-//            ->title($this->title())
+           ->title($this->title())
 //            ->description($this->description['index'] ?? trans('admin.list'))
             ->body($this->place())
             ->body($this->orderIndex());

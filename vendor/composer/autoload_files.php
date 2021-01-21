@@ -82,6 +82,7 @@ return array(
     '6ab8ad87a734f276a6bcd5a0fe1289be' => $vendorDir . '/markbaker/matrix/classes/src/operations/divideinto.php',
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
     '841780ea2e1d6545ea3a253239d59c05' => $vendorDir . '/qiniu/php-sdk/src/Qiniu/functions.php',
+    '4a1f389d6ce373bda9e57857d3b61c84' => $vendorDir . '/barryvdh/laravel-debugbar/src/helpers.php',
     'f960e77410032f236cef8c56617b313e' => $vendorDir . '/overtrue/laravel-lang/src/helpers.php',
     '577e8babc5e897de9cab73c9a71fdb59' => $baseDir . '/app/Helper/helper.php',
 );

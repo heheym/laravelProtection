@@ -16,7 +16,7 @@ class WarningCompanyController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\WarningCompany';
+    protected $title = '唱片公司异常';
 
     /**
      * Make a grid builder.

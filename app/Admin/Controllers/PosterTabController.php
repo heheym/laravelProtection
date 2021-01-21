@@ -25,7 +25,7 @@ class PosterTabController extends AdminController
      *
      * @var string
      */
-    protected $title = '';
+    protected $title = '广告推广';
 
     /**
      * Make a grid builder.

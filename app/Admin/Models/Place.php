@@ -16,6 +16,16 @@ class Place extends Model
     protected $appends = ['merchant','merchantfirst'];
 
 
+    // public function province()
+    // {
+    //     return $this->hasOne(ChinaArea::class,'code','province');
+    // }
+    //
+    // public function city()
+    // {
+    //     return $this->hasOne(ChinaArea::class,'code','city');
+    // }
+
     public function merchantset(){
         return $this->hasMany(MerchantSet::class , 'svrkey','key');
     }

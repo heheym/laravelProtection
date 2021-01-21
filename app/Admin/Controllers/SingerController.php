@@ -25,7 +25,7 @@ class SingerController extends Controller
     public function index(Content $content)
     {
         return $content
-//            ->header('Index')
+           ->header('歌星')
 //            ->description('description')
             ->body($this->grid());
     }

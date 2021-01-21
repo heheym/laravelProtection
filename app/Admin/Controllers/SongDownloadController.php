@@ -17,12 +17,13 @@ class SongDownloadController extends Controller
      *
      * @var string
      */
-    protected $title = '';
+    protected $title = '13';
 
 
     public function index(Content $content)
     {
         return $content
+            ->header('歌曲下载查询')
             ->body($this->grid());
     }
 

@@ -34,7 +34,7 @@ class ReceiptController extends Controller
     public function index(Content $content)
     {
         return $content
-//            ->header('Index')
+           ->header('收款管理')
 //            ->description('description')
             ->body($this->grid())
             ->body($this->grid1());

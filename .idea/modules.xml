@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../agent/.idea/agent.iml" filepath="$PROJECT_DIR$/../agent/.idea/agent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../project/guoshu/.idea/guoshu.iml" filepath="$PROJECT_DIR$/../../project/guoshu/.idea/guoshu.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/laravelProtection.iml" filepath="$PROJECT_DIR$/.idea/laravelProtection.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../laravelshop/.idea/laravelshop.iml" filepath="$PROJECT_DIR$/../laravelshop/.idea/laravelshop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../legal/.idea/legal.iml" filepath="$PROJECT_DIR$/../legal/.idea/legal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../test/.idea/test.iml" filepath="$PROJECT_DIR$/../test/.idea/test.iml" />
       <module fileurl="file://$PROJECT_DIR$/../zblog/.idea/zblog.iml" filepath="$PROJECT_DIR$/../zblog/.idea/zblog.iml" />
     </modules>
   </component>

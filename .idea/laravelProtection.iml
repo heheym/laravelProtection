@@ -5,9 +5,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="zblog" />
-    <orderEntry type="module" module-name="guoshu" />
-    <orderEntry type="module" module-name="test" />
-    <orderEntry type="module" module-name="laravelshop" />
-    <orderEntry type="module" module-name="agent" />
   </component>
 </module>

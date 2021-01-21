@@ -16,7 +16,7 @@ class UrgentPaymentnoController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\UrgentPaymentno';
+    protected $title = '异常用户';
 
     /**
      * Make a grid builder.

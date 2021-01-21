@@ -18,7 +18,7 @@ class BoxRegisterController extends AdminController
      *
      * @var string
      */
-    protected $title = ' ';
+    protected $title = '机顶盒预登记';
 
 
     /**
@@ -30,7 +30,8 @@ class BoxRegisterController extends AdminController
     {
         $grid = new Grid(new BoxRegister);
         $grid->setView('boxregister.index');
-
+        $grid->disableCreateButton();
+        $grid->model()->orderBy('id','desc');
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -41,6 +42,12 @@ class BoxRegisterController extends AdminController
 //        $grid->column('id', __('Id'));
         $grid->column('KtvBoxid', __('机器码'));
         $grid->column('machineCode', '机顶盒MAC');
+        $grid->column('agentid', '代理商');
+        $grid->column('barcode', '产品条码');
+        $grid->column('isOem', '是否OEM')->display(function($isOem){
+            return [0=>'否',1=>'是'][$isOem];
+        });
+        $grid->column('channelNo', '产品渠道号');
         $grid->column('CreateDate', '生成时间');
         $grid->status('状态')->display(function () {
             $exists = DB::table('settopbox')->where('KtvBoxid',$this->KtvBoxid)->exists();

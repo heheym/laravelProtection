@@ -29,6 +29,8 @@ class PlaceController extends Controller
 {
     use HasResourceActions,FieldTriggerTrait, FieldSubscriberTrait;
 
+    // protected $title = '123';
+
     /**
      * Index interface.
      *
@@ -38,7 +40,7 @@ class PlaceController extends Controller
     public function index(Content $content)
     {
         return $content
-//            ->header('Index')
+           ->header('场所')
 //            ->description('description')
             ->body($this->place())
             ->body($this->settopbox());
@@ -157,6 +159,8 @@ class PlaceController extends Controller
                 return DB::table('china_area')->where('code',$province)->value('name');
             }
         });
+        // $grid->column('province.name','省');
+
         $grid->city('市')->display(function ($city) {
             if(!is_null($city)){
                 return DB::table('china_area')->where('code',$city)->value('name');
@@ -168,11 +172,11 @@ class PlaceController extends Controller
                 return $arra[$status];
             }
         });
-        $grid->wangMode('预警模式')->display(function ($wangMode) {
-            if(!is_null($wangMode)){
-                return DB::table('warningmode')->where('id',$wangMode)->value('warningName');
-            }
-        });
+        // $grid->wangMode('预警模式')->display(function ($wangMode) {
+        //     if(!is_null($wangMode)){
+        //         return DB::table('warningmode')->where('id',$wangMode)->value('warningName');
+        //     }
+        // });
         $grid->actions(function ($actions) {
             $actions->disableView();
             if (!Admin::user()->can('场所删除')) {

@@ -66,6 +66,7 @@ class ReceivableController extends Controller
     public function index(Content $content)
     {
         return $content
+            ->header('应收管理')
             ->body($this->grid())
             ->body($this->grid1());
     }

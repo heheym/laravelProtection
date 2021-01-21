@@ -92,6 +92,9 @@ Route::group([
 
     $router->resource('collect', CollectController::class);  //信息收集
 
+//代理商管理
+    $router->resource('agenttable', AgenttableController::class);  //代理商
+
 
 
 });

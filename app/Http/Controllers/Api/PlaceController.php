@@ -30,8 +30,8 @@ class PlaceController extends Controller
 
         $post = json_decode(file_get_contents("php://input"), true);
 
-//        file_put_contents("1.txt",file_get_contents("php://input"));
-//        var_dump(file_get_contents("php://input"));
+       // file_put_contents("1.txt",file_get_contents("php://input"));
+       // var_dump(file_get_contents("php://input"));
 
         if(empty($post['placehd'])){
             return response()->json(['code' => 500, 'msg' => '场所服务器ID不能为空', 'data' => null]);

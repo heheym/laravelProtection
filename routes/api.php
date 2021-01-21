@@ -109,6 +109,14 @@ Route::post('/songs/ktvonoff', 'Api\PlaceController@ktvonoff');  //开关房记�
 Route::post('/songs/hotspotsong', 'Api\PlaceController@hotspotsong');  //热点歌曲可预先下载列表
 
 
+//接收产品管理后台数据
+Route::post('/agent/service/login', 'Api\ProductAgentController@login');  //接口授权
+Route::Post('/agent/service/agentupdate', 'Api\ProductAgentController@agentupdate');  //更新代理商接口
+Route::Post('/agent/service/boxupdate', 'Api\ProductAgentController@boxupdate');  //更新机顶盒接口
+Route::Post('/agent/service/agentdelete', 'Api\ProductAgentController@agentdelete');  //删除代理商接口
+Route::Post('/agent/service/placeupdate', 'Api\ProductAgentController@placeupdate');  //更新场所资料接口
+
+
 
 
 

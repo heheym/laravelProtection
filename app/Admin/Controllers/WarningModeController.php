@@ -24,7 +24,7 @@ class WarningModeController extends Controller
     public function index(Content $content)
     {
         return $content
-//            ->header('Index')
+           ->header('预警模式')
 //            ->description('description')
             ->body($this->grid());
     }

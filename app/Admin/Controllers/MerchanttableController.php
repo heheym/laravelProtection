@@ -16,7 +16,7 @@ class MerchanttableController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\Merchanttable';
+    protected $title = '商户管理';
 
     /**
      * Make a grid builder.

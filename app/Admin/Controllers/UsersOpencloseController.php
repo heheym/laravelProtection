@@ -17,7 +17,7 @@ class UsersOpencloseController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Admin\Models\UsersOpenclose';
+    protected $title = '开关房记录';
 
     /**
      * Make a grid builder.
