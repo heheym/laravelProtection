@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Place\SettopboxDelete;
+use App\Admin\Guzzle\Guzzle;
 use App\Admin\Models\Place;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -27,7 +28,7 @@ use App\Admin\Extensions\Place\SettopboxEdit;
 
 class PlaceController extends Controller
 {
-    use HasResourceActions,FieldTriggerTrait, FieldSubscriberTrait;
+    use HasResourceActions, FieldTriggerTrait, FieldSubscriberTrait;
 
     // protected $title = '123';
 
@@ -40,7 +41,7 @@ class PlaceController extends Controller
     public function index(Content $content)
     {
         return $content
-           ->header('场所')
+            ->header('场所')
 //            ->description('description')
             ->body($this->place())
             ->body($this->settopbox());
@@ -110,21 +111,21 @@ class PlaceController extends Controller
 //        $grid->disableCreateButton();
 
 //        $grid->disableFilter(false);
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             // 在这里添加字段过滤器
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 $filter->like('key', 'key');
                 $filter->like('placename', '场所名称');
-                $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
-                $filter->equal('wangMode','预警模式')->select($wangMode);
-//                $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
+                $wangMode = DB::table('warningmode')->pluck('warningName', 'id')->toArray();
+                $filter->equal('wangMode', '预警模式')->select($wangMode);
+                // $setMeal = DB::table('setMeal')->pluck('setMeal_name','setMeal_id')->toArray();
 //                $filter->equal('setMeal','套餐')->select($setMeal);
-                $filter->equal('status','状态')->select([0=>'未启用',1=>'已启用']);
+                $filter->equal('status', '状态')->select([0 => '未启用', 1 => '已启用']);
             });
 
-            $filter->column(1/2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
 //                $filter->where(function ($query) {
 //                    $query->where('province', 'like', "%{$this->input}%")
 //                        ->orWhere('city', 'like', "%{$this->input}%");
@@ -140,12 +141,12 @@ class PlaceController extends Controller
             });
         });
 
-//        $grid->id('Id');
+        // $grid->id('Id');
         $grid->userno('场所编号');
         $grid->key('key');
         $grid->placehd('场所服务器ID');
         $grid->placename('场所名称');
-//        $grid->mailbox('邮箱');
+        // $grid->mailbox('邮箱');
         $grid->phone('手机号');
         $grid->contacts('联系人');
         $grid->tel('联系电话');
@@ -153,22 +154,31 @@ class PlaceController extends Controller
         $grid->roomtotal('机顶盒数量');
         $grid->expiredata('场所有效时间');
         $grid->country('国家');
-
+        // $grid->column('province.name','123');
         $grid->province('省')->display(function ($province) {
-            if(!is_null($province)){
-                return DB::table('china_area')->where('code',$province)->value('name');
+            if (!is_null($province)) {
+                return DB::table('china_area')->where('code', $province)->value('name');
             }
         });
-        // $grid->column('province.name','省');
-
         $grid->city('市')->display(function ($city) {
-            if(!is_null($city)){
-                return DB::table('china_area')->where('code',$city)->value('name');
+            if (!is_null($city)) {
+                return DB::table('china_area')->where('code', $city)->value('name');
             }
         });
+        // $grid->address1('省市')->display(function () {
+        //     $province = DB::table('place')->where('key',$this->key )->value('province');
+        //     if(!is_null($province)){
+        //         $province =  DB::table('china_area')->where('code',$province)->value('name');
+        //     }
+        //     $city = DB::table('place')->where('key',$this->key)->value('city');
+        //     if(!is_null($province)){
+        //         $city =  DB::table('china_area')->where('code',$city)->value('name');
+        //     }
+        //     return $province.$city;
+        // });
         $grid->status('状态')->display(function ($status) {
-            if(!is_null($status)){
-                $arra = [0=>'未启用',1=>'已启用'];
+            if (!is_null($status)) {
+                $arra = [0 => '未启用', 1 => '已启用'];
                 return $arra[$status];
             }
         });
@@ -217,41 +227,41 @@ class PlaceController extends Controller
         $query = http_build_query(['settopbox_key' => app('request')->get('settopbox_key'),]);
 
         if (Admin::user()->can('机顶盒添加')) {
-            $grid->tools(function ($tools)use($grid, $query){
+            $grid->tools(function ($tools) use ($grid, $query) {
                 $tools->append(new CreateSettopbox($grid, $query));
             });
         }
 
         $where = [];
-        if(!empty(request('placename'))){
-            $placename =request('placename');
-            $where[] = ['placename','like','%'.$placename.'%'];
+        if (!empty(request('placename'))) {
+            $placename = request('placename');
+            $where[] = ['placename', 'like', '%' . $placename . '%'];
         }
-        if(!empty(request('contacts'))){
-            $contacts =request('contacts');
-            $where[] = ['contacts','like','%'.$contacts.'%'];
+        if (!empty(request('contacts'))) {
+            $contacts = request('contacts');
+            $where[] = ['contacts', 'like', '%' . $contacts . '%'];
         }
-        if(!empty(request('province'))){
-            $province =request('province');
-            $where[] = ['province','like','%'.$province.'%'];
+        if (!empty(request('province'))) {
+            $province = request('province');
+            $where[] = ['province', 'like', '%' . $province . '%'];
         }
-        if(!empty(request('city'))){
-            $city =request('city');
-            $where[] = ['city','like','%'.$city.'%'];
+        if (!empty(request('city'))) {
+            $city = request('city');
+            $where[] = ['city', 'like', '%' . $city . '%'];
         }
 
-        $grid->model()->whereHas('place', function ($query) use($where){
+        $grid->model()->whereHas('place', function ($query) use ($where) {
             $query->where($where);
         });
 
 //        $grid->disableFilter(false);
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('key', 'key');
             $filter->like('KtvBoxid', 'KtvBoxid');
             $filter->like('machineCode', 'machineCode');
-            $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
+            $filter->equal('KtvBoxState', '状态')->select([0 => '待审核', 1 => '正常', 2 => '返修', 3 => '过期', 4 => '作废']);
         });
 
 //        $grid->id('Id');
@@ -261,30 +271,32 @@ class PlaceController extends Controller
         $grid->roomno('房号');
 
         $grid->KtvBoxState('状态')->display(function ($KtvBoxState) {
-            if(!is_null($KtvBoxState)){
-                $arra = [0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废'];
+            if (!is_null($KtvBoxState)) {
+                $arra = [0 => '待审核', 1 => '正常', 2 => '返修', 3 => '过期', 4 => '作废'];
                 return $arra[$KtvBoxState];
             }
         });
         $grid->created_date('启用日期');
 
         // 添加不存在的字段
-        $grid->place('场所')->display(function () {
-            return DB::table('place')->where('key',$this->key )->value('placename');
-        });
-        $grid->contact('联系人')->display(function () {
-            return DB::table('place')->where('key',$this->key )->value('contacts');
-        });
+        $grid->column('place.placename','场所名称');
+        // $grid->place('场所')->display(function () {
+        //     return DB::table('place')->where('key', $this->key)->value('placename');
+        // });
+        $grid->column('place.contacts','联系人');
+        // $grid->contact('联系人')->display(function () {
+        //     return DB::table('place')->where('key', $this->key)->value('contacts');
+        // });
         $grid->address('省市')->display(function () {
-            $province = DB::table('place')->where('key',$this->key )->value('province');
-            if(!is_null($province)){
-                $province =  DB::table('china_area')->where('code',$province)->value('name');
+            $province = $this->place->province;
+            if (!is_null($province)) {
+                $province = DB::table('china_area')->where('code', $province)->value('name');
             }
-            $city = DB::table('place')->where('key',$this->key )->value('city');
-            if(!is_null($province)){
-                $city =  DB::table('china_area')->where('code',$city)->value('name');
+            $city = $this->place->city;
+            if (!is_null($province)) {
+                $city = DB::table('china_area')->where('code', $city)->value('name');
             }
-            return $province.$city;
+            return $province . $city;
         });
 
 
@@ -314,10 +326,8 @@ class PlaceController extends Controller
         });
 
 
-
         return $grid;
     }
-
 
 
     /**
@@ -372,18 +382,18 @@ class PlaceController extends Controller
         $Opening1_price = $Effective1_time = $Opening2_price = $Effective2_time = 0;
         $Place_Royalty = $Agent_Royalty = $Obligee_Royalty = 0;
         $Place_Settlement = $Agent_Settlement = $Obligee_Settlement = 1;
-        $placeaddress = $mailbox  = $phone = $contacts = $tel = '';
+        $placeaddress = $mailbox = $phone = $contacts = $tel = '';
         $warningCutsongcount = 8;
         $warningCutsongcounttime = 10;
         $warningCutcompanycount = 6;
         $warningCutcompanycounttime = 10;
 
-        if(!empty($id)){
-            $place = DB::table('place')->where('id',$id)->first();
-            $time1 = explode('-',$place->Opening1_time)[0];
-            $time2 = explode('-',$place->Opening1_time)[1];
-            $time3 = explode('-',$place->Opening2_time)[0];
-            $time4 = explode('-',$place->Opening2_time)[1];
+        if (!empty($id)) {
+            $place = DB::table('place')->where('id', $id)->first();
+            $time1 = explode('-', $place->Opening1_time)[0];
+            $time2 = explode('-', $place->Opening1_time)[1];
+            $time3 = explode('-', $place->Opening2_time)[0];
+            $time4 = explode('-', $place->Opening2_time)[1];
             $Opening1_price = $place->Opening1_price;
             $Effective1_time = $place->Effective1_time;
             $Opening2_price = $place->Opening2_price;
@@ -401,7 +411,6 @@ class PlaceController extends Controller
         }
 
 
-
         $form->text('userno', '场所编号')->placeholder('自动生成')->readOnly();
         $form->text('key', 'key')->placeholder('自动生成')->readOnly();
         $form->text('placehd', '场所服务器ID');
@@ -411,101 +420,101 @@ class PlaceController extends Controller
             if (!$id = $form->model()->id) {
                 return 'unique:users,placename';
             }
-        });
-        $form->number('boxPass', '机顶盒设置密码')->default('888888')->rules('required|regex:/^\d+$/',['regex' => '必须全部为数字']);
+        })->readonly();
+        $form->number('boxPass', '机顶盒设置密码')->default('888888')->rules('required|regex:/^\d+$/', ['regex' => '必须全部为数字']);
 
-        $wangMode = DB::table('warningmode')->pluck('warningName','id')->toArray();
+        $wangMode = DB::table('warningmode')->pluck('warningName', 'id')->toArray();
 
 //        $form->number('warningRoomcount', '房间预警数量')->default(8);
         $form->html('
         <div class="form-inline">
-               <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutsongcount" name="warningCutsongcount" value="'.$warningCutsongcount.'" class="form-control warningCutsongcount initialized" placeholder=""></div>
+               <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutsongcount" name="warningCutsongcount" value="' . $warningCutsongcount . '" class="form-control warningCutsongcount initialized" placeholder=""></div>
                &nbsp;&nbsp;
                 <label class="form-inline" style="margin-left:5px">房间10分钟内切歌数量&nbsp;&nbsp;
-                <input type="text" name="warningCutsongcounttime" value="'.$warningCutsongcounttime.'" class="form-control phone" style="width: 90px" >
+                <input type="text" name="warningCutsongcounttime" value="' . $warningCutsongcounttime . '" class="form-control phone" style="width: 90px" >
                 </label>
         </div>
-','房间连续切歌数量');
+', '房间连续切歌数量');
         $form->html('
         <div class="form-inline">
-               <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutcompanycount" name="warningCutcompanycount" value="'.$warningCutcompanycount.'" class="form-control warningCutcompanycount initialized" placeholder=""></div>
+               <div class="input-group"><input style="width: 100px; text-align: center;" type="text" id="warningCutcompanycount" name="warningCutcompanycount" value="' . $warningCutcompanycount . '" class="form-control warningCutcompanycount initialized" placeholder=""></div>
                &nbsp;&nbsp;
                 <label class="form-inline" style="margin-left:5px">房间同一唱片公司60分钟内点歌数量&nbsp;&nbsp;
-                <input type="text" name="warningCutcompanycounttime" value="'.$warningCutcompanycounttime.'" class="form-control phone" style="width: 90px" >
+                <input type="text" name="warningCutcompanycounttime" value="' . $warningCutcompanycounttime . '" class="form-control phone" style="width: 90px" >
                 </label>
         </div>
-','房间同一唱片公司连续点歌数量');
+', '房间同一唱片公司连续点歌数量');
 
 //        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
 
-        $form->select('FeesMode', '收费模式')->options([0=>'非扫码开房收费模式',1=>'扫码开房收费模式']);
+        $form->select('FeesMode', '收费模式')->options([0 => '非扫码开房收费模式', 1 => '扫码开房收费模式']);
         $form->html('
         <div class="form-inline feesmode">
-               <input type="text" name="time1" value="'.$time1.'" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
-               <input type="text" name="time2" value="'.$time2.'" class="form-control time2" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening1_price" required value="'.$Opening1_price.'" /></label>
-                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective1_time" required value="'.$Effective1_time.'" /></label>
+               <input type="text" name="time1" value="' . $time1 . '" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
+               <input type="text" name="time2" value="' . $time2 . '" class="form-control time2" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening1_price" required value="' . $Opening1_price . '" /></label>
+                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective1_time" required value="' . $Effective1_time . '" /></label>
             </div>
-','*开房时段一');
+', '*开房时段一');
 
         $form->html('
         <div class="form-inline feesmode">
-               <input type="text" name="time3" value="'.$time3.'" class="form-control time3" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
-               <input type="text" name="time4" value="'.$time4.'" class="form-control time4" style="width: 60px" required>
-                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening2_price" required value="'.$Opening2_price.'" /></label>
-                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective2_time" required value="'.$Effective2_time.'" /></label>
+               <input type="text" name="time3" value="' . $time3 . '" class="form-control time3" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
+               <input type="text" name="time4" value="' . $time4 . '" class="form-control time4" style="width: 60px" required>
+                <label class="form-inline" style="margin-left:10px">*单价(元)：<input type="text" class="form-control" name="Opening2_price" required value="' . $Opening2_price . '" /></label>
+                <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective2_time" required value="' . $Effective2_time . '" /></label>
             </div>
-','*开房时段二');
+', '*开房时段二');
 
         $form->html('
         <div class="form-inline">
-               <input type="text" name="placeaddress" value="'.$placeaddress.'" class="form-control placeaddress" style="width:100%" required >
+               <input type="text" name="placeaddress" value="' . $placeaddress . '" class="form-control placeaddress" style="width:100%" required disabled>
                </div>
-','*地址');
+', '*地址');
 
         //地址邮箱。。
         $form->html('
         <div class="form-inline">
-                <input type="text" name="mailbox" value="'.$mailbox.'" class="form-control mailbox" style="width: 140px" >
+                <input type="text" name="mailbox" value="' . $mailbox . '" class="form-control mailbox" style="width: 140px" disabled>
                 </label>
-                <label class="form-inline" style="margin-left:5px">*手机号：
-                <input type="text" name="phone" value="'.$phone.'" class="form-control phone" style="width: 140px" required pattern="^1[3456789]\d{9}$" placeholder="手机号" id="phone" title="手机号格式不正确">
+                <label class="form-inline" style="margin-left:5px" >*手机号：
+                <input type="text" name="phone" value="' . $phone . '" class="form-control phone" style="width: 140px" required  disabled pattern="^1[3456789]\d{9}$" placeholder="手机号" id="phone" title="手机号格式不正确">
                 </label>
                 <label class="form-inline" style="margin-left:5px">*联系人：
-                <input type="text" name="contacts" value="'.$contacts.'" class="form-control contacts" style="width: 140px" required>
+                <input type="text" name="contacts" value="' . $contacts . '" class="form-control contacts" style="width: 140px" required disabled>
                 </label>
                 </label>
                 <label class="form-inline" style="margin-left:5px">*联系电话：
-                <input type="text" name="tel" value="'.$tel.'" class="form-control tel" style="width: 140px" required >
+                <input type="text" name="tel" value="' . $tel . '" class="form-control tel" style="width: 140px" required disabled>
                 </label>
             </div>
-','邮箱：');
+', '邮箱：');
 
-        $form->number('roomtotal', '机顶盒数量')->default(1);
+        $form->text('roomtotal', '机顶盒数量')->default(1)->readonly();
         $form->datetime('created_date', '注册时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('expiredata', '场所有效时间')->default(date('Y-m-d H:i:s',strtotime('+2 years')));
-        $form->select('status', '状态')->options([0=>'未启用',1=>'已启用'])->default(1);
+        $form->datetime('expiredata', '场所有效时间')->default(date('Y-m-d H:i:s', strtotime('+2 years')));
+        $form->select('status', '状态')->options([0 => '未启用', 1 => '已启用'])->default(1);
         $form->hidden('key', 'key');
-        $form->text('country', '国')->default('中国');
-        $form->distpicker(['province', 'city', 'placArea'],'*地区选择');
+        $form->text('country', '国')->default('中国')->disable();
+        $form->distpicker(['province', 'city', 'placArea'], '*地区选择');
 
-        $form->select('downloadMode', '歌曲下载方式')->options([1=>'不下载',2=>'点播下载',3=>'智能下载']);
-        $form->select('apkUpdateMode', '机顶盒apk版本更新方式')->options([1=>'不更新',2=>'必须更新'])->default(2);
-        $form->select('isclosePingfen', '是否要关闭评分功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
-        $form->select('iscloseSound', '是否要关闭录音功能')->options([0=>'不关闭',1=>'关闭'])->default(0);
-        $form->select('iscloseVoice', '关闭语音功能')->options([0=>'不关闭',1=>'关闭'])->default(1);
-        $form->select('paytest', '是否付费测试版')->options([0=>'否',1=>'是'])->default(0);
-        $form->select('isBuyCopyrightfee', '是否在音集协里购买了版权费')->options([0=>'未购买',1=>'已购买'])->default(0);
+        $form->select('downloadMode', '歌曲下载方式')->options([1 => '不下载', 2 => '点播下载', 3 => '智能下载']);
+        $form->select('apkUpdateMode', '机顶盒apk版本更新方式')->options([1 => '不更新', 2 => '必须更新'])->default(2);
+        $form->select('isclosePingfen', '是否要关闭评分功能')->options([0 => '不关闭', 1 => '关闭'])->default(0);
+        $form->select('iscloseSound', '是否要关闭录音功能')->options([0 => '不关闭', 1 => '关闭'])->default(0);
+        $form->select('iscloseVoice', '关闭语音功能')->options([0 => '不关闭', 1 => '关闭'])->default(1);
+        $form->select('paytest', '是否付费测试版')->options([0 => '否', 1 => '是'])->default(0);
+        $form->select('isBuyCopyrightfee', '是否在音集协里购买了版权费')->options([0 => '未购买', 1 => '已购买'])->default(0);
         $form->text('shoppingMallId', '商城id');
 
         $form->saving(function (Form $form) {
-            $form->key = !empty($form->model()->key)?$form->model()->key:strtoupper(str_random(12));
-            $form->userno = !empty($form->model()->userno)?$form->model()->userno:time();
+            $form->key = !empty($form->model()->key) ? $form->model()->key : strtoupper(str_random(12));
+            $form->userno = !empty($form->model()->userno) ? $form->model()->userno : time();
 
-            $form->Opening1_time = request('time1').'-'.request('time2');
+            $form->Opening1_time = request('time1') . '-' . request('time2');
 //            $form->Opening1_price = request('Opening1_price');
 //            $form->Effective1_time = request('Effective1_time');
-            $form->Opening2_time = request('time3').'-'.request('time4');
+            $form->Opening2_time = request('time3') . '-' . request('time4');
 //            $form->Opening2_price = request('Opening2_price');
 //            $form->Effective2_time = request('Effective2_time');
 
@@ -516,15 +525,22 @@ class PlaceController extends Controller
 //            $form->Obligee_Royalty = request('Obligee_Royalty');
 //            $form->Obligee_Settlement = request('Obligee_Settlement');
         });
+        $form->saved(function (Form $form) {
+            // $isOem = DB::table('boxregister')->where('KtvBoxid',$form->model()->KtvBoxid)->value('isOem');
+            // $placeno = DB::table('place')->where('key',$form->model()->key)->value('userno');
+            $json = ['placeno'=>$form->model()->userno,'status'=>$form->model()->status,'expiredata'=>$form->model()->expiredata];
+            $guzzle = new Guzzle();
+            $guzzle->placestate($json);
+        });
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
         });
 
         $triggerScript = $this->createTriggerScript($form);
-        $subscribeScript = $this->createSubscriberScript($form, function($builder){
+        $subscribeScript = $this->createSubscriberScript($form, function ($builder) {
             //费项名称
-            $builder->subscribe('FeesMode', 'select', function($event){
+            $builder->subscribe('FeesMode', 'select', function ($event) {
                 //setMeal_mode,1：按有效机顶盒数量，2按固定费用
                 return <<< EOT
                 function (data) {
@@ -541,19 +557,22 @@ EOT;
         // 最后把 $triggerScript 和 $subscribeScript 注入到Form中去。
         // scriptinjecter 第一个参数可以为任何字符，但不能为空！！！！
         $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
+
         return $form;
     }
 
     public function destroy($id)
     {
-        $key = DB::table('place')->where('id',$id)->value('key');
-        $exists = DB::table('settopbox')->where('key',$key)->exists();
-        if($exists){
+        $key = DB::table('place')->where('id', $id)->value('key');
+        $exists = DB::table('settopbox')->where('key', $key)->exists();
+        if ($exists) {
             return response()->json([
-                'status'  => false,
+                'status' => false,
                 'message' => '场所下有机顶盒,不能删除',
             ]);
         }
         return $this->form()->destroy($id);
     }
+
+
 }

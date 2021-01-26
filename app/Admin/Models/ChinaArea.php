@@ -10,4 +10,9 @@ class ChinaArea extends Model
     public $timestamps = false;
 
 
+    public function place()
+    {
+        return $this->belongsTo(Place::class,'code','province');
+    }
+
 }

@@ -14,6 +14,8 @@ class SetTopBox extends Model
         return $this->belongsTo(Place::class, 'key' , 'key');
     }
 
+
+
     public static function boot()
     {
         parent::boot();

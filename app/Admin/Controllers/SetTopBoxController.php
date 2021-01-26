@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Guzzle\Guzzle;
 use App\Admin\Models\SetTopBox;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -386,6 +387,13 @@ class SetTopBoxController extends Controller
                     return back()->with(compact('error'));
                 }
             }
+        });
+        $form->saved(function (Form $form) {
+            $isOem = DB::table('boxregister')->where('KtvBoxid',$form->model()->KtvBoxid)->value('isOem');
+            $placeno = DB::table('place')->where('key',$form->model()->key)->value('userno');
+            $json = ['KtvBoxid'=>$form->model()->KtvBoxid,'boxstate'=>$form->model()->KtvBoxState,'placeno'=>$placeno,'isOem'=>$isOem];
+            $guzzle = new Guzzle();
+            $guzzle->boxupdate($json);
         });
 
         $triggerScript = $this->createTriggerScript($form);

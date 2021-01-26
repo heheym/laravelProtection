@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\Admin\Guzzle\Guzzle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache; //缓存
 use App\Api\Sms;
@@ -70,8 +71,8 @@ class PlaceController extends Controller
         if($exists){
             DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$post['KtvBoxid']])->update($post);
         }else{
-            $boxRegisterExist = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
-            if(!$boxRegisterExist){
+            $boxRegisterExist = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->value('isOem');
+            if(!isset($boxRegisterExist)){
                 return response()->json(['code' => 500, 'msg' => '机器码未登记', 'data' => null]);
             }
             $exist = DB::table('settopbox')->where('key','<>',$srvkey)->where(['KtvBoxid'=>$post['KtvBoxid']])->exists();
@@ -106,11 +107,22 @@ class PlaceController extends Controller
                 if(empty($post['roomno'])){
                     DB::table('settopbox')->where('id',$id)->update(['roomno'=>'Z'.$id]);
                 }
-
             }catch (\Exception $e){
                 return response()->json(['code' => 500, 'msg' => $e->getMessage(), 'data' => null]);
             }
         }
+//  {   "KtvBoxid":"ADAABBFFSSDD",//机器码
+// 	"boxstate":1,//状态: 0=待审核,1=正常,2=返修,3=过期,4=作废
+// "placeno": "1610349985", //场所编号(可空)
+// "startdate": "2022-01-12"  //启用时间
+// }
+        $json = ['KtvBoxid'=>$post['KtvBoxid'],'startdate'=>date('Y-m-d H:i:s'),'isOem'=>$$boxRegisterExist];
+        if(isset($post['KtvBoxState'])){
+            $json['boxstate'] = $post['KtvBoxState'];
+        }
+        $guzzle = new Guzzle();
+        $guzzle->boxupdate($json);
+
         return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => null]);
     }
 

@@ -61,6 +61,8 @@ Form::init(function (Form $form) {
         $tools->disableDelete();
     });
 
+    $form->setWidth(8,2);
+
     $form->footer(function ($footer) {
 
         // 去掉`重置`按钮

@@ -126,8 +126,13 @@ class ProductAgentController extends Controller
             unset($post['placeno']);
             unset($post['boxtotal']);
             if(!$exists){
+                $post['key'] = strtoupper(str_random(12));
                 DB::table('place')->insert($post);
             }else{
+                $key = DB::table('place')->where('userno',$post['userno'])->value('key');
+                if(empty($key)){
+                    $post['key'] = strtoupper(str_random(12));
+                }
                 DB::table('place')->where('userno',$post['userno'])->update($post);
             }
         }catch (\Exception $e){
