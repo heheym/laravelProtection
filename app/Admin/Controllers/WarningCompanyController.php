@@ -25,9 +25,8 @@ class WarningCompanyController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new WarningCompany); 
+        $grid = new Grid(new WarningCompany);
         $grid->disableCreateButton();
-
         $grid->model()->orderBy('startdatetime', 'desc');
 
         $grid->column('svrkey', __('svrkey'));
