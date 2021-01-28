@@ -116,7 +116,7 @@ class PlaceController extends Controller
 // "placeno": "1610349985", //场所编号(可空)
 // "startdate": "2022-01-12"  //启用时间
 // }
-        $json = ['KtvBoxid'=>$post['KtvBoxid'],'startdate'=>date('Y-m-d H:i:s'),'isOem'=>$$boxRegisterExist];
+        $json = ['KtvBoxid'=>$post['KtvBoxid'],'startdate'=>date('Y-m-d H:i:s'),'isOem'=>0];
         if(isset($post['KtvBoxState'])){
             $json['boxstate'] = $post['KtvBoxState'];
         }
