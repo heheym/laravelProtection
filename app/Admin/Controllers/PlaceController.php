@@ -510,6 +510,7 @@ class PlaceController extends Controller
         $form->saving(function (Form $form) {
             $form->key = !empty($form->model()->key) ? $form->model()->key : strtoupper(str_random(12));
             $form->userno = !empty($form->model()->userno) ? $form->model()->userno : time();
+            $form->shoppingMallId = !empty($form->model()->shoppingMallId) ? $form->model()->shoppingMallId : -1;
 
             $form->Opening1_time = request('time1') . '-' . request('time2');
 //            $form->Opening1_price = request('Opening1_price');
