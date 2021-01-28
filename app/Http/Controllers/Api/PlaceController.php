@@ -71,10 +71,7 @@ class PlaceController extends Controller
         if($exists){
             DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$post['KtvBoxid']])->update($post);
         }else{
-            $boxRegisterExist = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->value('isOem');
-            if(!isset($boxRegisterExist)){
-                return response()->json(['code' => 500, 'msg' => '机器码未登记', 'data' => null]);
-            }
+
             $exist = DB::table('settopbox')->where('key','<>',$srvkey)->where(['KtvBoxid'=>$post['KtvBoxid']])->exists();
             if($exist){
                 return response()->json(['code' => 500, 'msg' => '机器码已存在', 'data' => null]);
@@ -116,6 +113,10 @@ class PlaceController extends Controller
 // "placeno": "1610349985", //场所编号(可空)
 // "startdate": "2022-01-12"  //启用时间
 // }
+        $boxRegisterExist = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->value('isOem');
+        if(!isset($boxRegisterExist)){
+            return response()->json(['code' => 500, 'msg' => '机器码未登记', 'data' => null]);
+        }
         $json = ['KtvBoxid'=>$post['KtvBoxid'],'startdate'=>date('Y-m-d H:i:s'),'isOem'=>0];
         if(isset($post['KtvBoxState'])){
             $json['boxstate'] = $post['KtvBoxState'];
