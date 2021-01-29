@@ -83,7 +83,7 @@ class OrderController extends Controller
 
         if(isset($ordersn->pay_time)){
             $tim = time()-strtotime($ordersn->pay_time);
-            if($tim<300){
+            if($tim<600){
                 return response()->json(['code' => 500, 'msg' => '请稍后再试', 'data' => null]);
             }
         }

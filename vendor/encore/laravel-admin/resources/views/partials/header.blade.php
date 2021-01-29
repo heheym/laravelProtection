@@ -57,6 +57,9 @@
 
                     <ul class="dropdown-menu" style="width:140px">
                         <li class="">
+                            <a href="{{ admin_url('auth/setting') }}" class="btn btn-default btn-flat"><i class="fa fa-user-secret"></i>修改密码</a>
+                        </li>
+                        <li class="">
                             <a href="{{ admin_url('auth/logout') }}" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> 退出登录</a>
                             {{--<a href="logout"><i class="fa fa-sign-out"></i> 退出登录</a>--}}
                         </li>
