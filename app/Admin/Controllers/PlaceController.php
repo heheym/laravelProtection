@@ -508,10 +508,12 @@ class PlaceController extends Controller
         $form->text('shoppingMallId', '商城id');
 
         $form->saving(function (Form $form) {
+
             $form->key = !empty($form->model()->key) ? $form->model()->key : strtoupper(str_random(12));
             $form->userno = !empty($form->model()->userno) ? $form->model()->userno : time();
-            $form->shoppingMallId = !empty($form->model()->shoppingMallId) ? $form->model()->shoppingMallId : -1;
-
+            if(is_null($form->shoppingMallId)){
+                $form->shoppingMallId = -1;
+            }
             $form->Opening1_time = request('time1') . '-' . request('time2');
 //            $form->Opening1_price = request('Opening1_price');
 //            $form->Effective1_time = request('Effective1_time');
