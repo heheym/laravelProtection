@@ -39,7 +39,7 @@ class Permission
 
 
         if (!Admin::user()->allPermissions()->first(function ($permission) use ($request) {
-            if($request->route()->getAction()['as'] == "admin.home"){
+            if(isset($request->route()->getAction()['as']) && $request->route()->getAction()['as'] == "admin.home"){
                 return true;                     //by ma
             }else{
                 return $permission->shouldPassThrough($request);

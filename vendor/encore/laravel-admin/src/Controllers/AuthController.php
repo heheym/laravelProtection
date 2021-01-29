@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Controllers;
 
+use App\Admin\Rules\OldPassword;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Layout\Content;
@@ -10,6 +11,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+
+use Hash;
 
 class AuthController extends Controller
 {
@@ -131,20 +134,18 @@ class AuthController extends Controller
         $form->display('username', trans('admin.username'));
         $form->text('name', trans('admin.name'))->rules('required');
         // $form->image('avatar', trans('admin.avatar'));
-        $form->password('password', trans('admin.password'))->rules('confirmed|required');
-        $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
-            ->default(function ($form) {
-                return $form->model()->password;
-            });
+        $form->password('oldPassword', '原密码')->rules(['required',new OldPassword]);
+        $form->password('password1', trans('admin.password'))->rules('confirmed|required|min:5|regex:/[a-zA-Z]+([A-Za-z0-9])*/',['regex'=>'密码必须包含字母']);
+        $form->password('password1_confirmation', trans('admin.password_confirmation'))->rules('required');
+
+        $form->hidden('password');
 
         $form->setAction(admin_url('auth/setting'));
 
-        $form->ignore(['password_confirmation']);
+        $form->ignore(['password1_confirmation','password1','oldPassword']);
 
         $form->saving(function (Form $form) {
-            if ($form->password && $form->model()->password != $form->password) {
-                $form->password = bcrypt($form->password);
-            }
+            $form->password = bcrypt(request()->password1);
         });
 
         $form->saved(function () {

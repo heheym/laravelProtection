@@ -136,7 +136,8 @@ return [
         'excepts' => [
             'auth/login',
             'auth/logout',
-            'collect'
+            'collect',
+            'auth/setting'
 //            '/'
         ],
     ],

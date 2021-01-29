@@ -468,29 +468,29 @@ class PlaceController extends Controller
 
         $form->html('
         <div class="form-inline">
-               <input type="text" name="placeaddress" value="' . $placeaddress . '" class="form-control placeaddress" style="width:100%" required disabled>
+               <input type="text" name="placeaddress" value="' . $placeaddress . '" class="form-control placeaddress" style="width:100%" required >
                </div>
 ', '*地址');
 
         //地址邮箱。。
         $form->html('
         <div class="form-inline">
-                <input type="text" name="mailbox" value="' . $mailbox . '" class="form-control mailbox" style="width: 140px" disabled>
+                <input type="text" name="mailbox" value="' . $mailbox . '" class="form-control mailbox" style="width: 140px" >
                 </label>
                 <label class="form-inline" style="margin-left:5px" >*手机号：
-                <input type="text" name="phone" value="' . $phone . '" class="form-control phone" style="width: 140px" required  disabled pattern="^1[3456789]\d{9}$" placeholder="手机号" id="phone" title="手机号格式不正确">
+                <input type="text" name="phone" value="' . $phone . '" class="form-control phone" style="width: 140px" required   pattern="^1[3456789]\d{9}$" placeholder="手机号" id="phone" title="手机号格式不正确">
                 </label>
                 <label class="form-inline" style="margin-left:5px">*联系人：
-                <input type="text" name="contacts" value="' . $contacts . '" class="form-control contacts" style="width: 140px" required disabled>
+                <input type="text" name="contacts" value="' . $contacts . '" class="form-control contacts" style="width: 140px" required >
                 </label>
                 </label>
                 <label class="form-inline" style="margin-left:5px">*联系电话：
-                <input type="text" name="tel" value="' . $tel . '" class="form-control tel" style="width: 140px" required disabled>
+                <input type="text" name="tel" value="' . $tel . '" class="form-control tel" style="width: 140px" required >
                 </label>
             </div>
 ', '邮箱：');
 
-        $form->text('roomtotal', '机顶盒数量')->default(1)->readonly();
+        $form->text('roomtotal', '机顶盒数量')->default(1);
         $form->datetime('created_date', '注册时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('expiredata', '场所有效时间')->default(date('Y-m-d H:i:s', strtotime('+2 years')));
         $form->select('status', '状态')->options([0 => '未启用', 1 => '已启用'])->default(1);
