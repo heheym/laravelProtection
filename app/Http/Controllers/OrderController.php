@@ -83,7 +83,7 @@ class OrderController extends Controller
 
         if(isset($ordersn->pay_time)){
             $tim = time()-strtotime($ordersn->pay_time);
-            $timee = $tim/60;
+            $timee = ceil($tim/60);
 
             if($tim<600){
                 return '     
