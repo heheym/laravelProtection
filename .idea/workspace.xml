@@ -82,19 +82,19 @@
     <property name="settings.editor.selected.configurable" value="settings.php.debug.servers" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\onedrive\web\laravelProtection\config" />
-      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Guzzle" />
-      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Controllers" />
-      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Models" />
-      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\resources\views\dashboard" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\src\Widgets" />
       <recent name="F:\onedrive\web\agent\app\NewAdmin\Repositories" />
       <recent name="F:\onedrive\web\agent\app\Admin\Api" />
       <recent name="F:\onedrive\web\agent\app\Admin\Models" />
       <recent name="F:\onedrive\web\agent\app\Admin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\laravelProtection\config" />
+      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Guzzle" />
+      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Controllers" />
+      <recent name="F:\onedrive\web\laravelProtection\app\Admin\Models" />
+      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\resources\views\dashboard" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Script.GenerateCode.php">

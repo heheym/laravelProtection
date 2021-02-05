@@ -83,7 +83,17 @@ class OrderController extends Controller
 
         if(isset($ordersn->pay_time)){
             $tim = time()-strtotime($ordersn->pay_time);
+            $timee = $tim/60;
+
             if($tim<600){
+                return '     
+    <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
+            <p style="font:normal normal 600 4.8em/30px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:20%;f">请'.$timee.'分钟后再试</p>
+            <img src="/img/no.jpg" style="position:absolute;width:19.2%;height:12%;left:42%;top:22%;">
+            <img src="/img/wx.jpg" style="position:absolute;width:44%;height:28%;left:28%;top:62%;">
+        </div>
+';
+
                 return response()->json(['code' => 500, 'msg' => '请稍后再试', 'data' => null]);
             }
         }
