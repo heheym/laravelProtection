@@ -81,11 +81,15 @@ class ProductAgentController extends Controller
         $post = json_decode(file_get_contents("php://input"), true);
         // Log::info($post);
         try{
-            $exists = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
-            if(!$exists){
-                DB::table('boxregister')->insert($post);
+            if(isset($post['isdelete']) && $post['isdelete']==1){
+                DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->delete();
             }else{
-                DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->update($post);
+                $exists = DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->exists();
+                if(!$exists){
+                    DB::table('boxregister')->insert($post);
+                }else{
+                    DB::table('boxregister')->where('KtvBoxid',$post['KtvBoxid'])->update($post);
+                }
             }
         }catch (\Exception $e){
             return response()->json(['code' => 1015, 'msg' => $e->getMessage(), 'data' => '',"success"=> false]);
