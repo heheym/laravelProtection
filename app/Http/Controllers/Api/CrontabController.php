@@ -11,6 +11,6 @@ class CrontabController extends Controller
     //
     public function index()
     {
-        
+
     }
 }
