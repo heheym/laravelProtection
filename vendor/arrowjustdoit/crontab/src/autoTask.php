@@ -10,6 +10,8 @@ use GuzzleHttp\Exception\RequestException;
 use Cron\CronExpression;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Log;
+
 class autoTask extends Command
 {
     /**
