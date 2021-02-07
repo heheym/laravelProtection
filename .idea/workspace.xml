@@ -76,7 +76,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/config" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Controllers/Api" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.php.debug.servers" />
@@ -90,11 +90,11 @@
       <recent name="F:\onedrive\web\agent\app\Admin" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\onedrive\web\laravelProtection\app\Http\Controllers\Api" />
       <recent name="F:\onedrive\web\laravelProtection\config" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Guzzle" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Controllers" />
       <recent name="F:\onedrive\web\laravelProtection\app\Admin\Models" />
-      <recent name="F:\onedrive\web\agent\vendor\dcat\laravel-admin\resources\views\dashboard" />
     </key>
   </component>
   <component name="RunManager" selected="PHP Script.GenerateCode.php">

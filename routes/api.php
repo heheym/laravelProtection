@@ -116,6 +116,8 @@ Route::Post('/agent/service/boxupdate', 'Api\ProductAgentController@boxupdate');
 Route::Post('/agent/service/agentdelete', 'Api\ProductAgentController@agentdelete');  //删除代理商接口
 Route::Post('/agent/service/placeupdate', 'Api\ProductAgentController@placeupdate');  //更新场所资料接口
 
+//定时ws推送信息
+Route::Post('/crontab/index', 'Api\CrontabController@index');  //定时访问ws
 
 
 

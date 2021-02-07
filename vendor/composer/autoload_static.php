@@ -226,6 +226,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         ),
         'A' => 
         array (
+            'ArrowJustDoIt\\Crontab\\' => 22,
             'App\\' => 4,
         ),
     );
@@ -509,6 +510,10 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src',
         ),
+        'ArrowJustDoIt\\Crontab\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/arrowjustdoit/crontab/src',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -643,6 +648,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Extensions\\Receivable\\ReceivableEdit' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/ReceivableEdit.php',
         'App\\Admin\\Extensions\\Receivable\\ReceivableForm' => __DIR__ . '/../..' . '/app/Admin/Extensions/Receivable/ReceivableForm.php',
         'App\\Admin\\Extensions\\Tools\\SongOnline' => __DIR__ . '/../..' . '/app/Admin/Extensions/Tools/SongOnline.php',
+        'App\\Admin\\Guzzle\\Guzzle' => __DIR__ . '/../..' . '/app/Admin/Guzzle/Guzzle.php',
         'App\\Admin\\Models\\AddSong' => __DIR__ . '/../..' . '/app/Admin/Models/AddSong.php',
         'App\\Admin\\Models\\AdminPermissions' => __DIR__ . '/../..' . '/app/Admin/Models/AdminPermissions.php',
         'App\\Admin\\Models\\Agenttable' => __DIR__ . '/../..' . '/app/Admin/Models/Agenttable.php',
@@ -679,6 +685,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Admin\\Models\\UsersOpenclose' => __DIR__ . '/../..' . '/app/Admin/Models/UsersOpenclose.php',
         'App\\Admin\\Models\\WarningCompany' => __DIR__ . '/../..' . '/app/Admin/Models/WarningCompany.php',
         'App\\Admin\\Models\\warningmode' => __DIR__ . '/../..' . '/app/Admin/Models/warningmode.php',
+        'App\\Admin\\Rules\\OldPassword' => __DIR__ . '/../..' . '/app/Admin/Rules/OldPassword.php',
         'App\\Api\\Config' => __DIR__ . '/../..' . '/app/Api/Config.php',
         'App\\Api\\Sms' => __DIR__ . '/../..' . '/app/Api/Sms.php',
         'App\\Api\\Song' => __DIR__ . '/../..' . '/app/Api/Song.php',
@@ -686,6 +693,7 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Api\\ConfigController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ConfigController.php',
+        'App\\Http\\Controllers\\Api\\CrontabController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CrontabController.php',
         'App\\Http\\Controllers\\Api\\FeeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/FeeController.php',
         'App\\Http\\Controllers\\Api\\PayController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PayController.php',
         'App\\Http\\Controllers\\Api\\PlaceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PlaceController.php',
@@ -717,6 +725,13 @@ class ComposerStaticInit2cdc4a936cdd3337499901d94f70abbd
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
+        'ArrowJustDoIt\\Crontab\\Crontab' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/Crontab.php',
+        'ArrowJustDoIt\\Crontab\\CrontabServiceProvider' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/CrontabServiceProvider.php',
+        'ArrowJustDoIt\\Crontab\\Http\\Controllers\\CrontabController' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/Http/Controllers/CrontabController.php',
+        'ArrowJustDoIt\\Crontab\\Http\\Controllers\\CrontabLogController' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/Http/Controllers/CrontabLogController.php',
+        'ArrowJustDoIt\\Crontab\\Http\\Models\\Crontab' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/Http/Models/Crontab.php',
+        'ArrowJustDoIt\\Crontab\\Http\\Models\\CrontabLog' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/Http/Models/CrontabLog.php',
+        'ArrowJustDoIt\\Crontab\\autoTask' => __DIR__ . '/..' . '/arrowjustdoit/crontab/src/autoTask.php',
         'ArticlesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ArticlesTableSeeder.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Author' => __DIR__ . '/../..' . '/app/Libs/Sms/vendor/phpunit/phpunit/tests/_files/Author.php',
