@@ -36,7 +36,7 @@ class BatchChange extends BatchAction
     public function form()
     {
         $this->select('KtvBoxState','状态修改')
-            ->options([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废'])->rules('required');
+            ->options([0=>'未注册',1=>'正常',2=>'返修',3=>'过期',4=>'作废'])->rules('required');
     }
 
     public function html()

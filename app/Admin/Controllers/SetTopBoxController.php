@@ -117,7 +117,7 @@ class SetTopBoxController extends Controller
             $filter->like('key', 'key');
             $filter->like('KtvBoxid', 'KtvBoxid');
             $filter->like('machineCode', 'machineCode');
-            $filter->equal('KtvBoxState','状态')->select([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
+            $filter->equal('KtvBoxState','状态')->select([0=>'未注册',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
         });
 
         $grid->id('Id');
@@ -128,7 +128,7 @@ class SetTopBoxController extends Controller
 
         $grid->KtvBoxState('状态')->display(function ($KtvBoxState) {
             if(!is_null($KtvBoxState)){
-                $arra = [0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废'];
+                $arra = [0=>'未注册',1=>'正常',2=>'返修',3=>'过期',4=>'作废'];
                 return $arra[$KtvBoxState];
             }
         });
@@ -248,7 +248,7 @@ class SetTopBoxController extends Controller
 
         $form->text('machineCode', '机顶盒MAC');
         $form->text('roomno', '房号');
-        $form->select('KtvBoxState', '状态')->options([0=>'待审核',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
+        $form->select('KtvBoxState', '状态')->options([0=>'未注册',1=>'正常',2=>'返修',3=>'过期',4=>'作废']);
         $form->datetime('created_date', '启用日期')->default(date('Y-m-d H:i:s'));
 
         $form->text('mark', '备注');

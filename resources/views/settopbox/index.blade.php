@@ -45,7 +45,7 @@
                             所有
                         </option>
                         <option value="0">
-                            待审核
+                            未注册
                         </option>
                         <option value="1">
                             正常

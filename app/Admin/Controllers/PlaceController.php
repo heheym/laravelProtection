@@ -261,7 +261,7 @@ class PlaceController extends Controller
             $filter->like('key', 'key');
             $filter->like('KtvBoxid', 'KtvBoxid');
             $filter->like('machineCode', 'machineCode');
-            $filter->equal('KtvBoxState', '状态')->select([0 => '待审核', 1 => '正常', 2 => '返修', 3 => '过期', 4 => '作废']);
+            $filter->equal('KtvBoxState', '状态')->select([0 => '未注册', 1 => '正常', 2 => '返修', 3 => '过期', 4 => '作废']);
         });
 
 //        $grid->id('Id');
@@ -272,7 +272,7 @@ class PlaceController extends Controller
 
         $grid->KtvBoxState('状态')->display(function ($KtvBoxState) {
             if (!is_null($KtvBoxState)) {
-                $arra = [0 => '待审核', 1 => '正常', 2 => '返修', 3 => '过期', 4 => '作废'];
+                $arra = [0 => '未注册', 1 => '正常', 2 => '返修', 3 => '过期', 4 => '作废'];
                 return $arra[$KtvBoxState];
             }
         });
