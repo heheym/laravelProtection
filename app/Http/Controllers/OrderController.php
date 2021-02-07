@@ -88,7 +88,7 @@ class OrderController extends Controller
             if($tim<600){
                 return '     
     <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
-            <p style="font:normal normal 200 4.8em/30px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:20%;f">该房间已扫码支付</br>请'.$timee.'分钟后再试</p>
+            <p style="font:normal normal 200 4.8em/30px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:20%;f">该房间已扫码支付</br><br/>请'.$timee.'分钟后再试</p>
             <img src="/img/no.jpg" style="position:absolute;width:19.2%;height:12%;left:42%;top:22%;">
             <img src="/img/wx.jpg" style="position:absolute;width:44%;height:28%;left:28%;top:62%;">
         </div>
