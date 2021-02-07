@@ -8,6 +8,7 @@ use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Form;
 
 class CrontabLogController extends Controller
 {
@@ -107,5 +108,10 @@ class CrontabLogController extends Controller
         return $show;
     }
 
+    protected function form()
+    {
+        $form = new Form(new CrontabLog());
+        return $form;
+    }
 
 }
