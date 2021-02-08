@@ -14,7 +14,7 @@ class CrontabController extends Controller
     {
         $ordersn = DB::table('ordersn')->where('order_status','1')
             ->where('send_message','0')->where('confirm_order','0')
-            // ->where('pay_time','>',date('Y-m-d H:i:s',time()-600))
+            ->where('pay_time','>',date('Y-m-d H:i:s',time()-600))
             ->get();
         // dd($ordersn);
         if(count($ordersn)>0){
