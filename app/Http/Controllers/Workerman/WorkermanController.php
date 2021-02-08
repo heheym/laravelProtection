@@ -44,7 +44,9 @@ class WorkermanController extends Controller
                 Log::info('推送成功,'.',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
             }
         }else{
-                Log::info('推送失败,msg:'.fread($client, 8192).',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
+            DB::table('wsSend')->insert(['type'=>1,'arr'=>json_encode($arr,JSON_UNESCAPED_UNICODE),
+                'sendTime'=>date('Y-m-d H:i:s'),'status'=>0]);
+                // Log::info('推送失败,msg:'.fread($client, 8192).',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
         }
 
         fclose($client);
