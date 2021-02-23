@@ -198,6 +198,7 @@ class PlaceController extends Controller
             'warningCutsongtime'=>30,
             'isBuyCopyrightfee'=>$result->isBuyCopyrightfee,
             'shoppingMallId'=>$result->shoppingMallId,
+            'publicPlaycount'=>$result->publicPlaycount,
             'data'=>$data]);
     }
 
@@ -892,5 +893,40 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         $data = DB::table('hotspotsong')->where('SoftsongDbVer',$post['SoftsongDbVer'])->select('musicdbpk')->get();
         return response()->json(['code' => 200,'data' => $data]);
     }
+
+    // //场所换房接口
+    // public function exchangroom()
+    // {
+    //     $srvkey = \Request::header('srvkey');
+    //     if(empty($srvkey)){
+    //         return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+    //     }
+    //     $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+    //     if(!$exists){
+    //         return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+    //     }
+    //
+    //     $post = json_decode(file_get_contents("php://input"), true);
+    //     if(!isset($post['oldKtvBoxid']) || !isset($post['newKtvBoxid'])){
+    //         return response()->json(['code' => 500, 'msg' => 'oldKtvBoxid或newKtvBoxid不能为空', 'data' => null]);
+    //     }
+    //
+    //     $ordersn = DB::table('ordersn')->where(['KtvBoxid'=>$post['oldKtvBoxid'],'order_status'=>1])->orderBy('pay_time','desc')->first();
+    //     if($ordersn->pay_time < date('Y-m-d')){
+    //         return response()->json(['code' => 500, 'msg' => '该房间今天没有开房', 'data' => null]);
+    //     }else{
+    //         DB::table('ordersn')->where('id',$ordersn->id)->update(['KtvBoxid'=>$post['newKtvBoxid']]);
+    //     }
+    //
+    //
+    //     try{
+    //         $data = DB::table('exchangroom')->insert($post);
+    //     }catch(\Exception $e){
+    //         return response()->json(['code' => 500, 'msg' => '保存错误', 'data' => $e->getMessage()]);
+    //     }
+    //
+    //     return response()->json(['code' => 200,'data' => $data]);
+    // }
+
 
 }

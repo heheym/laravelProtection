@@ -108,6 +108,9 @@ Route::post('/songs/ktvonoff', 'Api\PlaceController@ktvonoff');  //开关房记�
 
 Route::post('/songs/hotspotsong', 'Api\PlaceController@hotspotsong');  //热点歌曲可预先下载列表
 
+Route::post('/songs/exchangroom', 'Api\PlaceController@exchangroom');  //场所换房接口
+
+
 
 //接收产品管理后台数据
 Route::post('/agent/service/login', 'Api\ProductAgentController@login');  //接口授权
