@@ -182,15 +182,20 @@ class ProductAgentController extends Controller
                 ->where('ordersn.order_status',1)->where($where)
                 ->orderBy('pay_time','desc')->paginate($perPage,['*'],'page',$page);
 
-            $count = DB::table('ordersn')->leftJoin('place','place.key','=','ordersn.key')
+            $totoalMoney = DB::table('ordersn')->leftJoin('place','place.key','=','ordersn.key')
                 ->select('ordersn.*','place.placename','place.agentid','place.agentnextid')
                 ->where('ordersn.order_status',1)->where($where)->sum('amount');
+
+            $totoal= DB::table('ordersn')->leftJoin('place','place.key','=','ordersn.key')
+                ->select('ordersn.*','place.placename','place.agentid','place.agentnextid')
+                ->where('ordersn.order_status',1)->where($where)->count('ordersn.id');
+
         }catch (\Exception $e){
             return response()->json(['code' => 1015, 'msg' => $e->getMessage(), 'data' => '',"success"=> false]);
         }
         return response()->json(['code' => 200,
-            'data'=>['currentPage' => $page,'totoalPage' => $ordersn->lastPage(),
-            "totoalMoney"=> $count,'data'=>$ordersn->items()],
+            'data'=>['currentPage' => $page,'totoalPage' => $ordersn->lastPage(),'total'=>$totoal,
+            "totoalMoney"=> $totoalMoney,'data'=>$ordersn->items()],
             "msg" => "请求成功",
             "success" => true
         ]);
