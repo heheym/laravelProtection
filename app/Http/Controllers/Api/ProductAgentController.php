@@ -145,6 +145,58 @@ class ProductAgentController extends Controller
         return response()->json(['code' => 200, 'data' => '','msg' => '请求成功', "success"=> true]);
     }
 
+//交易流水查询接口
+    public function billrecord(Request $request)
+    {
+        $token = \Request::header('Authorization');
+        if(empty($token) || empty(Cache::get('productToken')) || !in_array($token,Cache::get('productToken'))){
+            return response()->json(['code' => 1015, 'msg' => 'token无效', 'data' => '',"success"=> false]);
+        }
+        $post = json_decode(file_get_contents("php://input"), true);
+        $perPage = isset($post['rows']) ? $post['rows']:1;
+        $columns = ['*'];
+        $pageName = 'page';
+        $page = isset($post['page']) ? $post['page'] :1 ;
+
+        $where = [];
+        if(isset($post['startdate'])){
+            $where[] = ['pay_time','>',$post['startdate']];
+        }
+        if(isset($post['enddate'])){
+            $where[] = ['pay_time','<',$post['enddate']."23:59:59"];
+        }
+        if(isset($post['agentid'])){
+            $where[] = ['place.agentid','=',$post['agentid']];
+        }
+        if(isset($post['agentnextid'])){
+            $where[] = ['agentnextid','=',$post['agentnextid']];
+        }
+        if(isset($post['placename'])){
+            $where[] = ['placename','like','%'.$post['placename'].'%'];
+        }
+
+        try{
+            $ordersn = DB::table('ordersn')->leftJoin('place','place.key','=','ordersn.key')
+                ->leftJoin('agenttable','agenttable.agentid','=','place.agentid')
+                ->select('ordersn.*','agenttable.agentName','place.placename','place.agentid','place.agentnextid','place.userno as placeno')
+                ->where('ordersn.order_status',1)->where($where)
+                ->orderBy('pay_time','desc')->paginate($perPage,['*'],'page',$page);
+
+            $count = DB::table('ordersn')->leftJoin('place','place.key','=','ordersn.key')
+                ->select('ordersn.*','place.placename','place.agentid','place.agentnextid')
+                ->where('ordersn.order_status',1)->where($where)->sum('amount');
+        }catch (\Exception $e){
+            return response()->json(['code' => 1015, 'msg' => $e->getMessage(), 'data' => '',"success"=> false]);
+        }
+        return response()->json(['code' => 200,
+            'data'=>['currentPage' => $page,'totoalPage' => $ordersn->lastPage(),
+            "totoalMoney"=> $count,'data'=>$ordersn->items()],
+            "msg" => "请求成功",
+            "success" => true
+        ]);
+
+    }
+
 
 
 }

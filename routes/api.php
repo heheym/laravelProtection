@@ -112,12 +112,15 @@ Route::post('/songs/exchangroom', 'Api\PlaceController@exchangroom');  //场所�
 
 
 
+
+
 //接收产品管理后台数据
 Route::post('/agent/service/login', 'Api\ProductAgentController@login');  //接口授权
 Route::Post('/agent/service/agentupdate', 'Api\ProductAgentController@agentupdate');  //更新代理商接口
 Route::Post('/agent/service/boxupdate', 'Api\ProductAgentController@boxupdate');  //更新机顶盒接口
 Route::Post('/agent/service/agentdelete', 'Api\ProductAgentController@agentdelete');  //删除代理商接口
 Route::Post('/agent/service/placeupdate', 'Api\ProductAgentController@placeupdate');  //更新场所资料接口
+Route::post('/agent/service/billrecord', 'Api\ProductAgentController@billrecord');  //获取交易流水查询接口
 
 //定时ws推送信息
 Route::Get('/crontab/index', 'Api\CrontabController@index');  //定时访问ws
