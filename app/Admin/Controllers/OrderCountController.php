@@ -77,9 +77,12 @@ class OrderCountController extends AdminController
             $city  = DB::table('china_area')->where('code',$city)->value('name');
             $html .= "<span style='text-align:center;color:red;font-size:20px;'>".$city."</span>";
         }
-        $grid->model()->whereHas('place', function ($query) use($where){
-            $query->where($where);
-        });
+        if(!empty($where)){
+            $grid->model()->whereHas('place', function ($query) use($where){
+                $query->where($where);
+            });
+        }
+
         if(!empty(request('pay_time')['start'])){
             $payTimeStart = request('pay_time')['start'];
             $html .= "<span style='text-align:center;color:red;font-size:20px;margin-left:50px'>支付时间 ：".$payTimeStart."</span>";

@@ -135,10 +135,11 @@ class OrderController extends AdminController
         if(!empty(request('ordersn_roomno'))){
             $ordersn_roomno =request('ordersn_roomno');
             $where[] = ['roomno','like','%'.$ordersn_roomno.'%'];
+            $grid->model()->whereHas('settopbox', function ($query) use($where){
+                $query->where($where);
+            });
         }
-        $grid->model()->whereHas('settopbox', function ($query) use($where){
-            $query->where($where);
-        });
+
 //        $grid->disableFilter(false);
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -155,7 +156,7 @@ class OrderController extends AdminController
 //            $grid->model()->where('key', '');
 //        }
 
-//        $grid->column('id', __('Id'));
+       // $grid->column('id', __('Id'));
         $grid->model()->orderBy('id', 'desc');
 //        $grid->column('key', __('Key'));
 //         $grid->column('key1', __('场所名称'))->display(function(){
