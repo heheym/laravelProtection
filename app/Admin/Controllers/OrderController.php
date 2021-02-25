@@ -40,6 +40,7 @@ class OrderController extends AdminController
     public function place()
     {
 
+
 //        Admin1::disablePjax();
 //        Admin::js('js/hide.js');
         Admin::script('order();');

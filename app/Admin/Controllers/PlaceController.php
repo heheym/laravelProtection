@@ -154,17 +154,10 @@ class PlaceController extends Controller
         $grid->roomtotal('机顶盒数量');
         $grid->expiredata('场所有效时间');
         $grid->country('国家');
-        // $grid->column('province.name','123');
-        $grid->province('省')->display(function ($province) {
-            if (!is_null($province)) {
-                return DB::table('china_area')->where('code', $province)->value('name');
-            }
-        });
-        $grid->city('市')->display(function ($city) {
-            if (!is_null($city)) {
-                return DB::table('china_area')->where('code', $city)->value('name');
-            }
-        });
+        $grid->column('province1.name','省');
+        $grid->column('city1.name','市');
+
+
         // $grid->address1('省市')->display(function () {
         //     $province = DB::table('place')->where('key',$this->key )->value('province');
         //     if(!is_null($province)){
