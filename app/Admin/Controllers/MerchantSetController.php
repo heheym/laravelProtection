@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\MerchantSet;
-use App\Admin\Models\Place;
+use App\Admin\Models\Place1;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -88,7 +88,7 @@ class MerchantSetController extends Controller
     protected function grid()
     {
         Admin::script('merchantset();');
-        $grid = new Grid(new Place);
+        $grid = new Grid(new Place1);
         $grid->setView('place.index');
         $grid->setName('place');
 
@@ -262,7 +262,7 @@ class MerchantSetController extends Controller
     protected function form()
     {
 //        Admin::script('openingTime();');
-        $form = new Form(new Place);
+        $form = new Form(new Place1);
 
         $form->column(5/6, function ($form) {
 
@@ -274,12 +274,22 @@ class MerchantSetController extends Controller
             }
             $form->table('merchantfirst', '主体商户', function ($table) use ($merchantOption) {
                 $table->select('merchantId', '商户名')->options($merchantOption)->required();
-//                $table->number('shareproportion', '分成比例(%)')->default(10)->rules('numeric|between:1,100');
+               // $table->number('shareproportion', '分成比例(%)')->default(10)->rules('numeric|between:1,100');
             })->disableCreate()->disableDelete();
             $form->table('merchant', '商户', function ($table) use ($merchantOption) {
                 $table->select('merchantId', '商户名')->options($merchantOption);
                 $table->number('shareproportion', '分成比例(%)')->default(10)->rules('numeric|between:1,100');
             });
+
+            // $form->table('merchantfirst', '商户',function (Form\NestedForm $form) use($merchantOption) {
+            //     $form->select('merchantId', '商户名')->options($merchantOption)->width(2);
+            //     $form->number('shareproportion', '分成比例(%)')->default(10)->width(2);
+            // })->mode('table');
+            // $form->hasMany('merchantset1', '商户',function (Form\NestedForm $form) use($merchantOption) {
+            //     // dd($this);
+            //     $form->select('merchantId', '商户名')->options($merchantOption)->width(2);
+            //     $form->number('shareproportion', '分成比例(%)')->default(10)->width(2);
+            // })->mode('table');
         });
 
         return $form;

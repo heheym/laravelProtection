@@ -8,4 +8,6 @@ class MerchantSet extends Model
 {
     protected $table = 'MerchantSet';
     public $timestamps = false;
+
+    protected $fillable = ['shareproportion'];
 }

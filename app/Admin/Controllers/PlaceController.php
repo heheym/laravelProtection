@@ -281,15 +281,17 @@ class PlaceController extends Controller
         //     return DB::table('place')->where('key', $this->key)->value('contacts');
         // });
         $grid->address('省市')->display(function () {
-            $province = $this->place->province;
-            if (!is_null($province)) {
-                $province = DB::table('china_area')->where('code', $province)->value('name');
-            }
-            $city = $this->place->city;
-            if (!is_null($province)) {
-                $city = DB::table('china_area')->where('code', $city)->value('name');
-            }
-            return $province . $city;
+
+            // $province = $this->place->province;
+            // if (!is_null($province)) {
+            //     $province = DB::table('china_area')->where('code', $province)->value('name');
+            // }
+            // $city = $this->place->city;
+            // if (!is_null($province)) {
+            //     $city = DB::table('china_area')->where('code', $city)->value('name');
+            // }
+            return $this->place->province1->name . $this->place->city1->name;
+            // return $province . $city;
         });
 
 
