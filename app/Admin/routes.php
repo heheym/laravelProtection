@@ -89,6 +89,7 @@ Route::group([
 
 
     $router->resource('usersopencloses', UsersOpencloseController::class); //开关房记录
+    $router->resource('exchangeroom', ExchangeRoomController::class); //换房记录
 
     $router->resource('collect', CollectController::class);  //信息收集
 
