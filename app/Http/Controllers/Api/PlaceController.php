@@ -911,13 +911,16 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         if(!isset($post['oldKtvBoxid']) || !isset($post['newKtvBoxid'])){
             return response()->json(['code' => 500, 'msg' => 'oldKtvBoxid或newKtvBoxid不能为空', 'data' => null]);
         }
-        $exists1 = DB::table('settopbox')->where(['KtvBoxid'=>$post['oldKtvBoxid']])->exists();
-        $exists2 = DB::table('settopbox')->where(['KtvBoxid'=>$post['newKtvBoxid']])->exists();
+        $exists1 = DB::table('settopbox')->where(['KtvBoxid'=>$post['oldKtvBoxid']])->value('key');
+        $exists2 = DB::table('settopbox')->where(['KtvBoxid'=>$post['newKtvBoxid']])->value('key');
         if(!$exists1){
             return response()->json(['code' => 500, 'msg' => 'oldKtvBoxid不存在', 'data' => null]);
         }
         if(!$exists2){
             return response()->json(['code' => 500, 'msg' => 'newKtvBoxid不存在', 'data' => null]);
+        }
+        if($exists1 != $exists2){
+            return response()->json(['code' => 500, 'msg' => '两个机顶盒不在同一场所', 'data' => null]);
         }
 
         $ordersn = DB::table('ordersn')->where(['KtvBoxid'=>$post['oldKtvBoxid'],'order_status'=>1])->orderBy('pay_time','desc')->first();
