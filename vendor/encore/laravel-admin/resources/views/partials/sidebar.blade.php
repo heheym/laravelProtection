@@ -67,3 +67,9 @@ $parentIdMenuId = DB::table('admin_permissions')->whereIn('id',$parentId2)->pluc
     </section>
     <!-- /.sidebar -->
 </aside>
+
+<style>
+    li span {
+        color:#000;
+    }
+</style>
