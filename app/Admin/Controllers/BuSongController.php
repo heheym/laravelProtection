@@ -38,6 +38,8 @@ class BuSongController extends AdminController
             $query->where($where);
         });
 
+        $grid->model()->orderby('createdate','desc');
+
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
