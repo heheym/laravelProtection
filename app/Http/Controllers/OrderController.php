@@ -222,6 +222,9 @@ class OrderController extends Controller
                     }
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time,'pay_way'=>$re_obj->pay_way,'openid'=>$re_obj->openid]);
                     $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->first();
+                    if($ordersn->option==1){
+                        DB::table('place')->where('key',$ordersn->key)->increment($ordersn->amount);
+                    }
                     if($result){
                         Log::info('修改订单状态成功,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);
                         $worker = new WorkermanController();
@@ -230,9 +233,7 @@ class OrderController extends Controller
                         }else{
                             $data = ['func'=>'push_pay','srvkey'=>$ordersn->key,'KtvBoxid'=>$ordersn->KtvBoxid,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid];
                         }
-
                         $worker->index($data);
-
                     }else{
                         Log::info('订单状态已修改,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);
                     }
