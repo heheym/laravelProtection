@@ -452,6 +452,7 @@ class PlaceController extends Controller
             </div>
 ', '*开房时段一');
 
+
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="time3" value="' . $time3 . '" class="form-control time3" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
@@ -460,6 +461,9 @@ class PlaceController extends Controller
                 <label class="form-inline" style="margin-left:10px">*有效时长(分钟)：<input type="text" class="form-control" name="Effective2_time" required value="' . $Effective2_time . '" /></label>
             </div>
 ', '*开房时段二');
+
+        $form->select('FeesScanMode', '预付款收费模式')->options([0 => '正常开房扫码收费方式', 1 => '预付款按天扣款支付方式',2=>'预付款按次数扣款支付方式']);
+        $form->text('balanceSum','预付款余额')->disable();
 
         $form->html('
         <div class="form-inline">

@@ -42,17 +42,20 @@ class OrderController extends Controller
 //            return response()->json(['code' => 500, 'msg' => 'post数据错误', 'data' => null]);
 //        }
         foreach($post as $k=>$v){
-            if(empty($v['KtvBoxid'])){
-                return response()->json(['code' => 500, 'msg'=>'机器码KtvBoxid错误','data'=>null]);
+            if(!empty($v['KtvBoxid'])){
+                if(empty($v['KtvBoxid'])){
+                    return response()->json(['code' => 500, 'msg'=>'机器码KtvBoxid错误','data'=>null]);
+                }
+                $exists = DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$v['KtvBoxid']])->exists();
+                if(!$exists){
+                    return response()->json(['code' => 500, 'msg'=>'场所没有该机器码','data'=>null]);
+                }
+                $post[$k]['qrcode'] = $protocol.$domainName."/qrCodeUrl?KtvBoxid=".$v['KtvBoxid'];
             }
-            $exists = DB::table('settopbox')->where(['key'=>$srvkey,'KtvBoxid'=>$v['KtvBoxid']])->exists();
-            if(!$exists){
-                return response()->json(['code' => 500, 'msg'=>'场所没有该机器码','data'=>null]);
-            }
-            $post[$k]['qrcode'] = $protocol.$domainName."/qrCodeUrl?KtvBoxid=".$v['KtvBoxid'];
         }
 
-        return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => $post]);
+        return response()->json(['code' => 200, 'msg' => '请求成功', 'data' => $post,
+            'place'=>$protocol.$domainName."/qrCodeUrl?srvkey=".$srvkey]);
     }
 
     /**
@@ -62,7 +65,7 @@ class OrderController extends Controller
     public function qrCodeUrl()
     {
 //        $srvkey = \Request::header('tonkey');
-//        $srvkey = isset($_GET['key'])?$_GET['key']:'';
+        $srvkey = isset($_GET['srvkey'])?$_GET['srvkey']:'';
         $KtvBoxid = isset($_GET['KtvBoxid'])?$_GET['KtvBoxid']:''; //机器码
         $amount = isset($_GET['amount'])?$_GET['amount']:0.01; //机器码
 
@@ -71,41 +74,59 @@ class OrderController extends Controller
         $notify_url = $protocol.$domainName.'/notifyUrl';
         $jump_url = $protocol.$domainName.'/jumpUrl';
 
-        if(empty($KtvBoxid)){
-            return response()->json(['code' => 500, 'msg' => '机器码错误', 'data' => null]);
-        }
-        $exists = DB::table('settopbox')->where(['KtvBoxid'=>$KtvBoxid])->select('KtvBoxid','key')->first();
-        if(empty($exists->KtvBoxid)){
-            return response()->json(['code' => 500, 'msg' => '机器码不存在', 'data' => null]);
-        }
-        $ordersn = DB::table('ordersn')->where('order_status',1)
-                    ->where('KtvBoxid',$KtvBoxid)->orderBy('id','desc')->first();
+        //机顶盒下单
+        if(empty($srvkey)){
+            if(empty($KtvBoxid)){
+                return response()->json(['code' => 500, 'msg' => '机器码错误', 'data' => null]);
+            }
+            $exists = DB::table('settopbox')->where(['KtvBoxid'=>$KtvBoxid])->select('KtvBoxid','key')->first();
+            if(empty($exists->KtvBoxid)){
+                return response()->json(['code' => 500, 'msg' => '机器码不存在', 'data' => null]);
+            }
+            $ordersn = DB::table('ordersn')->where('order_status',1)
+                ->where('KtvBoxid',$KtvBoxid)->orderBy('id','desc')->first();
 
-        if(isset($ordersn->pay_time)){
-            $tim = time()-strtotime($ordersn->pay_time);
-            $timee = ceil((600-$tim)/60);
+            if(isset($ordersn->pay_time)){
+                $tim = time()-strtotime($ordersn->pay_time);
+                $timee = ceil((600-$tim)/60);
 
-            if($tim<600){
-                return '     
+                if($tim<600){
+                    return '     
     <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
             <p style="font:normal normal 200 4em/40px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:10%;">该房间已扫码支付</br><br/>请'.$timee.'分钟后再试</p>
             <img src="/img/no.jpg" style="position:absolute;width:19.2%;height:12%;left:42%;top:22%;">
             <img src="/img/wx.jpg" style="position:absolute;width:44%;height:28%;left:28%;top:62%;">
         </div>
 ';
-
-                return response()->json(['code' => 500, 'msg' => '请稍后再试', 'data' => null]);
+                    return response()->json(['code' => 500, 'msg' => '请稍后再试', 'data' => null]);
+                }
             }
-        }
-        $insertData = array(
-            'key'=>$exists->key,
-            'KtvBoxid'=>$exists->KtvBoxid,
+            $insertData = array(
+                'key'=>$exists->key,
+                'KtvBoxid'=>$exists->KtvBoxid,
 //            'order_sn' => $this->get_order_sn(), //订单号，显示用
-            'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
-            'amount' => $amount,
-            'submit_time' => date('Y-m-d H:i:s',time()),
-            'o_status' => 1  //订单是否有效  0无效，1有效
-        );
+                'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
+                'amount' => $amount,
+                'submit_time' => date('Y-m-d H:i:s',time()),
+                'o_status' => 1  //订单是否有效  0无效，1有效
+            );
+        }
+        else{ //场所
+            $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+            if(!$exists){
+                return response()->json(['code' => 500, 'msg' => '场所不存在', 'data' => null]);
+            }
+            $insertData = array(
+                'key'=>$srvkey,
+//            'order_sn' => $this->get_order_sn(), //订单号，显示用
+                'order_sn_submit' => $this->get_order_sn(), //订单号，支付时提交用，每次变化
+                'amount' => $amount,
+                'submit_time' => date('Y-m-d H:i:s',time()),
+                'o_status' => 1,  //订单是否有效  0无效，1有效
+                'option' =>1
+            );
+        }
+
         $result = DB::table('ordersn')->insertGetId($insertData);
 
         //判断是支付宝还是微信
@@ -204,7 +225,12 @@ class OrderController extends Controller
                     if($result){
                         Log::info('修改订单状态成功,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);
                         $worker = new WorkermanController();
-                        $data = ['func'=>'push_pay','srvkey'=>$ordersn->key,'KtvBoxid'=>$ordersn->KtvBoxid,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid];
+                        if($ordersn->option==1){
+                            $data = ['func'=>'place_push','srvkey'=>$ordersn->key,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid];
+                        }else{
+                            $data = ['func'=>'push_pay','srvkey'=>$ordersn->key,'KtvBoxid'=>$ordersn->KtvBoxid,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid];
+                        }
+
                         $worker->index($data);
 
                     }else{
