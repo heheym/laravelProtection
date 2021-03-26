@@ -942,5 +942,68 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         return response()->json(['code' => 200,'msg' => '请求成功','data'=>null]);
     }
 
+//预付款开房扣费接口
+    public function openfeeroom()
+    {
+        $signature = \Request::header('signature');
+        if(empty($signature)){
+            return response()->json(['code' => 500, 'msg' => 'signature错误', 'data' => null]);
+        }
+
+        $post = json_decode(file_get_contents("php://input"), true);
+        if(empty($post['srvkey']) || empty($post['timestamp'])){
+            return response()->json(['code' => 500, 'msg' => 'srvkey或timestamp不能为空', 'data' => null]);
+        }
+        if(empty($post['KtvBoxid']) || empty($post['paymentmoney'])){
+            return response()->json(['code' => 500, 'msg' => 'KtvBoxid或paymentmoney不能为空', 'data' => null]);
+        }
+
+        $signature1 = md5($post['srvkey'].$post['timestamp']."20210326f5ce6dce860673c2b0ec458a96ddfd");
+        if($signature !== $signature1){
+            return response()->json(['code' => 500, 'msg' => 'signature不正确', 'data' => null]);
+        }
+
+        $srvkey = $post['srvkey'];
+        $KtvBoxid = $post['KtvBoxid'];
+        $paymentmoney = $post['paymentmoney'];
+
+        $place = DB::table('place')->where(['key'=>$srvkey])->first();
+        if(empty($place->key)){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        if($place->balanceSum < $paymentmoney){
+            return response()->json(['code' => 300, 'msg' => '余额不足','balanceSum'=> $place->balanceSum , 'data' => null]);
+        }
+        $result = DB::table('place')->where(['key'=>$srvkey])->decrement('balanceSum',$paymentmoney);
+        if($result){
+            $place = DB::table('place')->where(['key'=>$srvkey])->first();
+            return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> $place->balanceSum , 'data' => null]);
+        }else{
+            return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => null]);
+        }
+
+    }
+
+
+//查询场所预付款余额接口
+    public function remainingsum()
+    {
+        $srvkey = \Request::header('srvkey');
+        if(empty($srvkey)){
+            return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        }
+        $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        if(!$exists){
+            return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        }
+
+        $place = DB::table('place')->where('key',$srvkey)->first();
+
+        return response()->json(['code' => 200, 'msg' => '请求成功','FeesScanMode'=> $place->FeesScanMode , 'balanceSum'=>$place->balanceSum,
+            'data' => null]);
+
+    }
+
 
 }

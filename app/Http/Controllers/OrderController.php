@@ -222,8 +222,19 @@ class OrderController extends Controller
                     }
                     $result = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->update(['order_status'=>1,'pay_time'=>$re_obj->pay_time,'pay_way'=>$re_obj->pay_way,'openid'=>$re_obj->openid]);
                     $ordersn = DB::table('ordersn')->where('leshua_order_id',$re_obj->leshua_order_id)->first();
-                    if($ordersn->option==1){
+                    if($ordersn->option==1){ //场所预付款
                         DB::table('place')->where('key',$ordersn->key)->increment('balanceSum',$ordersn->amount);
+                        $place = DB::table('place')->where('key',$ordersn->key)->first();
+                        $rechargeMoneyData = [
+                            'srvkey'=>$ordersn->key,
+                            'billno'=>'Y'.time(),
+                            'sourceType'=>1,
+                            'amount'=>$ordersn->amount,
+                            'balance'=>$place->balanceSum,
+                            'rechargeDate'=>$ordersn->pay_time,
+                            'ordersnId' => $ordersn->id
+                        ];
+                        DB::table('rechargeMoney')->insert($rechargeMoneyData);
                     }
                     if($result){
                         Log::info('修改订单状态成功,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);

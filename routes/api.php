@@ -110,6 +110,10 @@ Route::post('/songs/hotspotsong', 'Api\PlaceController@hotspotsong');  //热点�
 
 Route::post('/songs/exchangroom', 'Api\PlaceController@exchangroom');  //场所换房接口
 
+//预付款
+Route::post('/songs/openroom/openfeeroom', 'Api\PlaceController@openfeeroom');  //预付款开房扣费接口
+Route::post('/songs/openroom/remainingsum', 'Api\PlaceController@remainingsum');  //查询场所预付款余额接口
+
 
 
 
