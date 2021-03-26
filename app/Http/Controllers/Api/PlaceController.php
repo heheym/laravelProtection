@@ -978,6 +978,14 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         $result = DB::table('place')->where(['key'=>$srvkey])->decrement('balanceSum',$paymentmoney);
         if($result){
             $place = DB::table('place')->where(['key'=>$srvkey])->first();
+            $rechargeListData = [
+                'KtvBoxid' => $KtvBoxid,
+                'srvkey' => $srvkey,
+                'paymentmoney' => $paymentmoney,
+                'payment_type' => 1,
+                'createDate' => date('Y-m-d H:i:s'),
+            ];
+            DB::table('rechargeList')->insert($rechargeListData);
             return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> $place->balanceSum , 'data' => null]);
         }else{
             return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => null]);
