@@ -119,10 +119,10 @@ function openingTime(){
     var feesmode =$(".FeesMode option:selected").val();
     if(feesmode ==0){
         $('.feesmode').parents('.form-group').hide();
-        // $('#has-many-merchant').closest('.row').hide();
+        $('.FeesScanMode').parents('.form-group').hide();
     }else if(feesmode ==1){
         $('.feesmode').parents('.form-group').show();
-        // $('#has-many-merchant').closest('.row').show();
+        $('.FeesScanMode').parents('.form-group').show();
     }
 }
 

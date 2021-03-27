@@ -443,6 +443,8 @@ class PlaceController extends Controller
 //        $form->number('warningCutsongcount', '切歌预警数量')->default(6);
 
         $form->select('FeesMode', '收费模式')->options([0 => '非扫码开房收费模式', 1 => '扫码开房收费模式']);
+
+        $form->select('FeesScanMode', '预付款收费模式')->options([0 => '正常开房扫码收费方式', 1 => '预付款按天扣款支付方式',2=>'预付款按次数扣款支付方式']);
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="time1" value="' . $time1 . '" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
@@ -462,7 +464,7 @@ class PlaceController extends Controller
             </div>
 ', '*开房时段二');
 
-        $form->select('FeesScanMode', '预付款收费模式')->options([0 => '正常开房扫码收费方式', 1 => '预付款按天扣款支付方式',2=>'预付款按次数扣款支付方式']);
+
         $form->text('balanceSum','预付款余额')->disable();
 
         $form->html('
@@ -550,8 +552,10 @@ class PlaceController extends Controller
                     var id = data.id;
                     if(id ==0){ 
                         $('.feesmode').parents('.form-group').hide();
+                        $('.FeesScanMode').parents('.form-group').hide();
                     }else if(id ==1){
                         $('.feesmode').parents('.form-group').show();
+                        $('.FeesScanMode').parents('.form-group').show();
                     }
                 }
 EOT;
