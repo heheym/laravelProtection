@@ -240,7 +240,7 @@ class OrderController extends Controller
                         Log::info('修改订单状态成功,leshua_order_id:'.$re_obj->leshua_order_id.PHP_EOL);
                         $worker = new WorkermanController();
                         if($ordersn->option==1){
-                            $data = ['func'=>'place_push','srvkey'=>$ordersn->key,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid];
+                            $data = ['func'=>'place_pay','srvkey'=>$ordersn->key,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid,'balanceSum'=>$place->balanceSum];
                         }else{
                             $data = ['func'=>'push_pay','srvkey'=>$ordersn->key,'KtvBoxid'=>$ordersn->KtvBoxid,'pay_time'=>$ordersn->pay_time,'leshua_order_id'=>$ordersn->leshua_order_id,'amount'=>$ordersn->amount,'openid'=>$ordersn->openid];
                         }
