@@ -973,7 +973,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         }
 
         if($place->balanceSum < $paymentmoney){
-            return response()->json(['code' => 300, 'msg' => '余额不足','balanceSum'=> $place->balanceSum , 'data' => null]);
+            return response()->json(['code' => 300, 'msg' => '余额不足','balanceSum'=> (float)$place->balanceSum , 'data' => null]);
         }
         $result = DB::table('place')->where(['key'=>$srvkey])->decrement('balanceSum',$paymentmoney);
         if($result){
