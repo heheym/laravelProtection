@@ -85,7 +85,7 @@ Log::info('连接失败,srvkey不存在'.PHP_EOL);
                 $worker->uidConnections[$connection->uid] = $connection;
                 $start = Carbon::now()->startOfDay();
                 $end = Carbon::now()->endOfDay();
-                $data = DB::table('ordersn')->where(['key'=>$_GET['srvkey'],'order_status'=>1,'confirm_order'=>0])->whereBetween('pay_time',[$start,$end])->select('KtvBoxid','pay_time','pay_way','leshua_order_id','amount','openid')->get();
+                $data = DB::table('ordersn')->where(['key'=>$_GET['srvkey'],'order_status'=>1,'confirm_order'=>0,'option'=>0])->whereBetween('pay_time',[$start,$end])->select('KtvBoxid','pay_time','pay_way','leshua_order_id','amount','openid')->get();
                 $respond = json_encode(['code'=>200,'func'=>'connect','srvkey'=>$_GET['srvkey'],'msg'=>'连接成功','data'=>$data],JSON_UNESCAPED_UNICODE);
                 $connection->send($respond);
 Log::info('连接成功,srvkey:'.$_GET['srvkey'].PHP_EOL);

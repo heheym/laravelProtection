@@ -20,10 +20,10 @@ class CrontabController extends Controller
         if(count($ordersn)>0){
             foreach($ordersn as $v){
                 if($v->option==1){
-                    $place = DB::table('place')->where('key',$v->key)->first();
-                    $data = ['func'=>'place_pay','srvkey'=>$v->key,
-                        'pay_time'=>$v->pay_time,'leshua_order_id'=>$v->leshua_order_id,
-                        'amount'=>$v->amount,'openid'=>$v->openid,'balanceSum'=>$place->balanceSum];
+                    // $place = DB::table('place')->where('key',$v->key)->first();
+                    // $data = ['func'=>'place_pay','srvkey'=>$v->key,
+                    //     'pay_time'=>$v->pay_time,'leshua_order_id'=>$v->leshua_order_id,
+                    //     'amount'=>$v->amount,'openid'=>$v->openid,'balanceSum'=>$place->balanceSum];
                 }else{
                     $data = ['func'=>'push_pay','srvkey'=>$v->key,'KtvBoxid'=>$v->KtvBoxid,
                         'pay_time'=>$v->pay_time,'leshua_order_id'=>$v->leshua_order_id,
