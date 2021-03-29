@@ -187,7 +187,7 @@ class PlaceController extends Controller
             'iscloseVoice' => $result->iscloseVoice,
             'FeesMode'=>$result->FeesMode,
             'FeesScanMode'=>$result->FeesScanMode,
-            'balanceSum'=>$result->balanceSum,
+            'balanceSum'=>(float)$result->balanceSum,
             'Opening1_time'=>$result->Opening1_time,'Opening1_price'=>$result->Opening1_price,'Effective1_time'=>$result->Effective1_time,
             'Opening2_time'=>$result->Opening2_time,'Opening2_price'=>$result->Opening2_price,'Effective2_time'=>$result->Effective2_time,
             'warningCutsongcount'=>$result->warningCutsongcount,
@@ -986,7 +986,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
                 'createDate' => date('Y-m-d H:i:s'),
             ];
             DB::table('rechargeList')->insert($rechargeListData);
-            return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> $place->balanceSum , 'data' => null]);
+            return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> (float)$place->balanceSum , 'data' => null]);
         }else{
             return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => null]);
         }
@@ -1008,7 +1008,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 
         $place = DB::table('place')->where('key',$srvkey)->first();
 
-        return response()->json(['code' => 200, 'msg' => '请求成功','FeesScanMode'=> $place->FeesScanMode , 'balanceSum'=>$place->balanceSum,
+        return response()->json(['code' => 200, 'msg' => '请求成功','FeesScanMode'=> $place->FeesScanMode , 'balanceSum'=>(float)$place->balanceSum,
             'data' => null]);
 
     }
