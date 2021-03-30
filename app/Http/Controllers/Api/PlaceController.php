@@ -990,8 +990,8 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
             $data = ['func'=>'push_pay','srvkey'=>$srvkey,'KtvBoxid'=>$KtvBoxid,
                 'pay_time'=>date('Y-m-d H:i:s'),'leshua_order_id'=>'Y'.time(),
                 'amount'=>$paymentmoney,'openid'=>'Y'.time()];
-            $worker = new WorkermanController($data);
-            $worker->index();
+            $worker = new WorkermanController();
+            $worker->index($data);
             return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> (float)$place->balanceSum , 'data' => null]);
         }else{
             return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => null]);
