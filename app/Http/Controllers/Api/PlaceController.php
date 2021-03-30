@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Admin\Guzzle\Guzzle;
+use App\Http\Controllers\Workerman\WorkermanController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache; //缓存
 use App\Api\Sms;
@@ -986,6 +987,11 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
                 'createDate' => date('Y-m-d H:i:s'),
             ];
             DB::table('rechargeList')->insert($rechargeListData);
+            $data = ['func'=>'push_pay','srvkey'=>$srvkey,'KtvBoxid'=>$KtvBoxid,
+                'pay_time'=>date('Y-m-d H:i:s'),'leshua_order_id'=>'Y'.time(),
+                'amount'=>$paymentmoney,'openid'=>'Y'.time()];
+            $worker = new WorkermanController($data);
+            $worker->index();
             return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> (float)$place->balanceSum , 'data' => null]);
         }else{
             return response()->json(['code' => 500, 'msg' => '请求失败', 'data' => null]);
