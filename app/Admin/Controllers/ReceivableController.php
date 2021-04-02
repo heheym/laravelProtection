@@ -221,7 +221,7 @@ class ReceivableController extends Controller
         $query1 = http_build_query(['receivable_svrkey' => app('request')->get('receivable_svrkey'),'action'=>'createOtherFee']);
 
         if (Admin1::user()->can('应收管理添加')) {
-//            $grid->disableCreateButton();  //场所添加的权限
+           // $grid->disableCreateButton();  //场所添加的权限
             //新增其它费项
             $grid->tools(function ($tools)use($grid, $query1){
                 $tools->append(new createOtherFee($grid, $query1));

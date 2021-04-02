@@ -979,17 +979,24 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         $result = DB::table('place')->where(['key'=>$srvkey])->decrement('balanceSum',$paymentmoney);
         if($result){
             $place = DB::table('place')->where(['key'=>$srvkey])->first();
+            $createDate = date('Y-m-d H:i:s');
+            $leshua_order_id = 'Y'.time().rand(4);
             $rechargeListData = [
                 'KtvBoxid' => $KtvBoxid,
                 'srvkey' => $srvkey,
                 'paymentmoney' => $paymentmoney,
                 'payment_type' => 1,
-                'createDate' => date('Y-m-d H:i:s'),
+                'createDate' => $createDate,
+                'leshua_order_id' => $leshua_order_id
             ];
             DB::table('rechargeList')->insert($rechargeListData);
-            $data = ['func'=>'push_pay','srvkey'=>$srvkey,'KtvBoxid'=>$KtvBoxid,
-                'pay_time'=>date('Y-m-d H:i:s'),'leshua_order_id'=>'Y'.time(),
-                'amount'=>$paymentmoney,'openid'=>'Y'.time()];
+            $data = [
+                'func'=>'push_pay',
+                'srvkey'=>$srvkey,'KtvBoxid'=>$KtvBoxid,
+                'pay_time'=>$createDate,
+                'leshua_order_id'=>$leshua_order_id,
+                'amount'=>$paymentmoney,'openid'=>'Y'.time()
+            ];
             $worker = new WorkermanController();
             $worker->index($data);
             return response()->json(['code' => 200, 'msg' => '请求成功','balanceSum'=> (float)$place->balanceSum , 'data' => null]);

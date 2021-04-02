@@ -84,6 +84,41 @@ function receipt() {
     });
 }
 
+//预付款
+function rechargemoney() {
+    $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
+
+        var url = new URL(location);
+        var rechargemoney_srvkey = url.searchParams.get('rechargemoney_srvkey');
+        if(rechargemoney_srvkey!==null && rechargemoney_srvkey.length>0){
+            $(".column-key:contains('"+rechargemoney_srvkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
+
+    var tabSwitch = function (element, fn) {
+        $(element).dblclick(function () {
+            var index = $.trim($(this).find('.column-key').html());
+            $(this).addClass("active").siblings().removeClass("active");
+            if (typeof fn === "function") {
+                fn(index);
+            }
+        });
+    };
+
+    $elem = $(".column-key").parent("tr");
+
+    tabSwitch($elem,function (index) {
+        var url = new URL(location);
+
+        url.searchParams.set('rechargemoney_srvkey',index);
+
+        $.pjax({container:'#pjax-container', url: url.toString()});
+        //分页数据
+    });
+}
+
+
 function localMoney() {
     $(".iCheck-helper").click(function(){
         var owedPrice = 0;

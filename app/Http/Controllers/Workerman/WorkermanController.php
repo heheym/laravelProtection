@@ -39,6 +39,9 @@ class WorkermanController extends Controller
         if($abc=='success'){
             $result = DB::table('ordersn')->where('leshua_order_id',$arr['leshua_order_id'])->update(['send_message'=>1]);
             if(!$result){
+                $result = DB::table('rechargeList')->where('leshua_order_id',$arr['leshua_order_id'])->update(['send_message'=>1]);
+            }
+            if(!$result){
                 Log::info('修改send_message失败,'.',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);
             }else{
                 Log::info('推送成功,'.',arr:'.json_encode($arr,JSON_UNESCAPED_UNICODE).PHP_EOL);

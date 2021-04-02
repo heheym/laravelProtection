@@ -297,29 +297,28 @@ class PlaceController extends Controller
 
         $grid->mark('备注');
 
-//        $grid->batchActions(function ($batch) {
-//            $batch->add(new BatchChange(1));
-//        });
+       // $grid->batchActions(function ($batch) {
+       //     $batch->add(new BatchChange(1));
+       // });
 
-        //修改状态 按钮
-//        $grid->tools(function (Grid\Tools $tools) {
-//            $tools->append(new BatchChange());
-//        });
+       //  修改状态 按钮
+       // $grid->tools(function (Grid\Tools $tools) {
+       //     $tools->append(new BatchChange());
+       // });
         $grid->actions(function ($actions) {
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
 
             if (Admin::user()->can('机顶盒修改')) {
-//                $actions->disableEdit();
+               // $actions->disableEdit();
                 $actions->append(new SettopboxEdit($actions->getKey()));
             }
             if (Admin::user()->can('机顶盒删除')) {
                 $actions->append(new SettopboxDelete($actions->getKey()));
-//                $actions->disableDelete();
+               // $actions->disableDelete();
             }
         });
-
 
         return $grid;
     }
@@ -333,15 +332,15 @@ class PlaceController extends Controller
      */
     protected function detail($id)
     {
-//        $show = new Show(User::findOrFail($id));
-//
-//        $show->id('id');
-//        $show->name('Name');
-//        $show->email('Email');
-//        $show->phone('Phone');
-//        $show->password('Password');
-//        $show->remember_token('Remember token');
-//        return $show;
+       // $show = new Show(User::findOrFail($id));
+       //
+       // $show->id('id');
+       // $show->name('Name');
+       // $show->email('Email');
+       // $show->phone('Phone');
+       // $show->password('Password');
+       // $show->remember_token('Remember token');
+       // return $show;
     }
 
     /**

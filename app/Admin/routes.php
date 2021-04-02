@@ -50,11 +50,14 @@ Route::group([
 
     $router->resource('warningmode', WarningModeController::class);//预警模式
 
+//收费管理
     $router->resource('setmeal', SetMealController::class);//套餐
-
     $router->resource('receivable', ReceivableController::class);//应收管理
-
     $router->resource('receipt', ReceiptController::class);//收费管理
+    $router->resource('rechargemoney', RechargeMoneyController::class);//预付款
+
+
+
 
     $router->resource('promote', PromoteController::class);//新歌推广
 
