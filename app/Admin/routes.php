@@ -55,6 +55,7 @@ Route::group([
     $router->resource('receivable', ReceivableController::class);//应收管理
     $router->resource('receipt', ReceiptController::class);//收费管理
     $router->resource('rechargemoney', RechargeMoneyController::class);//预付款
+    $router->resource('rechargelist', RechargeListController::class);//预付款扣费
 
 
 

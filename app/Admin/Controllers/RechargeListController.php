@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\RechargeMoney\CreateRechargeMoney;
+use App\Admin\Models\RechargeList;
 use App\Admin\Models\UrgentPaymentno;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -16,31 +17,31 @@ use Illuminate\Support\Facades\DB;
 
 use App\Admin\Models\RechargeMoney;
 
-class RechargeMoneyController extends AdminController
+class RechargeListController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '预付款';
+    protected $title = '预付款扣费';
 
     public function index(Content $content)
     {
         return $content
-            ->header('预付款')
+            ->header('预付款扣费')
            // ->description('description')
             ->body($this->place())
-            ->body($this->rechargemoney());
+            ->body($this->rechargelist());
 
     }
 
     protected function place()
     {
 
-        Admin::script('rechargemoney();');
+        Admin::script('rechargelist();');
         $grid = new Grid(new Place);
-        $grid->setView('rechargemoney.place');
+        $grid->setView('rechargelist.place');
         $grid->paginate(5);
         $grid->setName('place');
         $grid->disableBatchActions();
@@ -115,54 +116,41 @@ class RechargeMoneyController extends AdminController
      *
      * @return Grid
      */
-    protected function rechargemoney()
+    protected function rechargelist()
     {
-        $grid = new Grid(new RechargeMoney());
+        $grid = new Grid(new RechargeList());
         // $grid->setView('urgentpaymentno.index');
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
             $filter->like('srvkey','srvkey');
-            $filter->between('rechargeDate', '充值时间')->date();
+            $filter->between('createDate', '充值时间')->date();
 
         });
-        $grid->model()->orderBy('rechargeDate','desc');
-        $rechargeDatestart = app('request')->get('rechargeDate_start');
-        $rechargeDateend= app('request')->get('rechargeDate_end');
-        if($rechargeDatestart){
-            $grid->model()->where([['rechargeDate','>',$rechargeDatestart]]);
+        $grid->model()->orderBy('createDate','desc');
+        $createDatestart = app('request')->get('createDate_start');
+        $createDateend= app('request')->get('createDate_end');
+        if($createDatestart){
+            $grid->model()->where([['createDate','>',$createDatestart]]);
         }
-        if($rechargeDateend){
-            $grid->model()->where([['rechargeDate','<',$rechargeDateend.' 23:59:59']]);
+        if($createDateend){
+            $grid->model()->where([['createDate','<',$createDateend.' 23:59:59']]);
         }
         $grid->disableActions();
-        $grid->setView('rechargemoney.rechargemoney');
-        $grid->setName('rechargemoney');
+        $grid->setView('rechargelist.rechargelist');
+        $grid->setName('rechargelist');
         $grid->disableCreateButton();
 
-        $query = http_build_query(['rechargemoney_srvkey' => app('request')->get('rechargemoney_srvkey')]);
-        $grid->tools(function ($tools)use($grid, $query){
-            $tools->append(new CreateRechargeMoney($grid, $query));
-        });
+        // $query = http_build_query(['rechargemoney_srvkey' => app('request')->get('rechargemoney_srvkey')]);
+        // $grid->tools(function ($tools)use($grid, $query){
+        //     $tools->append(new CreateRechargeMoney($grid, $query));
+        // });
 
         $grid->column('srvkey', __('场所key'));
-        $grid->column('billno', __('预充款单号'));
-        $grid->column('sourceType', __('来源'))->display(function($sourceType){
-            return [0=>'后台产生',1=>'扫码支付'][$sourceType];
-        });
-        $grid->column('amount', __('金额'));
-        $grid->column('balance', __('剩余金额'));
-        $grid->column('rechargeDate', __('充值时间'));
-        $grid->column('voucherNo', __('收款凭证号'));
-        $grid->column('voucherFile1', __('收款凭证文件'));
-        $grid->column('voucherFile2', __('收款凭证文件'));
-        $grid->column('operator', __('操作人'));
-        $grid->column('remarks', __('备注说明'));
-
-
-        // if (!Admin::user()->can('异常用户添加')) {
-        //     $grid->disableCreateButton();  //场所添加的权限
-        // }
+        $grid->column('KtvBoxid', __('机器码'));
+        $grid->column('paymentmoney', __('金额'));
+        $grid->column('createDate', __('时间'));
+        $grid->column('Remarks', __('备注'));
 
         return $grid;
     }

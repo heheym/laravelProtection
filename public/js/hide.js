@@ -119,6 +119,40 @@ function rechargemoney() {
 }
 
 
+//预付款扣费
+function rechargelist() {
+    $(function () {
+        $(".column-key").parents('tbody').css('cursor','pointer');
+
+        var url = new URL(location);
+        var rechargelist_srvkey = url.searchParams.get('rechargelist_srvkey');
+        if(rechargelist_srvkey!==null && rechargelist_srvkey.length>0){
+            $(".column-key:contains('"+rechargelist_srvkey+"')").parent("tr").css('background','rgb(255, 255, 213)');
+        }
+    })
+
+    var tabSwitch = function (element, fn) {
+        $(element).dblclick(function () {
+            var index = $.trim($(this).find('.column-key').html());
+            $(this).addClass("active").siblings().removeClass("active");
+            if (typeof fn === "function") {
+                fn(index);
+            }
+        });
+    };
+
+    $elem = $(".column-key").parent("tr");
+
+    tabSwitch($elem,function (index) {
+        var url = new URL(location);
+
+        url.searchParams.set('rechargelist_srvkey',index);
+
+        $.pjax({container:'#pjax-container', url: url.toString()});
+        //分页数据
+    });
+}
+
 function localMoney() {
     $(".iCheck-helper").click(function(){
         var owedPrice = 0;
