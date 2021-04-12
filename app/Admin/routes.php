@@ -101,6 +101,9 @@ Route::group([
     $router->resource('agenttable', AgenttableController::class);  //代理商
 
 
+//系统管理
+    $router->resource('wssend', WssendController::class);  //ws定时
+
 
 });
 

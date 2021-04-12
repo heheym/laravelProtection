@@ -135,7 +135,7 @@ class RechargeMoneyController extends AdminController
         if($rechargeDateend){
             $grid->model()->where([['rechargeDate','<',$rechargeDateend.' 23:59:59']]);
         }
-        $grid->disableActions();
+        // $grid->disableActions();
         $grid->setView('rechargemoney.rechargemoney');
         $grid->setName('rechargemoney');
         $grid->disableCreateButton();
@@ -209,8 +209,8 @@ class RechargeMoneyController extends AdminController
         // $form->text('balance', __('剩余金额'))->readonly();
         $form->hidden('rechargeDate', __('充值时间'))->default(date('Y-m-d H:i:s'));
         $form->text('voucherNo', __('收款凭证号'));
-        $form->text('voucherFile1', __('收款凭证文件'));
-        $form->text('voucherFile2', __('收款凭证文件'));
+        $form->file('voucherFile1', __('收款凭证文件'));
+        $form->file('voucherFile2', __('收款凭证文件'));
         $form->hidden('operator', __('操作人'))->default(Admin::user()->username);
         $form->text('remarks', __('备注说明'));
 
@@ -218,6 +218,7 @@ class RechargeMoneyController extends AdminController
         $form->ignore(['placename']);
 
         $form->saving(function(Form $form){
+            // dd($form->voucherFile1);
             $place = DB::table('place')->where('key',$form->srvkey)->first();
             $form->balance = $form->amount+$place->balanceSum;
         });
