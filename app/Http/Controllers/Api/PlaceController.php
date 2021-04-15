@@ -980,7 +980,9 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         if($result){
             $place = DB::table('place')->where(['key'=>$srvkey])->first();
             $createDate = date('Y-m-d H:i:s');
-            $leshua_order_id = 'Y'.time().rand(4);
+
+            $leshua_order_id = 'Y'.time().mt_rand(1000,9999);
+
             $rechargeListData = [
                 'KtvBoxid' => $KtvBoxid,
                 'srvkey' => $srvkey,
