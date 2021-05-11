@@ -180,6 +180,10 @@ class PlaceController extends Controller
 
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $domainName = $_SERVER['HTTP_HOST'];
+        $logo = '';
+        if(!empty($result->logo)){
+            $logo = $protocol.$domainName.'/uploads/'.$result->logo;
+        }
 
 
         return response()->json(['code' => 200,
@@ -206,7 +210,7 @@ class PlaceController extends Controller
             'isBuyCopyrightfee'=>$result->isBuyCopyrightfee,
             'shoppingMallId'=>$result->shoppingMallId,
             'publicPlaycount'=>$result->publicPlaycount,
-            'logo'=>$protocol.$domainName.'/uploads/'.$result->logo,
+            'logo'=>$logo,
             'data'=>$data]);
     }
 
