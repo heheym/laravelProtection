@@ -178,6 +178,10 @@ class PlaceController extends Controller
         }
 //        array_multisort(array_column($data, 'roomno'), SORT_ASC, $data);
 
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'];
+
+
         return response()->json(['code' => 200,
             'placename'=>$result->placename,'placeaddress'=>$result->placeaddress,'phone'=>$result->phone,
             'paytest'=>$result->paytest,
@@ -202,6 +206,7 @@ class PlaceController extends Controller
             'isBuyCopyrightfee'=>$result->isBuyCopyrightfee,
             'shoppingMallId'=>$result->shoppingMallId,
             'publicPlaycount'=>$result->publicPlaycount,
+            'logo'=>$protocol.$domainName.'/uploads/'.$result->logo,
             'data'=>$data]);
     }
 
