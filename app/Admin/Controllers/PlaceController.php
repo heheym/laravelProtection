@@ -507,6 +507,7 @@ class PlaceController extends Controller
         $form->select('isBuyCopyrightfee', '是否在音集协里购买了版权费')->options([0 => '未购买', 1 => '已购买'])->default(0);
         $form->text('shoppingMallId', '商城id');
         $form->text('publicPlaycount', '允许公播机顶盒数量')->default(1);
+        $form->file('logo', 'logo');
 
         $form->saving(function (Form $form) {
 
