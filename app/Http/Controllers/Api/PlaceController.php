@@ -210,6 +210,7 @@ class PlaceController extends Controller
             'isBuyCopyrightfee'=>$result->isBuyCopyrightfee,
             'shoppingMallId'=>$result->shoppingMallId,
             'publicPlaycount'=>$result->publicPlaycount,
+            'attribution'=>$result->attribution,
             'logo'=>$logo,
             'data'=>$data]);
     }
