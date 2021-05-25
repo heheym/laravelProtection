@@ -102,7 +102,7 @@ Route::post('/songs/urgentPaymentno', 'Api\PlaceController@urgentPaymentno');  /
 Route::post('/songs/urgentPaymentlist', 'Api\PlaceController@urgentPaymentlist');  //获取异常支付帐号列表
 
 
-Route::post('/uploadfile', 'Api\PlaceController@uploadfile');  //获取异常支付帐号列表
+Route::post('/uploadfile', 'Api\PlaceController@uploadfile');  //上传文件
 
 Route::post('/songs/ktvonoff', 'Api\PlaceController@ktvonoff');  //开关房记录上传接口
 

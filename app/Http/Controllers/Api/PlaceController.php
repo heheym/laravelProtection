@@ -823,7 +823,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
         return response()->json(['code'=>200,'data'=>$data]);
     }
 
-    //获取异常支付帐号列表
+    //上传文件
     public function uploadfile()
     {
         if(!isset($_FILES["file"]["error"]) ){
