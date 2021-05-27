@@ -41,12 +41,12 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '47.106.155.48'),
-            // 'host' => '47.106.155.48',
+            // 'host' => env('DB_HOST', '47.106.155.48'),
+            'host' => '127.0.0.1',
             'port' => env('DB_PORT', '3306'),
             'database' => 'protection',
-            'username' => 'protection',
-            'password' => 'protection',
+            'username' => env('DB_USERNAME', 'protection'),
+            'password' => env('DB_PASSWORD', 'protection'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
