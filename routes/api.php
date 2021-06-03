@@ -114,6 +114,10 @@ Route::post('/songs/exchangroom', 'Api\PlaceController@exchangroom');  //场所�
 Route::post('/songs/openroom/openfeeroom', 'Api\PlaceController@openfeeroom');  //预付款开房扣费接口
 Route::post('/songs/openroom/remainingsum', 'Api\PlaceController@remainingsum');  //查询场所预付款余额接口
 
+Route::post('/songs/softversion', 'Api\PlaceController@softversion');  //版本管理
+
+
+
 
 
 

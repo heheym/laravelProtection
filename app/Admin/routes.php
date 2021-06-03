@@ -103,6 +103,7 @@ Route::group([
 
 //系统管理
     $router->resource('wssend', WssendController::class);  //ws定时
+    $router->resource('softversion',SoftVersionController::class); //版本管理
 
 
 });

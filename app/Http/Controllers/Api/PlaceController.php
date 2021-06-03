@@ -839,7 +839,7 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 //            echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
 //            echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
 //            echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"] . "<br>";
-            $dir = "../upload/";
+            $dir = "./upload/song/";
             if (!is_dir($dir)){
                 mkdir($dir, 0777);
             }
@@ -1038,5 +1038,57 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 
     }
 
+
+    //版本管理
+    public function softversion()
+    {
+        // $srvkey = \Request::header('srvkey');
+        // if(empty($srvkey)){
+        //     return response()->json(['code' => 500, 'msg' => '场所key错误', 'data' => null]);
+        // }
+        // $exists = DB::table('place')->where(['key'=>$srvkey])->exists();
+        // if(!$exists){
+        //     return response()->json(['code' => 500, 'msg' => 'key不存在', 'data' => null]);
+        // }
+
+        $parameterset = DB::table('parameterset')->first();
+
+        $accessKey = $parameterset->AccessKey;
+        $secretKey = $parameterset->SecretKey;
+        $bucket = $parameterset->posterDomainSpace;
+        $domain = $parameterset->posterDomain;
+        // 构建Auth对象
+        $auth = new Auth($accessKey, $secretKey);
+        // var_dump($auth);
+        //判断文件是否存在
+        $config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $config);
+        // var_dump($bucketManager);
+        // $exist= $bucketManager->stat($bucket, '123');
+        if(!isset($exist[0]['fsize'])){
+
+        }else{
+            // 私有空间中的外链 http://<domain>/<file_key>
+            $baseUrl = $domain."/".$pic;
+            // 对链接进行签名
+            $signedUrl = $auth->privateDownloadUrl($baseUrl,86400);
+
+            $versionaddressUrl = $domain."/".$versionaddress;
+            $versionAdressUrl = $auth->privateDownloadUrl($versionaddressUrl,86400);
+        }
+
+        $data = DB::table('softversion')->select(['name','description','version','pic','versionaddress'])->get();
+
+        foreach($data as $k=>&$v){
+            $baseUrl = $domain."/".$v->pic;
+            $v->pic = $auth->privateDownloadUrl($baseUrl,86400);
+
+            $versionaddressUrl = $domain."/".$v->versionaddress;
+            $v->versionaddress = $auth->privateDownloadUrl($versionaddressUrl,86400);
+        }
+
+        return response()->json(['code' => 200, 'msg' => '请求成功','data' => $data]);
+
+    }
 
 }

@@ -153,23 +153,6 @@ class OrderCountController extends AdminController
         }
         $url .= "&_export_=all";
 
-//        if(!isset(request()->all()['pay_time']['start']) && !isset(request()->all()['pay_time']['end'])){
-//            $grid->tools(function ($tools)use($grid, $url){
-//                $tools->append('<div class="btn-group pull-right" style="margin-left: 30px">
-//    <a href="javascirpt:void(0)" class="btn btn-sm btn-success" onclick=alert("请填写支付时间")>
-//        <i class="fa fa-plus"></i>&nbsp;&nbsp;导出
-//    </a>
-//</div>');
-//            });
-//        }else{
-//            $grid->tools(function ($tools)use($grid, $url){
-//                $tools->append('<div class="btn-group pull-right" style="margin-left: 30px">
-//    <a href="'.$url.'" class="btn btn-sm btn-success" target="_blank">
-//        <i class="fa fa-plus"></i>&nbsp;&nbsp;导出
-//    </a>
-//</div>');
-//            });
-//        }
 
         $grid->tools(function ($tools)use($grid,$url){
             $tools->append(new Export($grid,$url));
