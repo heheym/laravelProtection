@@ -839,9 +839,9 @@ $data = DB::table('urgentCompany')->where([['occurrencetime','>',$beginTime]])->
 //            echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
 //            echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
 //            echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"] . "<br>";
-            $dir = "./upload/song/";
+            $dir = "./uploads/song/";
             if (!is_dir($dir)){
-                mkdir($dir, 0777);
+                mkdir($dir, 777);
             }
                 // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
                 move_uploaded_file($_FILES["file"]["tmp_name"], $dir. $_FILES["file"]["name"]);
