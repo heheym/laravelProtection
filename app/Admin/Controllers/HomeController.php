@@ -29,7 +29,9 @@ class HomeController extends Controller
 //                    $host= gethostname();
 //
 //                    $ip= gethostbyname($host);
+
                     $column->append('登录成功');
+                    // $column->append(bcrypt(222222));
                 });
 
 //                $row->column(4, function (Column $column) {
