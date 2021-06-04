@@ -23,6 +23,15 @@ class MalaiController extends Controller
             return response()->json(['code'=>500,'msg'=>'版本号不能为空','data'=>null]);
         }
 
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'];
+        if(!empty($post['updateVerSqlHttp'])){
+            $post['updateSqlAddress'] = $protocol.$domainName."/uploads/song/".$post['updateVerSqlHttp'];
+        }
+        if(!empty($post['updateVerDbHttp'])){
+            $post['updateDbAddress'] = $protocol.$domainName."/uploads/song/".$post['updateVerDbHttp'];
+        }
+
         $data = DB::table('softmanage')->get();
         if(!$data){
             try{
@@ -38,7 +47,6 @@ class MalaiController extends Controller
             }
         }
 
-
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>null]);
     }
 
@@ -46,7 +54,7 @@ class MalaiController extends Controller
     //14.获取版本下载地址
     public function getsoftver(Request $request)
     {
-        $data = DB::table('softmanage')->select(['updateVerNo','updateVerHttp','updateVerMemo','updateAddress'])->first();
+        $data = DB::table('softmanage')->select(['updateVerNo','updateVerMemo','updateSqlAddress','updateDbAddress'])->first();
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>$data]);
     }
 
