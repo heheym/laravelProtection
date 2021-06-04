@@ -32,7 +32,7 @@ class MalaiController extends Controller
             $post['updateDbAddress'] = $protocol.$domainName."/uploads/song/".$post['updateVerDbHttp'];
         }
 
-        $data = DB::table('softmanage')->get();
+        $data = DB::table('softmanage')->first();
         if(!$data){
             try{
                 DB::table('softmanage')->insert($post);
@@ -51,7 +51,7 @@ class MalaiController extends Controller
     }
 
 
-    //14.获取版本下载地址
+    //15.获取版本下载地址
     public function getsoftver(Request $request)
     {
         $data = DB::table('softmanage')->select(['updateVerNo','updateVerMemo','updateSqlAddress','updateDbAddress'])->first();
