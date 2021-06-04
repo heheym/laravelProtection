@@ -19,6 +19,19 @@ class MalaiController extends Controller
     {
         $post = json_decode(file_get_contents("php://input"), true);
 
+        $signature = \Request::header('signature');
+        if(empty($signature)){
+            return response()->json(['code'=>500,'msg'=>'signature不能为空','data'=>null]);
+        }
+        if(empty($post['timestamp'])){
+            return response()->json(['code'=>500,'msg'=>'timestamp不能为空','data'=>null]);
+        }
+
+        $signature1 = md5($post['timestamp'].'20210326f5ce6dce860673c2b0ec458a96ddf');
+        if($signature !== $signature1){
+            return response()->json(['code'=>500,'msg'=>'signature不合法','data'=>null]);
+        }
+
         if(empty($post['updateVerNo'])){
             return response()->json(['code'=>500,'msg'=>'版本号不能为空','data'=>null]);
         }
@@ -33,6 +46,7 @@ class MalaiController extends Controller
         }
 
         $data = DB::table('softmanage')->first();
+        unset($post['timestamp']);
         if(!$data){
             try{
                 DB::table('softmanage')->insert($post);
