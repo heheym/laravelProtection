@@ -27,7 +27,7 @@ class MalaiController extends Controller
             return response()->json(['code'=>500,'msg'=>'timestamp不能为空','data'=>null]);
         }
 
-        $signature1 = md5($post['timestamp'].'20210326f5ce6dce860673c2b0ec458a96ddf');
+        $signature1 = md5($post['timestamp'].'20210326f5ce6dce860673c2b0ec458a96');
         if(strtolower($signature) !== strtolower($signature1)){
             return response()->json(['code'=>500,'msg'=>'signature不合法','data'=>null]);
         }
