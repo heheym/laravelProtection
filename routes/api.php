@@ -139,7 +139,7 @@ Route::Get('/crontab/index', 'Api\CrontabController@index');  //定时访问ws
 
 //malai
 Route::post('/songs/service/softVer', 'Api\MalaiController@softVer');  //更新版本接口
-Route::post('/getsoftver', 'Api\MalaiController@getsoftver');  //更新版本接口
+Route::any('/getsoftver', 'Api\MalaiController@getsoftver');  //获取版本接口
 
 
 
