@@ -69,6 +69,9 @@ class MalaiController extends Controller
     public function getsoftver(Request $request)
     {
         $data = DB::table('softmanage')->select(['updateVerNo','updateVerMemo','updateSqlAddress','updateDbAddress'])->first();
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'];
+        $data->song = $protocol.$domainName."/uploads/song";
         return response()->json(['code'=>200,'msg'=>'请求成功','data'=>$data]);
     }
 

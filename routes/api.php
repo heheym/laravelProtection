@@ -151,3 +151,4 @@ Route::any('/getsoftver', 'Api\MalaiController@getsoftver');  //获取版本接�
 
 
 
+
