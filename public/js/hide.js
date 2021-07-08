@@ -193,6 +193,18 @@ function openingTime(){
         $('.feesmode').parents('.form-group').show();
         $('.FeesScanMode').parents('.form-group').show();
     }
+    var FeesScanMode =$(".FeesScanMode option:selected").val();
+    if(FeesScanMode ==3){
+        $("input[name='time1']").attr("readonly",true);
+        $("input[name='time2']").attr("readonly",true);
+        $("input[name='time3']").attr("readonly",true);
+        $("input[name='time4']").attr("readonly",true);
+
+        // $("input[name='Opening1_price']").attr("readonly",true);
+        $("input[name='Effective1_time']").attr("readonly",true);
+        $("input[name='Opening2_price']").attr("readonly",true);
+        $("input[name='Effective2_time']").attr("readonly",true);
+    }
 }
 
 //订单

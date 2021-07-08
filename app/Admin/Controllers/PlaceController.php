@@ -443,7 +443,7 @@ class PlaceController extends Controller
 
         $form->select('FeesMode', '收费模式')->options([0 => '非扫码开房收费模式', 1 => '扫码开房收费模式']);
 
-        $form->select('FeesScanMode', '预付款收费模式')->options([0 => '正常开房扫码收费方式', 1 => '预付款按天扣款支付方式',2=>'预付款按次数扣款支付方式']);
+        $form->select('FeesScanMode', '预付款收费模式')->options([0 => '正常开房扫码收费方式', 1 => '预付款按天扣款支付方式',2=>'预付款按次数扣款支付方式',3=>'每天一次扫码收费方式']);
         $form->html('
         <div class="form-inline feesmode">
                <input type="text" name="time1" value="' . $time1 . '" class="form-control time1" style="width: 60px" required>&nbsp;&nbsp;至&nbsp;&nbsp;
@@ -561,7 +561,37 @@ class PlaceController extends Controller
                 }
 EOT;
             });
+            $builder->subscribe('FeesScanMode', 'select', function ($event) {
+                //setMeal_mode,1：按有效机顶盒数量，2按固定费用
+                return <<< EOT
+                function (data) {
+                    var id = data.id;
+                    if(id ==3){ 
+                       $("input[name='time1']").attr("readonly",true);
+                       $("input[name='time2']").attr("readonly",true);
+                       $("input[name='time3']").attr("readonly",true);
+                       $("input[name='time4']").attr("readonly",true);
+                       
+                       // $("input[name='Opening1_price']").attr("readonly",true);
+                       $("input[name='Effective1_time']").attr("readonly",true);
+                       $("input[name='Opening2_price']").attr("readonly",true);
+                       $("input[name='Effective2_time']").attr("readonly",true);
+                    }else{
+                       $("input[name='time1']").attr("disabled",false);
+                       $("input[name='time2']").attr("disabled",false);
+                       $("input[name='time3']").attr("disabled",false);
+                       $("input[name='time4']").attr("disabled",false);
+                       
+                       // $("input[name='Opening1_price']").attr("disabled",false);
+                       $("input[name='Effective1_time']").attr("disabled",false);
+                       $("input[name='Opening2_price']").attr("disabled",false);
+                       $("input[name='Effective2_time']").attr("disabled",falses);
+                    }
+                }
+EOT;
+            });
         });
+
         // 最后把 $triggerScript 和 $subscribeScript 注入到Form中去。
         // scriptinjecter 第一个参数可以为任何字符，但不能为空！！！！
         $form->scriptinjecter('any_name_but_no_empty', $triggerScript, $subscribeScript);
