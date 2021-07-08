@@ -577,15 +577,15 @@ EOT;
                        $("input[name='Opening2_price']").attr("readonly",true);
                        $("input[name='Effective2_time']").attr("readonly",true);
                     }else{
-                       $("input[name='time1']").attr("disabled",false);
-                       $("input[name='time2']").attr("disabled",false);
-                       $("input[name='time3']").attr("disabled",false);
-                       $("input[name='time4']").attr("disabled",false);
+                       $("input[name='time1']").attr("readonly",false);
+                       $("input[name='time2']").attr("readonly",false);
+                       $("input[name='time3']").attr("readonly",false);
+                       $("input[name='time4']").attr("readonly",false);
                        
-                       // $("input[name='Opening1_price']").attr("disabled",false);
-                       $("input[name='Effective1_time']").attr("disabled",false);
-                       $("input[name='Opening2_price']").attr("disabled",false);
-                       $("input[name='Effective2_time']").attr("disabled",falses);
+                       // $("input[name='Opening1_price']").attr("readonly",false);
+                       $("input[name='Effective1_time']").attr("readonly",false);
+                       $("input[name='Opening2_price']").attr("readonly",false);
+                       $("input[name='Effective2_time']").attr("readonly",falses);
                     }
                 }
 EOT;
