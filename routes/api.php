@@ -143,7 +143,9 @@ Route::any('/getsoftver', 'Api\MalaiController@getsoftver');  //获取版本接�
 
 
 
-
+//备份数据库
+Route::Post('/backup/getlist', '\App\Admin\Api\BackUp\IndexApi@getlist');  //新增出仓单接口
+Route::Post('/backup/isdownload', '\App\Admin\Api\BackUp\IndexApi@isdownload');  //是否下载
 
 
 
