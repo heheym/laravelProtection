@@ -21,7 +21,7 @@ class AgenttableController extends AdminController
      * Title for current resource.
      *
      * @var string
-     */
+     *hifu
     protected $title = '代理商';
 
     public function index(Content $content)

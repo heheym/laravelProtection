@@ -90,7 +90,7 @@ class OrderController extends Controller
                 $tim = time()-strtotime($ordersn->pay_time);
                 $timee = ceil((600-$tim)/60);
 
-                if($tim<600){
+                if($tim<150){
                     return '     
     <div style="margin:0px;background:url(\'/img/back.jpg\') no-repeat;width:100%;height:90%;background-size:100% 100%; background-attachment:fixed;">
             <p style="font:normal normal 200 4em/40px Microsoft YaHei;color:rgb(77,148,255);text-align:center;margin-top:10%;">该房间已扫码支付</br><br/>请'.$timee.'分钟后再试</p>
